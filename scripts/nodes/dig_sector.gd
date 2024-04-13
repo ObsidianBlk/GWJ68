@@ -1,5 +1,5 @@
-extends CharacterBody2D
-class_name Actor
+extends Node2D
+class_name DigSector
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -9,21 +9,20 @@ class_name Actor
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const DIRECTIONAL_THRESHOLD : float = 0.0001
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Actor")
-@export var gravity : float = 100.0
-@export var max_speed : float = 100.0
-@export var deceleration : float = 200.0
-
+@export_category("Dig Sector")
+@export var map : TileMap = null:				set = set_map
+@export var layer : int = 0:					set = set_layer
+@export var quadrant_size : int = 8
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _direction : float = 0.0
+
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -33,32 +32,46 @@ var _direction : float = 0.0
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
+func set_map(m : TileMap) -> void:
+	if m != map:
+		map = m
+		_UpdateMap()
 
+func set_layer(l : int) -> void:
+	if l >= 0 and l != layer:
+		layer = l
+		_UpdateMap()
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
-func _process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y = gravity
-	
-	if abs(_direction) < DIRECTIONAL_THRESHOLD:
-		velocity.x = move_toward(velocity.x, 0.0, deceleration * delta)
-	else:
-		velocity.x = _direction * max_speed
-	move_and_slide()
+func _ready() -> void:
+	Relay.dig_requested.connect(carve)
+	_UpdateMap()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-
+func _UpdateMap() -> void:
+	for q : Node in get_children():
+		if q is Quadrant:
+			remove_child(q)
+			q.queue_free()
+	if map != null:
+		for cell : Vector2i in map.get_used_cells(0):
+			var pos : Vector2 = map.map_to_local(cell)
+			var q : Quadrant = Quadrant.new()
+			q.size = Vector2.ONE * quadrant_size
+			q.position = pos
+			add_child(q)
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func move(direction : float) -> void:
-	_direction = direction
+func carve(clip_poly : PackedVector2Array) -> void:
+	for q : Node in get_children():
+		if not q is Quadrant: continue
+		q.carve(clip_poly)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

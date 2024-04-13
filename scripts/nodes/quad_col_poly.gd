@@ -1,5 +1,5 @@
-extends CharacterBody2D
-class_name Actor
+extends CollisionPolygon2D
+class_name QuadColPoly
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -9,21 +9,17 @@ class_name Actor
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const DIRECTIONAL_THRESHOLD : float = 0.0001
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Actor")
-@export var gravity : float = 100.0
-@export var max_speed : float = 100.0
-@export var deceleration : float = 200.0
-
+@export var world_polygon : PackedVector2Array:			set=set_world_polygon, get=get_world_polygon
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _direction : float = 0.0
+var _polygon : Polygon2D = Polygon2D.new()
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -33,21 +29,27 @@ var _direction : float = 0.0
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
+func set_world_polygon(poly : PackedVector2Array) -> void:
+	var points : Array[Vector2] = []
+	var gpos : Vector2 = global_position
+	for point in poly:
+		points.append(point - gpos)
+	update_polygon(PackedVector2Array(points))
+
+func get_world_polygon() -> PackedVector2Array:
+	var points : Array[Vector2] = []
+	var gpos : Vector2 = global_position
+	for point in polygon:
+		points.append(point + gpos)
+	return PackedVector2Array(points)
 
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
-func _process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y = gravity
-	
-	if abs(_direction) < DIRECTIONAL_THRESHOLD:
-		velocity.x = move_toward(velocity.x, 0.0, deceleration * delta)
-	else:
-		velocity.x = _direction * max_speed
-	move_and_slide()
+func _ready() -> void:
+	add_child(_polygon)
+	polygon = _polygon.polygon
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -57,8 +59,9 @@ func _process(delta: float) -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func move(direction : float) -> void:
-	_direction = direction
+func update_polygon(points : PackedVector2Array) -> void:
+	polygon = points
+	_polygon.polygon = points
 
 # ------------------------------------------------------------------------------
 # Handler Methods

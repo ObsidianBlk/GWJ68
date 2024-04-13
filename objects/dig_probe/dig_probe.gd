@@ -1,5 +1,4 @@
-extends CharacterBody2D
-class_name Actor
+extends Actor
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -9,25 +8,22 @@ class_name Actor
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const DIRECTIONAL_THRESHOLD : float = 0.0001
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Actor")
-@export var gravity : float = 100.0
-@export var max_speed : float = 100.0
-@export var deceleration : float = 200.0
 
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _direction : float = 0.0
+
 
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
+@onready var _dig_polygon: Polygon2D = $DigPolygon
 
 
 # ------------------------------------------------------------------------------
@@ -38,27 +34,34 @@ var _direction : float = 0.0
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
-func _process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y = gravity
-	
-	if abs(_direction) < DIRECTIONAL_THRESHOLD:
-		velocity.x = move_toward(velocity.x, 0.0, deceleration * delta)
-	else:
-		velocity.x = _direction * max_speed
-	move_and_slide()
+func _unhandled_input(event: InputEvent) -> void:
+	if _IsActionOneOf(event, [&"left", &"right"]):
+		move(Input.get_axis(&"left", &"right"))
+	if event.is_action_pressed(&"action"):
+		if _dig_polygon != null:
+			Relay.dig(_GetGlobalPolygon())
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
+func _IsActionOneOf(event : InputEvent, actions : Array[StringName]) -> bool:
+	for action : StringName in actions:
+		if event.is_action(action):
+			return true
+	return false
 
+func _GetGlobalPolygon() -> PackedVector2Array:
+	var arr : Array[Vector2] = []
+	if _dig_polygon != null:
+		var gpos : Vector2 = global_position
+		for point : Vector2 in _dig_polygon.polygon:
+			arr.append(point + gpos)
+	return PackedVector2Array(arr)
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func move(direction : float) -> void:
-	_direction = direction
+
 
 # ------------------------------------------------------------------------------
 # Handler Methods
