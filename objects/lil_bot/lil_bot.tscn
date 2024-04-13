@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://du2psr2ted7c1"]
+
+[ext_resource type="Script" path="res://scripts/nodes/actor.gd" id="1_nphm2"]
+[ext_resource type="Texture2D" uid="uid://b785rewj5tgdb" path="res://assets/graphics/lilbotty/base.png" id="1_oj75f"]
+[ext_resource type="Texture2D" uid="uid://bb0sjpy03amb4" path="res://assets/graphics/lilbotty/body.png" id="2_r8b4k"]
+[ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="5_56no6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ilcjh"]
+
+[node name="LilBot" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1_nphm2")
+
+[node name="Viz" type="Node2D" parent="."]
+
+[node name="Base" type="Sprite2D" parent="Viz"]
+texture_filter = 3
+position = Vector2(-8, 0)
+texture = ExtResource("1_oj75f")
+centered = false
+offset = Vector2(0, -3)
+
+[node name="Body" type="Sprite2D" parent="Viz"]
+texture_filter = 3
+position = Vector2(0, -15)
+texture = ExtResource("2_r8b4k")
+
+[node name="Faceplate" type="Sprite2D" parent="Viz/Body"]
+texture_filter = 3
+position = Vector2(-4, -8)
+texture = ExtResource("5_56no6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("CapsuleShape2D_ilcjh")
