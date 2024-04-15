@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bak6iescbip8c"]
+[gd_scene load_steps=13 format=3 uid="uid://bak6iescbip8c"]
 
-[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_48ju2"]
+[ext_resource type="Script" path="res://scenes/levels/test_level/test_level.gd" id="1_ro6g7"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_wxok1"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_7htgc"]
 [ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="4_s3bmx"]
 [ext_resource type="Shader" path="res://shaders/mask.gdshader" id="5_w1l5g"]
 [ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="6_n70ex"]
-[ext_resource type="PackedScene" uid="uid://crk3smuet13p" path="res://objects/dig_probe/dig_probe.tscn" id="7_rd6l6"]
+[ext_resource type="PackedScene" uid="uid://du2psr2ted7c1" path="res://objects/lil_bot/lil_bot.tscn" id="7_6vbvk"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="8_trvn4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_jtve6"]
 viewport_path = NodePath("SubViewport")
@@ -16,8 +17,14 @@ resource_local_to_scene = true
 shader = ExtResource("5_w1l5g")
 shader_parameter/mask = SubResource("ViewportTexture_jtve6")
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_6j4qd"]
+a = Vector2(0, -20)
+b = Vector2(0, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tmkox"]
+
 [node name="TestLevel" type="Node2D"]
-script = ExtResource("1_48ju2")
+script = ExtResource("1_ro6g7")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -56,4 +63,19 @@ layer_0/tile_data = PackedInt32Array(-262153, 65536, 0, -196617, 0, 1, -131081, 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(6, 6)
 
-[node name="DigProbe" parent="." instance=ExtResource("7_rd6l6")]
+[node name="LilBot" parent="." instance=ExtResource("7_6vbvk")]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-37, 7)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SegmentShape2D_6j4qd")
+
+[node name="PointerHandler" type="Node2D" parent="."]
+script = ExtResource("8_trvn4")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_tmkox")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

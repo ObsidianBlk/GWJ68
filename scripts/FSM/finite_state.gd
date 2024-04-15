@@ -47,7 +47,7 @@ signal state_transition_requested(state : FiniteState)
 func init(parent : Actor) -> void:
 	pass
 
-func enter() -> void:
+func enter(data : Dictionary) -> void:
 	pass
 
 func exit() -> void:
@@ -69,6 +69,9 @@ func process_frame(delta : float) -> void:
 func transition_state(state : FiniteState) -> void:
 	if state != null:
 		state_transition_requested.emit(state)
+
+func get_gravity() -> float:
+	return ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

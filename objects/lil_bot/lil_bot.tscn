@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=17 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
@@ -6,6 +6,9 @@
 [ext_resource type="Script" path="res://objects/lil_bot/states/idle.gd" id="3_y8ibv"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/move.gd" id="4_w06rd"]
 [ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="5_56no6"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/air.gd" id="5_neuc7"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/dig.gd" id="6_s1rcg"]
+[ext_resource type="Script" path="res://scripts/nodes/component_shovel.gd" id="8_c121b"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3c6c7"]
 particle_flag_disable_z = true
@@ -55,6 +58,21 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -8)]
+}
+
+[sub_resource type="Animation" id="Animation_l6u86"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/Faceplate:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.349066]
 }
 
 [sub_resource type="Animation" id="Animation_ty3tg"]
@@ -125,21 +143,6 @@ tracks/0/keys = {
 "values": [Vector2(0, -8)]
 }
 
-[sub_resource type="Animation" id="Animation_l6u86"]
-resource_name = "fall"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Viz/Faceplate:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-0.349066]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ej3t"]
 _data = {
 "RESET": SubResource("Animation_ly3qu"),
@@ -148,20 +151,39 @@ _data = {
 "jump": SubResource("Animation_7sp7h")
 }
 
-[node name="LilBot" type="CharacterBody2D"]
-collision_layer = 0
+[node name="LilBot" type="CharacterBody2D" node_paths=PackedStringArray("state_machine") groups=["lilbot"]]
+collision_layer = 2
 script = ExtResource("1_jrbmi")
+state_machine = NodePath("FSM")
 
-[node name="FSM" type="Node" parent="."]
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_8op4l")
+initial_state = NodePath("idle")
 
-[node name="idle" type="Node" parent="FSM"]
+[node name="idle" type="Node" parent="FSM" node_paths=PackedStringArray("move_state", "air_state", "anim_player")]
 script = ExtResource("3_y8ibv")
+move_state = NodePath("../move")
+air_state = NodePath("../air")
+anim_player = NodePath("../../AnimationPlayer")
 
-[node name="move" type="Node" parent="FSM"]
+[node name="move" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "air_state", "anim_player")]
 script = ExtResource("4_w06rd")
+idle_state = NodePath("../idle")
+air_state = NodePath("../air")
+anim_player = NodePath("../../AnimationPlayer")
+
+[node name="air" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "anim_player")]
+script = ExtResource("5_neuc7")
+idle_state = NodePath("../idle")
+anim_player = NodePath("../../AnimationPlayer")
+
+[node name="dig" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "shovel")]
+script = ExtResource("6_s1rcg")
+idle_state = NodePath("../idle")
+shovel = NodePath("../../ComponentShovel")
 
 [node name="Viz" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Viz"]
 position = Vector2(0, -4)
@@ -180,7 +202,6 @@ position = Vector2(0, -8)
 texture = ExtResource("5_56no6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_ilcjh")
 
@@ -189,3 +210,11 @@ libraries = {
 "": SubResource("AnimationLibrary_1ej3t")
 }
 autoplay = "idle"
+
+[node name="ComponentShovel" type="Node2D" parent="." node_paths=PackedStringArray("polygon")]
+script = ExtResource("8_c121b")
+polygon = NodePath("Polygon2D")
+
+[node name="Polygon2D" type="Polygon2D" parent="ComponentShovel"]
+visible = false
+polygon = PackedVector2Array(-5, -3, 5, -3, 4, 18, -4, 18)

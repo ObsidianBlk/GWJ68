@@ -3,31 +3,46 @@ extends LilBotState
 # ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
-const ANIMATION_IDLE : StringName = &"idle"
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Idle State")
-@export var move_state : FiniteState = null
-@export var air_state : FiniteState = null
+@export_category("Dig State")
+@export var idle_state : FiniteState = null
+@export var shovel : ComponentShovel = null
+@export var timer_interval : float = 0.5
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _last_direction : float = 0.0
+var _timer : float = 0.0
 
 # ------------------------------------------------------------------------------
 # "Virtual" Public Methods
 # ------------------------------------------------------------------------------
 func enter(data : Dictionary = {}) -> void:
-	play_animation(ANIMATION_IDLE)
+	_timer = timer_interval
+	if _parent != null:
+		_parent.velocity = Vector2.ZERO
+	if shovel != null:
+		if data.is_empty():
+			shovel.rotation = 0.0
+		elif "rotation" in data:
+			shovel.rotation = data["rotation"]
+
+func process_physics(delta : float) -> void:
+	if _parent == null: return
+	if not _parent.is_on_floor():
+		transition_state(idle_state)
+	else:
+		_parent.move_and_slide()
 
 func process_frame(delta : float) -> void:
-	if _parent == null: return
-	# Need to build this out, but, at this point, I need to make a choice...
-	if _parent.is_on_floor():
-		transition_state(move_state)
-	else:
-		transition_state(air_state)
+	_timer -= delta
+	if _timer <= 0.0:
+		_timer += timer_interval
+		if shovel != null:
+			shovel.dig()
+
 

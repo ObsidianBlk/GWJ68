@@ -61,17 +61,24 @@ func init(parent : Actor) -> void:
 	_initialized = true
 	for child in get_children():
 		if not child is FiniteState: continue
+		child.state_transition_requested.connect(change_state)
 		child.init(parent)
 	change_state(initial_state)
 	_initialized = _active_state != null
 
-func change_state(state : FiniteState) -> void:
+func change_state(state : FiniteState, data : Dictionary = {}) -> void:
 	if _active_state == state: return # Already the active state.
 	if _active_state != null:
 		_active_state.exit()
 	_active_state = state
 	if _active_state != null:
-		_active_state.enter()
+		_active_state.enter(data)
+
+func change_state_by_name(state_name : StringName, data : Dictionary = {}) -> void:
+	for child in get_children():
+		if child is FiniteState and child.name == state_name:
+			change_state(child, data)
+			break
 
 # ------------------------------------------------------------------------------
 # Handler Methods
