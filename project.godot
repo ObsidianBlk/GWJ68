@@ -21,6 +21,16 @@ Settings="*res://scripts/autos/settings.gd"
 GAS="*res://scripts/autos/GAS.gd"
 Relay="*res://scripts/autos/relay.gd"
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "purple",
+"res://objects/": "blue",
+"res://scenes/": "green",
+"res://scripts/": "yellow",
+"res://shaders/": "pink"
+}
+
 [input]
 
 up={

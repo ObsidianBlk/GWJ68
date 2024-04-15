@@ -12,11 +12,13 @@ class_name Quadrant
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
+enum PolyType {POLYGON=0, COLLISION=1}
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Quadrant")
+@export var polygon_type : PolyType = PolyType.POLYGON
 @export var size : Vector2 = Vector2.ONE * 8
 
 # ------------------------------------------------------------------------------
@@ -44,13 +46,28 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
+func _IsPolyObject(cp : Node) -> bool:
+	return cp is QuadPolygon or cp is QuadColPoly
+
+func AddPolygon(poly : PackedVector2Array, make_local : bool = false) -> void:
+	var ncp : Variant = null
+	match polygon_type:
+		PolyType.POLYGON:
+			ncp = QuadPolygon.new()
+		PolyType.COLLISION:
+			ncp = QuadColPoly.new()
+	if ncp != null:
+		if make_local:
+			ncp.update_polygon(_PolyWorldToLocal(poly))
+		else:
+			ncp.update_polygon(poly)
+		add_child(ncp)
+
 func _Reset() -> void:
 	for poly : Node2D in get_children():
-		if poly is QuadColPoly:
+		if _IsPolyObject(poly):
 			poly.queue_free()
-	var qp : QuadColPoly = QuadColPoly.new()
-	qp.update_polygon(_DefaultPolygon())
-	add_child(qp);
+	AddPolygon(_DefaultPolygon())
 
 func _DefaultPolygon(use_global_position : bool = false) -> PackedVector2Array:
 	var offset : Vector2 = global_position if use_global_position else Vector2.ZERO
@@ -100,7 +117,7 @@ func _PolyWorldToLocal(poly : PackedVector2Array) -> PackedVector2Array:
 # ------------------------------------------------------------------------------
 func carve(clip_poly : PackedVector2Array) -> void:
 	for cp : Node in get_children():
-		if not cp is QuadColPoly: continue
+		if not _IsPolyObject(cp): continue
 		var clipped_polys : Array[PackedVector2Array] = Geometry2D.clip_polygons(cp.world_polygon, clip_poly)
 		var n_clipped : int = clipped_polys.size()
 		match n_clipped:
@@ -111,16 +128,12 @@ func carve(clip_poly : PackedVector2Array) -> void:
 			_:
 				if n_clipped == 2 and _IsHole(clipped_polys[0], clipped_polys[1]):
 					for p : PackedVector2Array in _SplitPolys(clip_poly):
-						var ncp : QuadColPoly = QuadColPoly.new()
-						ncp.update_polygon(_PolyWorldToLocal(Geometry2D.intersect_polygons(p, cp.world_polygon)[0]))
-						add_child(ncp)
+						AddPolygon(Geometry2D.intersect_polygons(p, cp.world_polygon)[0], true)
 					cp.queue_free()
 				else:
 					cp.world_polygon = clipped_polys[0]
 					for i in range(n_clipped - 1):
-						var ncp : QuadColPoly = QuadColPoly.new()
-						ncp.update_polygon(_PolyWorldToLocal(clipped_polys[i + 1]))
-						add_child(ncp)
+						AddPolygon(clipped_polys[i + 1], true)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

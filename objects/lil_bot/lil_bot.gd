@@ -1,5 +1,5 @@
-extends CollisionPolygon2D
-class_name QuadColPoly
+extends Actor
+class_name LilBot
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -14,11 +14,13 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export var world_polygon : PackedVector2Array:			set=set_world_polygon, get=get_world_polygon
+@export_category("LilBot")
+@export var spawner_group : StringName = &""
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
+
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -28,26 +30,12 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
-func set_world_polygon(poly : PackedVector2Array) -> void:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in poly:
-		points.append(point - gpos)
-	update_polygon(PackedVector2Array(points))
-
-func get_world_polygon() -> PackedVector2Array:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in polygon:
-		points.append(point + gpos)
-	return PackedVector2Array(points)
 
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _ready() -> void:
-	pass
+
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -57,8 +45,7 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func update_polygon(points : PackedVector2Array) -> void:
-	polygon = points
+
 
 # ------------------------------------------------------------------------------
 # Handler Methods

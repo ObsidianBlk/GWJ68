@@ -18,6 +18,7 @@ class_name DigSector
 @export var map : TileMap = null:				set = set_map
 @export var layer : int = 0:					set = set_layer
 @export var quadrant_size : int = 8
+@export var quadrant_type : Quadrant.PolyType = Quadrant.PolyType.POLYGON
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -62,6 +63,7 @@ func _UpdateMap() -> void:
 			var pos : Vector2 = map.map_to_local(cell)
 			var q : Quadrant = Quadrant.new()
 			q.size = Vector2.ONE * quadrant_size
+			q.polygon_type = quadrant_type
 			q.position = pos
 			add_child(q)
 

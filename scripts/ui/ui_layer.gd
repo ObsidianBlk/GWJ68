@@ -12,6 +12,8 @@ signal active_ui_changed(ui_name : StringName)
 # Constants
 # --------------------------------------------------------------------------------------------------
 const REQUEST_SHOW_UI : StringName = &"show_ui"
+const REQUEST_DIALOG_CONFIRM : StringName = &"dialog_confirm"
+const REQUEST_DIALOG_NOTIFY : StringName = &"dialog_notify"
 const REQUEST_CLOSE_UI : StringName = &"close_ui"
 const REQUEST_CLOSE_ALL_UI : StringName = &"close_all"
 
@@ -25,6 +27,8 @@ const REQUEST_QUIT_TO_MAIN : StringName = &"quit_to_main"
 # --------------------------------------------------------------------------------------------------
 @export_category("UI Layer")
 @export var initial_ui : StringName = &""
+@export var dialog_confirm_ui : StringName = &""
+@export var dialog_notify_ui : StringName = &""
 
 # --------------------------------------------------------------------------------------------------
 # Variables
@@ -100,6 +104,7 @@ func close_all() -> void:
 		active_ui_changed.emit(&"")
 
 func open_confirm_dialog(title : String, content : String, action_options : Dictionary = {}) -> void:
+	if dialog_confirm_ui.is_empty(): return
 	var ui_data : Dictionary = {
 		"title":title,
 		"content":content
@@ -113,17 +118,18 @@ func open_confirm_dialog(title : String, content : String, action_options : Dict
 	if Util.Is_Dict_Property_Type(action_options, "no_payload", TYPE_DICTIONARY):
 		ui_data["no_payload"] = action_options["no_payload"]
 		
-	show_ui(&"DialogConfirm", ui_data)
+	show_ui(dialog_confirm_ui, ui_data)
 
 
 func open_notify_dialog(title : String, content : String, action : StringName, payload : Dictionary = {}) -> void:
+	if dialog_notify_ui.is_empty(): return
 	var ui_data : Dictionary = {
 		"title":title,
 		"content":content,
 		"ok_action":action,
 		"ok_payload":payload
 	}
-	show_ui(&"DialogNotify", ui_data)
+	show_ui(dialog_notify_ui, ui_data)
 
 # --------------------------------------------------------------------------------------------------
 # Handler Methods
@@ -160,6 +166,10 @@ func _on_requested(action : StringName, payload : Dictionary):
 				if Util.Is_Dict_Property_Type(payload, "ui_data", TYPE_DICTIONARY):
 					data = payload["ui_data"]
 				show_ui(payload["ui_name"], data)
+		REQUEST_DIALOG_CONFIRM:
+			pass
+		REQUEST_DIALOG_NOTIFY:
+			pass
 		REQUEST_CLOSE_UI:
 			close_ui()
 		REQUEST_CLOSE_ALL_UI:

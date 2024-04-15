@@ -1,10 +1,10 @@
-extends CollisionPolygon2D
-class_name QuadColPoly
+extends Node
+class_name FiniteStateMachine
 
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-
+signal state_changed(state_name : StringName)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -14,11 +14,14 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export var world_polygon : PackedVector2Array:			set=set_world_polygon, get=get_world_polygon
+@export_category("Finite State Machine")
+@export var initial_state : FiniteState = null
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
+var _initialized : bool = false
+var _active_state : FiniteState = null
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -28,26 +31,22 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
-func set_world_polygon(poly : PackedVector2Array) -> void:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in poly:
-		points.append(point - gpos)
-	update_polygon(PackedVector2Array(points))
-
-func get_world_polygon() -> PackedVector2Array:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in polygon:
-		points.append(point + gpos)
-	return PackedVector2Array(points)
 
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _ready() -> void:
-	pass
+func _process(delta: float) -> void:
+	if _active_state != null:
+		_active_state.process_frame(delta)
+
+func _physics_process(delta: float) -> void:
+	if _active_state != null:
+		_active_state.process_physics(delta)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _active_state != null:
+		_active_state.process_input(event)
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -57,8 +56,22 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func update_polygon(points : PackedVector2Array) -> void:
-	polygon = points
+func init(parent : Actor) -> void:
+	if _initialized or initial_state == null : return
+	_initialized = true
+	for child in get_children():
+		if not child is FiniteState: continue
+		child.init(parent)
+	change_state(initial_state)
+	_initialized = _active_state != null
+
+func change_state(state : FiniteState) -> void:
+	if _active_state == state: return # Already the active state.
+	if _active_state != null:
+		_active_state.exit()
+	_active_state = state
+	if _active_state != null:
+		_active_state.enter()
 
 # ------------------------------------------------------------------------------
 # Handler Methods

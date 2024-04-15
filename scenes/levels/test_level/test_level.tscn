@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://bak6iescbip8c"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_48ju2"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_wxok1"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_7htgc"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="4_s3bmx"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="5_w1l5g"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="6_n70ex"]
+[ext_resource type="PackedScene" uid="uid://crk3smuet13p" path="res://objects/dig_probe/dig_probe.tscn" id="7_rd6l6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jtve6"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5pk2a"]
+resource_local_to_scene = true
+shader = ExtResource("5_w1l5g")
+shader_parameter/mask = SubResource("ViewportTexture_jtve6")
+
+[node name="TestLevel" type="Node2D"]
+script = ExtResource("1_48ju2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+script = ExtResource("2_wxok1")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_7htgc")
+
+[node name="SVCamera" type="Camera2D" parent="SubViewport"]
+zoom = Vector2(6, 6)
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("4_s3bmx")
+map = NodePath("../../TileMap")
+
+[node name="DigSector_Collision" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("4_s3bmx")
+map = NodePath("../TileMap")
+quadrant_type = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 3
+material = SubResource("ShaderMaterial_5pk2a")
+tile_set = ExtResource("6_n70ex")
+format = 2
+layer_0/tile_data = PackedInt32Array(-262153, 65536, 0, -196617, 0, 1, -131081, 0, 1, -65545, 0, 1, -9, 0, 1, 65527, 0, 1, 131063, 0, 1, 196599, 0, 1, 262135, 262144, 1, 262136, 655360, 0, 262137, 655360, 0, 262138, 655360, 0, 262139, 655360, 0, 262140, 655360, 0, 262141, 655360, 0, 262142, 655360, 0, 262143, 655360, 0, 196608, 655360, 0, 196609, 655360, 0, 196610, 655360, 0, 196611, 655360, 0, 196612, 655360, 0, 196613, 655360, 0, 196614, 655360, 0, 196615, 655360, 0, 196616, 458752, 1, 131080, 0, 1, 65544, 0, 1, 8, 0, 1, -65528, 0, 1, -131064, 0, 1, -196600, 0, 1, -262136, 0, 1, -327672, 196608, 0, -327673, 131072, 3, -327674, 131072, 3, -327675, 131072, 3, -327676, 131072, 3, -327677, 131072, 3, -327678, 131072, 3, -327679, 131072, 3, -327680, 131072, 3, -262145, 131072, 3, -262146, 131072, 3, -262147, 131072, 3, -262148, 131072, 3, -262149, 131072, 3, -262150, 131072, 3, -262151, 131072, 3, -262152, 131072, 3, 327671, 524288, 1, 327672, 589824, 2, 327673, 589824, 2, 327674, 589824, 2, 327675, 589824, 2, 327676, 589824, 2, 327677, 589824, 2, 327678, 589824, 2, 327679, 589824, 2, 262144, 589824, 2, 262145, 589824, 2, 262146, 589824, 2, 262147, 589824, 2, 262148, 589824, 2, 262149, 589824, 2, 262150, 589824, 2, 262151, 589824, 2, 262152, 720896, 2, 327688, 720896, 2, 327687, 589824, 2, 327686, 589824, 2, 327685, 589824, 2, 327684, 589824, 2, 327683, 589824, 2, 327682, 589824, 2, 327681, 589824, 2, 327680, 589824, 2, 393215, 589824, 2, 393214, 589824, 2, 393213, 589824, 2, 393212, 589824, 2, 393211, 589824, 2, 393210, 589824, 2, 393209, 589824, 2, 393208, 589824, 2, 393207, 524288, 1, 458743, 524288, 3, 458744, 589824, 3, 458745, 589824, 3, 458746, 589824, 3, 458747, 589824, 3, 458748, 589824, 3, 458749, 589824, 3, 458750, 589824, 3, 458751, 589824, 3, 393216, 589824, 3, 393217, 589824, 3, 393218, 589824, 3, 393219, 589824, 3, 393220, 589824, 3, 393221, 589824, 3, 393222, 589824, 3, 393223, 589824, 3, 393224, 720896, 3)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+
+[node name="DigProbe" parent="." instance=ExtResource("7_rd6l6")]

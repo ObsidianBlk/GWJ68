@@ -1,10 +1,10 @@
-extends CollisionPolygon2D
-class_name QuadColPoly
+extends Node
+class_name FiniteState
 
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-
+signal state_transition_requested(state : FiniteState)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -14,11 +14,12 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export var world_polygon : PackedVector2Array:			set=set_world_polygon, get=get_world_polygon
+
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
+
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -28,26 +29,12 @@ class_name QuadColPoly
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
-func set_world_polygon(poly : PackedVector2Array) -> void:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in poly:
-		points.append(point - gpos)
-	update_polygon(PackedVector2Array(points))
-
-func get_world_polygon() -> PackedVector2Array:
-	var points : Array[Vector2] = []
-	var gpos : Vector2 = global_position
-	for point in polygon:
-		points.append(point + gpos)
-	return PackedVector2Array(points)
 
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _ready() -> void:
-	pass
+
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -55,10 +42,33 @@ func _ready() -> void:
 
 
 # ------------------------------------------------------------------------------
+# "Virtual" Public Methods
+# ------------------------------------------------------------------------------
+func init(parent : Actor) -> void:
+	pass
+
+func enter() -> void:
+	pass
+
+func exit() -> void:
+	pass
+
+func process_input(event : InputEvent) -> void:
+	pass
+
+func process_physics(delta : float) -> void:
+	pass
+
+func process_frame(delta : float) -> void:
+	pass
+
+
+# ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func update_polygon(points : PackedVector2Array) -> void:
-	polygon = points
+func transition_state(state : FiniteState) -> void:
+	if state != null:
+		state_transition_requested.emit(state)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

@@ -15,6 +15,7 @@ const DIRECTIONAL_THRESHOLD : float = 0.0001
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Actor")
+@export var state_machine : FiniteStateMachine = null
 @export var gravity : float = 100.0
 @export var max_speed : float = 100.0
 @export var deceleration : float = 200.0
@@ -38,6 +39,9 @@ var _direction : float = 0.0
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
+func _ready() -> void:
+	if state_machine != null:
+		state_machine.init(self)
 
 func _process(delta: float) -> void:
 	if not is_on_floor():
