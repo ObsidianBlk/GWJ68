@@ -9,7 +9,6 @@ extends UIControl
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
 
-
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
@@ -27,6 +26,9 @@ extends UIControl
 @onready var _hs_vol_music: HSlider = %HS_VolMusic
 @onready var _hs_vol_sfx: HSlider = %HS_VolSFX
 
+@onready var _effect_checks : Dictionary = {
+	"effect_crt": %CHECK_EffectCRT
+}
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -42,6 +44,7 @@ func _ready() -> void:
 	_on_volume_changed(GAS.BUS_MASTER, GAS.get_volume(GAS.BUS_MASTER))
 	_on_volume_changed(GAS.BUS_SFX, GAS.get_volume(GAS.BUS_SFX))
 	_on_volume_changed(GAS.BUS_MUSIC, GAS.get_volume(GAS.BUS_MUSIC))
+	Settings.value_changed.connect(_on_settings_value_changed)
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -66,6 +69,12 @@ func _on_volume_changed(bus_name : StringName, value : float) -> void:
 	value = max(0.0, min(slider.max_value, value))
 	slider.value = value
 
+func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
+	match section:
+		ScreenEffects.CONFIG_SECTION:
+			if key in _effect_checks and typeof(value) == TYPE_BOOL:
+				_effect_checks[key].button_pressed = value
+
 func _on_btn_apply_pressed() -> void:
 	Settings.save()
 
@@ -81,5 +90,6 @@ func _on_hs_vol_music_value_changed(value: float) -> void:
 func _on_hs_vol_sfx_value_changed(value: float) -> void:
 	GAS.set_volume(GAS.BUS_SFX, value)
 
-func _on_check_effect_crt_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.
+func _on_check_effect_toggled(toggled_on: bool, effect_name : String) -> void:
+	ScreenEffects.Enable_Effect(effect_name, toggled_on)
+

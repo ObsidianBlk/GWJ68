@@ -12,9 +12,6 @@ class_name World
 const MENU_MAIN : StringName = &"MainMenu"
 const MENU_PAUSE : StringName = &"PauseMenu"
 
-const CONFIG_SECTION : String = "SCREEN_EFFECTS"
-const SCREEN_EFFECT_CRT : StringName = &"crt"
-
 const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
 
 # ------------------------------------------------------------------------------
@@ -32,7 +29,6 @@ var _active_level : Level = null
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
-@onready var _crt: ColorRect = $ScreenEffect/CRT
 @onready var _level_container: Node2D = $LevelContainer
 
 
@@ -49,9 +45,6 @@ func set_ui(u : UILayer) -> void:
 # Override Methods
 # ------------------------------------------------------------------------------
 func _ready() -> void:
-	Settings.loaded.connect(_on_settings_loaded)
-	Settings.reset.connect(_on_settings_reset)
-	
 	if Settings.load() != OK:
 		Settings.request_reset()
 		Settings.save()
@@ -115,12 +108,6 @@ func _LoadLevel(level_src : String) -> int:
 # ------------------------------------------------------------------------------
 # Public Static Methods
 # ------------------------------------------------------------------------------
-func _on_settings_loaded() -> void:
-	var crt : bool = Settings.get_value(CONFIG_SECTION, SCREEN_EFFECT_CRT, true)
-	_crt.visible = crt
-
-func _on_settings_reset() -> void:
-	Settings.set_value(CONFIG_SECTION, SCREEN_EFFECT_CRT, true)
 
 # ------------------------------------------------------------------------------
 # Public Methods

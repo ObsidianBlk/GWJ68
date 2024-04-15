@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=10 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
+[ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
 [ext_resource type="PackedScene" uid="uid://jhyjv6stjlfl" path="res://scenes/ui/main_menu/main_menu.tscn" id="4_cn4tu"]
 [ext_resource type="PackedScene" uid="uid://c3p0rqkha82y4" path="res://scenes/ui/dialog_confirm/dialog_confirm.tscn" id="5_kc7ef"]
 [ext_resource type="PackedScene" uid="uid://y0gx7ugbw0r4" path="res://scenes/ui/dialog_notify/dialog_notify.tscn" id="6_607fy"]
@@ -20,7 +21,9 @@ ui = NodePath("UILayer")
 [node name="LevelContainer" type="Node2D" parent="."]
 process_mode = 1
 
-[node name="ScreenEffect" type="CanvasLayer" parent="."]
+[node name="ScreenEffect" type="CanvasLayer" parent="." node_paths=PackedStringArray("effect_controls")]
+script = ExtResource("2_wo1df")
+effect_controls = [NodePath("CRT")]
 
 [node name="CRT" type="ColorRect" parent="ScreenEffect"]
 material = SubResource("ShaderMaterial_wpvio")
