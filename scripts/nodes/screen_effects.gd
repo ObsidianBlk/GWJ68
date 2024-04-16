@@ -1,6 +1,10 @@
 extends CanvasLayer
 class_name ScreenEffects
 
+# ------------------------------------------------------------------------------
+# Signals
+# ------------------------------------------------------------------------------
+signal effect_changed(effect_name : String, enabled : bool)
 
 # ------------------------------------------------------------------------------
 # Constants
@@ -30,7 +34,7 @@ var _effect_keys : Dictionary = {}
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	for effect : Control in effect_controls:
-		_effect_keys[_Key(effect.name)] = effect
+		_effect_keys[effect.name] = effect
 	Settings.loaded.connect(_on_settings_loaded)
 	Settings.reset.connect(_on_settings_reset)
 	Settings.value_changed.connect(_on_settings_value_changed)
@@ -46,12 +50,14 @@ func _exit_tree() -> void:
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-func _Key(effect_name : String) -> String:
-	return "%s%s"%[CONFIG_KEY_PREFIX, effect_name.to_lower()]
+
 
 # ------------------------------------------------------------------------------
 # Static Public Methods
 # ------------------------------------------------------------------------------
+static func Get() -> ScreenEffects:
+	return _Instance
+
 static func Has_Effect(effect_name : String) -> bool:
 	if _Instance == null: return false
 	return _Instance.has_effect(effect_name)
@@ -72,22 +78,19 @@ static func Is_Effect_Enabled(effect_name : String) -> bool:
 # Public Methods
 # ------------------------------------------------------------------------------
 func has_effect(effect_name : String) -> bool:
-	return _Key(effect_name) in _effect_keys
+	return effect_name in _effect_keys
 
 func toggle_effect(effect_name : String) -> void:
-	var key : String = _Key(effect_name)
-	if key in _effect_keys:
-		Settings.set_value(CONFIG_SECTION, key, not _effect_keys[key].visible)
+	if effect_name in _effect_keys:
+		Settings.set_value(CONFIG_SECTION, effect_name, not _effect_keys[effect_name].visible)
 
 func enable_effect(effect_name : String, enable : bool) -> void:
-	var key : String = _Key(effect_name)
-	if key in _effect_keys:
-		Settings.set_value(CONFIG_SECTION, key, enable)
+	if effect_name in _effect_keys:
+		Settings.set_value(CONFIG_SECTION, effect_name, enable)
 
 func is_effect_enabled(effect_name : String) -> bool:
-	var key : String = _Key(effect_name)
-	if key in _effect_keys:
-		return _effect_keys[key].visible
+	if effect_name in _effect_keys:
+		return _effect_keys[effect_name].visible
 	return false
 
 # ------------------------------------------------------------------------------
@@ -96,14 +99,17 @@ func is_effect_enabled(effect_name : String) -> bool:
 func _on_settings_loaded() -> void:
 	for key : String in _effect_keys.keys():
 		_effect_keys[key].visible = Settings.get_value(CONFIG_SECTION, key, true)
+		effect_changed.emit(key, _effect_keys[key].visible)
 
 func _on_settings_reset() -> void:
 	for key : String in _effect_keys.keys():
 		Settings.set_value(CONFIG_SECTION, key, true)
 		_effect_keys[key].visible = true
+		effect_changed.emit(key, true)
 
 func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
 	if section == CONFIG_SECTION and typeof(value) == TYPE_BOOL:
 		if key in _effect_keys:
 			_effect_keys[key] . visible = value
+			effect_changed.emit(key, value)
 

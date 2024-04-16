@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsfmvycrk4gxu"]
+
+[ext_resource type="Script" path="res://objects/bobbing_lil_botty/bobbing_lil_botty.gd" id="1_of38r"]
+[ext_resource type="Texture2D" uid="uid://b41gkstyh4g1y" path="res://assets/graphics/lilbotty/body_big.png" id="1_vfouq"]
+[ext_resource type="Texture2D" uid="uid://cjli1p30mb5on" path="res://assets/graphics/lilbotty/faceplate_big.png" id="2_nbb8y"]
+[ext_resource type="Texture2D" uid="uid://obd6o2qfq32m" path="res://assets/graphics/lilbotty/face_big.png" id="3_8wdd7"]
+
+[node name="BobbingLilBotty" type="Node2D"]
+script = ExtResource("1_of38r")
+
+[node name="Sprite_Body" type="Sprite2D" parent="."]
+texture_filter = 3
+texture = ExtResource("1_vfouq")
+
+[node name="Sprite_Faceplate" type="Sprite2D" parent="."]
+texture_filter = 3
+texture = ExtResource("2_nbb8y")
+
+[node name="Sprite_Face" type="Sprite2D" parent="Sprite_Faceplate"]
+texture_filter = 3
+texture = ExtResource("3_8wdd7")

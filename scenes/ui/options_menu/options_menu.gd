@@ -27,7 +27,7 @@ extends UIControl
 @onready var _hs_vol_sfx: HSlider = %HS_VolSFX
 
 @onready var _effect_checks : Dictionary = {
-	"effect_crt": %CHECK_EffectCRT
+	"CRT": %CHECK_EffectCRT
 }
 
 # ------------------------------------------------------------------------------
@@ -44,7 +44,13 @@ func _ready() -> void:
 	_on_volume_changed(GAS.BUS_MASTER, GAS.get_volume(GAS.BUS_MASTER))
 	_on_volume_changed(GAS.BUS_SFX, GAS.get_volume(GAS.BUS_SFX))
 	_on_volume_changed(GAS.BUS_MUSIC, GAS.get_volume(GAS.BUS_MUSIC))
-	Settings.value_changed.connect(_on_settings_value_changed)
+	var se : ScreenEffects = ScreenEffects.Get()
+	if se != null:
+		se.effect_changed.connect(_on_screen_effect_changed)
+		for key in _effect_checks.keys():
+			_on_screen_effect_changed(key, ScreenEffects.Is_Effect_Enabled(key))
+	else:
+		printerr("Failed to find Screen Effects")
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -69,11 +75,15 @@ func _on_volume_changed(bus_name : StringName, value : float) -> void:
 	value = max(0.0, min(slider.max_value, value))
 	slider.value = value
 
-func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
-	match section:
-		ScreenEffects.CONFIG_SECTION:
-			if key in _effect_checks and typeof(value) == TYPE_BOOL:
-				_effect_checks[key].button_pressed = value
+func _on_screen_effect_changed(effect_name : String, enabled : bool) -> void:
+	if effect_name in _effect_checks:
+		_effect_checks[effect_name].button_pressed = enabled
+
+#func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
+	#match section:
+		#ScreenEffects.CONFIG_SECTION:
+			#if key in _effect_checks and typeof(value) == TYPE_BOOL:
+				#_effect_checks[key].button_pressed = value
 
 func _on_btn_apply_pressed() -> void:
 	Settings.save()
