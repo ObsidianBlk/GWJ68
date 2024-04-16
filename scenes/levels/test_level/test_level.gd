@@ -51,4 +51,4 @@ extends Level
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is LilBot:
-		body.request_state(&"dig")
+		body.request_action(&"dig")

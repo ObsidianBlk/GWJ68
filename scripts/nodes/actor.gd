@@ -24,7 +24,6 @@ const DIRECTIONAL_THRESHOLD : float = 0.0001
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _direction : float = 0.0
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -65,8 +64,19 @@ func request_state(state_name : StringName, data : Dictionary = {}) -> void:
 	if state_machine != null:
 		state_machine.change_state_by_name(state_name, data)
 
-func move(direction : float) -> void:
-	_direction = direction
+func request_action(state_name : StringName, data : Dictionary = {}) -> void:
+	if state_machine == null: return
+	if state_machine.has_state(state_name):
+		state_machine.set_action_state(state_name, true, data)
+
+func clear_action() -> void:
+	if state_machine == null: return
+	state_machine.clear_action_state()
+
+func get_current_action() -> StringName:
+	if state_machine != null:
+		return state_machine.get_action_state_name()
+	return &""
 
 # ------------------------------------------------------------------------------
 # Handler Methods

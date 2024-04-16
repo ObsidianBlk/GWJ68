@@ -3,6 +3,7 @@ extends Node
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
+signal requested(action : StringName, payload : Dictionary)
 signal dig_requested(clip_poly : PackedVector2Array)
 
 # ------------------------------------------------------------------------------
@@ -43,6 +44,10 @@ signal dig_requested(clip_poly : PackedVector2Array)
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
+func request(action : StringName, payload : Dictionary = {}) -> void:
+	requested.emit(action, payload)
+
+
 func dig(clip_poly : PackedVector2Array) -> void:
 	dig_requested.emit(clip_poly)
 

@@ -1,4 +1,4 @@
-extends Actor
+extends SlideoutMarginContainer
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -18,12 +18,11 @@ extends Actor
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-
+var _selected_bot : WeakRef = weakref(null)
 
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
-@onready var _dig_polygon: Polygon2D = $DigPolygon
 
 
 # ------------------------------------------------------------------------------
@@ -34,38 +33,34 @@ extends Actor
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _unhandled_input(event: InputEvent) -> void:
-	if _IsActionOneOf(event, [&"left", &"right"]):
-		move(Input.get_axis(&"left", &"right"))
-	if event.is_action_pressed(&"action"):
-		if _dig_polygon != null:
-			Relay.dig(_GetGlobalPolygon())
+func _physics_process(_delta: float) -> void:
+	if _selected_bot.get_ref() == null and not _IsSlidOut():
+		slide_out()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-func _IsActionOneOf(event : InputEvent, actions : Array[StringName]) -> bool:
-	for action : StringName in actions:
-		if event.is_action(action):
-			return true
-	return false
-
-func _GetGlobalPolygon() -> PackedVector2Array:
-	var arr : Array[Vector2] = []
-	if _dig_polygon != null:
-		var gpos : Vector2 = global_position
-		for point : Vector2 in _dig_polygon.polygon:
-			arr.append(point + gpos)
-	return PackedVector2Array(arr)
+func _IsSlidOut() -> bool:
+	return not is_sliding() and not is_slid_in()
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-
+func select_bot(bot : LilBot) -> void:
+	if bot != _selected_bot.get_ref():
+		_selected_bot = weakref(bot)
+		if bot != null:
+			slide_in()
 
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 
-
-
+func _on_btn_dig_pressed() -> void:
+	var bot : LilBot = _selected_bot.get_ref()
+	if bot == null: return
+	match bot.get_current_action():
+		&"":
+			bot.request_action(&"dig")
+		&"dig":
+			bot.clear_action()

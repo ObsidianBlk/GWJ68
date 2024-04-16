@@ -12,6 +12,8 @@ class_name World
 const MENU_MAIN : StringName = &"MainMenu"
 const MENU_PAUSE : StringName = &"PauseMenu"
 
+const BACKDROP_001 : StringName = &"Backdrop_001"
+
 const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
 
 # ------------------------------------------------------------------------------
@@ -30,6 +32,7 @@ var _active_level : Level = null
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var _level_container: Node2D = $LevelContainer
+
 
 
 # ------------------------------------------------------------------------------
@@ -54,13 +57,13 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 func _DisconnectUI() -> void:
 	if ui == null: return
-	if ui.requested.is_connected(_on_requested):
-		ui.requested.disconnect(_on_requested)
+	if ui.requested.is_connected(_on_ui_requested):
+		ui.requested.disconnect(_on_ui_requested)
 
 func _ConnectUI() -> void:
 	if ui == null: return
-	if not ui.requested.is_connected(_on_requested):
-		ui.requested.connect(_on_requested)
+	if not ui.requested.is_connected(_on_ui_requested):
+		ui.requested.connect(_on_ui_requested)
 
 func _Quit() -> void:
 	if Settings.is_dirty():
@@ -70,8 +73,8 @@ func _Quit() -> void:
 func _UnloadActiveLevel() -> void:
 	if _active_level == null: return
 	
-	if _active_level.requested.is_connected(_on_requested):
-		_active_level.requested.disconnect(_on_requested)
+	if _active_level.requested.is_connected(_on_level_requested):
+		_active_level.requested.disconnect(_on_level_requested)
 	
 	_level_container.remove_child(_active_level)
 	_active_level.queue_free()
@@ -98,8 +101,8 @@ func _LoadLevel(level_src : String) -> int:
 	_active_level = level_node
 	_active_level_src = level_src
 	_active_level.process_mode = Node.PROCESS_MODE_PAUSABLE
-	if not _active_level.requested.is_connected(_on_requested):
-		_active_level.requested.connect(_on_requested)
+	if not _active_level.requested.is_connected(_on_level_requested):
+		_active_level.requested.connect(_on_level_requested)
 	
 	_level_container.add_child(_active_level)
 	
@@ -117,7 +120,7 @@ func _LoadLevel(level_src : String) -> int:
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
-func _on_requested(action : StringName, payload : Dictionary) -> void:
+func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 	if ui == null: return
 	match action:
 		UILayer.REQUEST_TOGGLE_PAUSE:
@@ -134,10 +137,13 @@ func _on_requested(action : StringName, payload : Dictionary) -> void:
 				)
 			else:
 				ui.close_all()
+				Backdrops.Hide_Backdrops()
 				#PlayerData.reset()
 				#await _StartTransition(TRANSITION_VISIBLE_COLOR)
 				get_tree().paused = false
 		UILayer.REQUEST_QUIT_APPLICATION:
 			_Quit()
 
+func _on_level_requested(action : StringName, payload : Dictionary = {}) -> void:
+	pass
 

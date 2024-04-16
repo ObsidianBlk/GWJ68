@@ -5,6 +5,7 @@ class_name FiniteStateMachine
 # Signals
 # ------------------------------------------------------------------------------
 signal state_changed(state_name : StringName)
+signal action_state_changed(state_name : StringName)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -20,7 +21,8 @@ signal state_changed(state_name : StringName)
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _initialized : bool = false
+var _states : Dictionary = {}
+var _action_state : FiniteState = null
 var _active_state : FiniteState = null
 
 # ------------------------------------------------------------------------------
@@ -57,14 +59,42 @@ func _unhandled_input(event: InputEvent) -> void:
 # Public Methods
 # ------------------------------------------------------------------------------
 func init(parent : Actor) -> void:
-	if _initialized or initial_state == null : return
-	_initialized = true
+	if not _states.is_empty() or initial_state == null : return
 	for child in get_children():
 		if not child is FiniteState: continue
 		child.state_transition_requested.connect(change_state)
+		child.action_transition_requested.connect(change_to_action_state)
 		child.init(parent)
+		_states[child.name] = child
 	change_state(initial_state)
-	_initialized = _active_state != null
+	if _active_state == null:
+		_states.clear()
+
+func has_state(state_name : StringName) -> bool:
+	return state_name in _states
+
+func set_action_state(state_name : StringName, auto_transition : bool = false, data : Dictionary = {}) -> void:
+	if state_name in _states:
+		_action_state = _states[state_name]
+		action_state_changed.emit(_action_state.name)
+		if auto_transition:
+			change_to_action_state(data)
+
+func clear_action_state() -> void:
+	if _action_state != null:
+		var transition : bool = _action_state == _active_state
+		_action_state = null
+		action_state_changed.emit(&"")
+		if transition:
+			change_to_action_state()
+
+func has_action_state() -> bool:
+	return _action_state != null
+
+func get_action_state_name() -> StringName:
+	if _action_state != null:
+		return _action_state.name
+	return &""
 
 func change_state(state : FiniteState, data : Dictionary = {}) -> void:
 	if _active_state == state: return # Already the active state.
@@ -79,6 +109,12 @@ func change_state_by_name(state_name : StringName, data : Dictionary = {}) -> vo
 		if child is FiniteState and child.name == state_name:
 			change_state(child, data)
 			break
+
+func change_to_action_state(data : Dictionary = {}) -> void:
+	if _action_state != null:
+		change_state(_action_state, data)
+	else:
+		change_state(initial_state, data)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

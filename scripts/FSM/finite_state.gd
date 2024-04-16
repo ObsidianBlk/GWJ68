@@ -4,7 +4,8 @@ class_name FiniteState
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-signal state_transition_requested(state : FiniteState)
+signal state_transition_requested(state : FiniteState, data : Dictionary)
+signal action_transition_requested(data : Dictionary)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -44,8 +45,8 @@ signal state_transition_requested(state : FiniteState)
 # ------------------------------------------------------------------------------
 # "Virtual" Public Methods
 # ------------------------------------------------------------------------------
-func init(parent : Actor) -> void:
-	pass
+func init(parent : Actor) -> int:
+	return OK
 
 func enter(data : Dictionary) -> void:
 	pass
@@ -69,6 +70,9 @@ func process_frame(delta : float) -> void:
 func transition_state(state : FiniteState) -> void:
 	if state != null:
 		state_transition_requested.emit(state)
+
+func transition_to_action() -> void:
+	action_transition_requested.emit()
 
 func get_gravity() -> float:
 	return ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)

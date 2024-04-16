@@ -38,7 +38,6 @@ signal object_selected(obj : Node2D)
 # ------------------------------------------------------------------------------
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("action"):
-		print("Action man!")
 		_FindObject()
 
 # ------------------------------------------------------------------------------
@@ -53,7 +52,8 @@ func _FindObject() -> void:
 	for info in res:
 		if info.collider is LilBot:
 			object_selected.emit(info.collider)
-			break
+			return
+	object_selected.emit(null)
 
 # ------------------------------------------------------------------------------
 # Public Methods

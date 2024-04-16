@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=12 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://y0gx7ugbw0r4" path="res://scenes/ui/dialog_notify/dialog_notify.tscn" id="6_607fy"]
 [ext_resource type="PackedScene" uid="uid://nid73bvxr4dm" path="res://scenes/ui/options_menu/options_menu.tscn" id="7_81bss"]
 [ext_resource type="Shader" path="res://shaders/crt.gdshader" id="8_m71tx"]
+[ext_resource type="Script" path="res://scenes/world/Backdrops.gd" id="9_a3ncl"]
 [ext_resource type="PackedScene" uid="uid://idcqe653mwl2" path="res://scenes/backdrops/backdrop_001/backdrop_001.tscn" id="9_cjdpu"]
 [ext_resource type="Script" path="res://scripts/ui/ui_layer.gd" id="9_qbg83"]
 
@@ -23,7 +24,7 @@ ui = NodePath("UILayer")
 process_mode = 1
 
 [node name="ScreenEffect" type="CanvasLayer" parent="." node_paths=PackedStringArray("effect_controls")]
-layer = 20
+layer = 5
 script = ExtResource("2_wo1df")
 effect_controls = [NodePath("CRT")]
 
@@ -52,5 +53,17 @@ options_menu_name = &"OptionsMenu"
 
 [node name="Backdrops" type="CanvasLayer" parent="."]
 layer = -5
+script = ExtResource("9_a3ncl")
+always_on = Array[StringName]([&"BGColor"])
+
+[node name="BGColor" type="ColorRect" parent="Backdrops"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.141176, 0.12549, 0.129412, 1)
 
 [node name="Backdrop_001" parent="Backdrops" instance=ExtResource("9_cjdpu")]
+mouse_filter = 2

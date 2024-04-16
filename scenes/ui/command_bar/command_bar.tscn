@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://db3xvis2jktv8"]
+
+[ext_resource type="Script" path="res://scenes/ui/command_bar/command_bar.gd" id="1_hd7kd"]
+[ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_jwnha"]
+
+[node name="CommandBar" type="MarginContainer"]
+offset_right = 62.0
+offset_bottom = 77.0
+script = ExtResource("1_hd7kd")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="SMC_Button_01" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+
+[node name="Button" type="Button" parent="VBoxContainer/SMC_Button_01"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "This is
+A Test
+Button"
+
+[node name="SMC_DigCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+
+[node name="BTNDig" type="Button" parent="VBoxContainer/SMC_DigCommand"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Dig"
+
+[connection signal="pressed" from="VBoxContainer/SMC_DigCommand/BTNDig" to="." method="_on_btn_dig_pressed"]
