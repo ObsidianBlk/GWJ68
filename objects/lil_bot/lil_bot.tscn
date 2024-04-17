@@ -1,13 +1,15 @@
-[gd_scene load_steps=17 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=20 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
 [ext_resource type="Texture2D" uid="uid://bb0sjpy03amb4" path="res://assets/graphics/lilbotty/body.png" id="2_r8b4k"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/spawn.gd" id="3_8inb2"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/idle.gd" id="3_y8ibv"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/move.gd" id="4_w06rd"]
 [ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="5_56no6"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/air.gd" id="5_neuc7"]
-[ext_resource type="Script" path="res://objects/lil_bot/states/dig.gd" id="6_s1rcg"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/cmd_dig.gd" id="6_s1rcg"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/cmd_block.gd" id="7_87rtb"]
 [ext_resource type="Script" path="res://scripts/nodes/component_shovel.gd" id="8_c121b"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3c6c7"]
@@ -58,6 +60,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Viz/Faceplate:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.785398]
 }
 
 [sub_resource type="Animation" id="Animation_l6u86"]
@@ -143,22 +157,80 @@ tracks/0/keys = {
 "values": [Vector2(0, -8)]
 }
 
+[sub_resource type="Animation" id="Animation_cvnps"]
+resource_name = "spawn"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Viz/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.9),
+"transitions": PackedFloat32Array(4, 0.482968, 0.435276),
+"update": 0,
+"values": [Vector2(0, -4), Vector2(0, -9), Vector2(0, -8)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Viz/Faceplate:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.1),
+"transitions": PackedFloat32Array(3.99, 0.482, 4.35),
+"update": 0,
+"values": [Vector2(-1, -4), Vector2(-0.4, -10), Vector2(0, -8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Viz/Faceplate:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1.1),
+"transitions": PackedFloat32Array(1, 3.73213, 0.482968, 0.554785),
+"update": 0,
+"values": [-0.785398, -0.785398, 0.349066, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ej3t"]
 _data = {
 "RESET": SubResource("Animation_ly3qu"),
 "fall": SubResource("Animation_l6u86"),
 "idle": SubResource("Animation_ty3tg"),
-"jump": SubResource("Animation_7sp7h")
+"jump": SubResource("Animation_7sp7h"),
+"spawn": SubResource("Animation_cvnps")
 }
 
 [node name="LilBot" type="CharacterBody2D" node_paths=PackedStringArray("state_machine") groups=["lilbot"]]
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_jrbmi")
 state_machine = NodePath("FSM")
 
 [node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_8op4l")
 initial_state = NodePath("idle")
+
+[node name="spawn" type="Node" parent="FSM" node_paths=PackedStringArray("anim_player")]
+script = ExtResource("3_8inb2")
+anim_player = NodePath("../../AnimationPlayer")
 
 [node name="idle" type="Node" parent="FSM" node_paths=PackedStringArray("move_state", "air_state", "anim_player")]
 script = ExtResource("3_y8ibv")
@@ -177,10 +249,14 @@ script = ExtResource("5_neuc7")
 idle_state = NodePath("../idle")
 anim_player = NodePath("../../AnimationPlayer")
 
-[node name="dig" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "shovel")]
+[node name="cmd_dig" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "shovel")]
 script = ExtResource("6_s1rcg")
 idle_state = NodePath("../idle")
 shovel = NodePath("../../ComponentShovel")
+
+[node name="cmd_block" type="Node" parent="FSM"]
+script = ExtResource("7_87rtb")
+collision = 16
 
 [node name="Viz" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -199,6 +275,7 @@ texture = ExtResource("2_r8b4k")
 [node name="Faceplate" type="Sprite2D" parent="Viz"]
 texture_filter = 3
 position = Vector2(0, -8)
+rotation = -0.785398
 texture = ExtResource("5_56no6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

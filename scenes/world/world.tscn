@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=17 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -10,9 +10,20 @@
 [ext_resource type="Script" path="res://scenes/world/Backdrops.gd" id="9_a3ncl"]
 [ext_resource type="PackedScene" uid="uid://idcqe653mwl2" path="res://scenes/backdrops/backdrop_001/backdrop_001.tscn" id="9_cjdpu"]
 [ext_resource type="Script" path="res://scripts/ui/ui_layer.gd" id="9_qbg83"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="11_ro01n"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="12_8joya"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="13_bd80w"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="14_3lxwe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wpvio"]
 shader = ExtResource("8_m71tx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yf02l"]
+shader = ExtResource("11_ro01n")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("12_8joya")
+shader_parameter/new_palette = ExtResource("13_bd80w")
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("ui")]
 process_mode = 3
@@ -67,3 +78,16 @@ color = Color(0.141176, 0.12549, 0.129412, 1)
 
 [node name="Backdrop_001" parent="Backdrops" instance=ExtResource("9_cjdpu")]
 mouse_filter = 2
+
+[node name="PaletteSwap" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="PaletteSwap" type="ColorRect" parent="PaletteSwap"]
+material = SubResource("ShaderMaterial_yf02l")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("14_3lxwe")

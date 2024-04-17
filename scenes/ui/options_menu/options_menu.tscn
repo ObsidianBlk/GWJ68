@@ -58,6 +58,22 @@ text = "CRT Effect"
 [node name="VSeparator" type="VSeparator" parent="Margin/BottomHBC/OptionsHBC"]
 layout_mode = 2
 
+[node name="PaletteOptions" type="GridContainer" parent="Margin/BottomHBC/OptionsHBC"]
+layout_mode = 2
+columns = 2
+
+[node name="LBL_Palettes" type="Label" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+layout_mode = 2
+text = "Palette:"
+
+[node name="Options_Palettes" type="OptionButton" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Margin/BottomHBC/OptionsHBC"]
+layout_mode = 2
+
 [node name="Volume" type="GridContainer" parent="Margin/BottomHBC/OptionsHBC"]
 layout_mode = 2
 columns = 2
@@ -95,6 +111,7 @@ size_flags_horizontal = 3
 [connection signal="pressed" from="Margin/BottomHBC/ControlsVBC/BTN_Apply" to="." method="_on_btn_apply_pressed"]
 [connection signal="pressed" from="Margin/BottomHBC/ControlsVBC/BTN_Back" to="." method="_on_btn_back_pressed"]
 [connection signal="toggled" from="Margin/BottomHBC/OptionsHBC/EffectOptions/CHECK_EffectCRT" to="." method="_on_check_effect_toggled" binds= ["CRT"]]
+[connection signal="item_selected" from="Margin/BottomHBC/OptionsHBC/PaletteOptions/Options_Palettes" to="." method="_on_options_palettes_item_selected"]
 [connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolMaster" to="." method="_on_hs_vol_master_value_changed"]
 [connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolMusic" to="." method="_on_hs_vol_music_value_changed"]
 [connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolSFX" to="." method="_on_hs_vol_sfx_value_changed"]

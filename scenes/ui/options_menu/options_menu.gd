@@ -25,6 +25,7 @@ extends UIControl
 @onready var _hs_vol_master: HSlider = %HS_VolMaster
 @onready var _hs_vol_music: HSlider = %HS_VolMusic
 @onready var _hs_vol_sfx: HSlider = %HS_VolSFX
+@onready var _options_palettes: OptionButton = %Options_Palettes
 
 @onready var _effect_checks : Dictionary = {
 	"CRT": %CHECK_EffectCRT
@@ -44,6 +45,7 @@ func _ready() -> void:
 	_on_volume_changed(GAS.BUS_MASTER, GAS.get_volume(GAS.BUS_MASTER))
 	_on_volume_changed(GAS.BUS_SFX, GAS.get_volume(GAS.BUS_SFX))
 	_on_volume_changed(GAS.BUS_MUSIC, GAS.get_volume(GAS.BUS_MUSIC))
+	
 	var se : ScreenEffects = ScreenEffects.Get()
 	if se != null:
 		se.effect_changed.connect(_on_screen_effect_changed)
@@ -51,11 +53,19 @@ func _ready() -> void:
 			_on_screen_effect_changed(key, ScreenEffects.Is_Effect_Enabled(key))
 	else:
 		printerr("Failed to find Screen Effects")
+	
+	Pal.palette_changed.connect(_on_palette_changed)
+	_UpdatePaletteList()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-
+func _UpdatePaletteList() -> void:
+	if _options_palettes == null: return
+	for i : int in range(Pal.palette_count()):
+		_options_palettes.add_item(Pal.get_palette_name(i))
+		_options_palettes.set_item_metadata(i, i)
+	_options_palettes.selected = Pal.get_current_palette_index()
 
 # ------------------------------------------------------------------------------
 # Public Methods
@@ -78,6 +88,9 @@ func _on_volume_changed(bus_name : StringName, value : float) -> void:
 func _on_screen_effect_changed(effect_name : String, enabled : bool) -> void:
 	if effect_name in _effect_checks:
 		_effect_checks[effect_name].button_pressed = enabled
+
+func _on_palette_changed(palidx : int) -> void:
+	_options_palettes.selected = palidx
 
 #func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
 	#match section:
@@ -103,3 +116,5 @@ func _on_hs_vol_sfx_value_changed(value: float) -> void:
 func _on_check_effect_toggled(toggled_on: bool, effect_name : String) -> void:
 	ScreenEffects.Enable_Effect(effect_name, toggled_on)
 
+func _on_options_palettes_item_selected(idx : int) -> void:
+	Pal.set_current_palette_index(idx)
