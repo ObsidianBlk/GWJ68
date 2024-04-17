@@ -12,6 +12,8 @@ class_name World
 const MENU_MAIN : StringName = &"MainMenu"
 const MENU_PAUSE : StringName = &"PauseMenu"
 
+const MENU_LEVEL_SUCCESS : StringName = &"LevelSuccess"
+
 const BACKDROP_001 : StringName = &"Backdrop_001"
 
 const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
@@ -141,9 +143,19 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 				#PlayerData.reset()
 				#await _StartTransition(TRANSITION_VISIBLE_COLOR)
 				get_tree().paused = false
+		UILayer.REQUEST_QUIT_TO_MAIN:
+			if _active_level != null:
+				_UnloadActiveLevel()
+			Backdrops.Show_Backdrop(BACKDROP_001)
+			ui.show_ui(MENU_MAIN)
 		UILayer.REQUEST_QUIT_APPLICATION:
 			_Quit()
 
 func _on_level_requested(action : StringName, payload : Dictionary = {}) -> void:
-	pass
+	match action:
+		Level.REQUEST_LEVEL_SUCCESS:
+			get_tree().paused = true
+			ui.show_ui(MENU_LEVEL_SUCCESS, payload)
+		Level.REQUEST_LEVEL_FAILED:
+			print("Level Failed")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=18 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" path="res://shaders/crt.gdshader" id="8_m71tx"]
 [ext_resource type="Script" path="res://scenes/world/Backdrops.gd" id="9_a3ncl"]
 [ext_resource type="PackedScene" uid="uid://idcqe653mwl2" path="res://scenes/backdrops/backdrop_001/backdrop_001.tscn" id="9_cjdpu"]
+[ext_resource type="PackedScene" uid="uid://bhmtvsqn05jlj" path="res://scenes/ui/level_success/level_success.tscn" id="9_d8fl6"]
 [ext_resource type="Script" path="res://scripts/ui/ui_layer.gd" id="9_qbg83"]
 [ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="11_ro01n"]
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="12_8joya"]
@@ -61,6 +62,8 @@ options_menu_name = &"OptionsMenu"
 [node name="DialogNotify" parent="UILayer" instance=ExtResource("6_607fy")]
 
 [node name="OptionsMenu" parent="UILayer" instance=ExtResource("7_81bss")]
+
+[node name="LevelSuccess" parent="UILayer" instance=ExtResource("9_d8fl6")]
 
 [node name="Backdrops" type="CanvasLayer" parent="."]
 layer = -5

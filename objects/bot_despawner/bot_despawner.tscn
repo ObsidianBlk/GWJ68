@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cu1bm060wveb3"]
+
+[ext_resource type="Texture2D" uid="uid://bsymcyucej4c5" path="res://assets/graphics/bot_despawner/bot_despawner.png" id="1_hwu3g"]
+[ext_resource type="Script" path="res://objects/bot_despawner/bot_despawner.gd" id="1_ud5if"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cn3o5"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 1)
+gravity = Vector3(0, -98, 0)
+color = Color(0.933333, 0.901961, 0.811765, 1)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_udret"]
+
+[node name="BotDespawner" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_ud5if")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 3
+texture = ExtResource("1_hwu3g")
+offset = Vector2(0, -12)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-12, 0, -8, -2, 8, -2, 12, 0)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -2)
+process_material = SubResource("ParticleProcessMaterial_cn3o5")
+lifetime = 0.5
+randomness = 0.8
+
+[node name="BotWatchArea" type="Area2D" parent="."]
+position = Vector2(0, -12)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BotWatchArea"]
+shape = SubResource("SegmentShape2D_udret")
+
+[connection signal="body_entered" from="BotWatchArea" to="." method="_on_bot_watch_area_body_entered"]

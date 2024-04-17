@@ -60,23 +60,18 @@ func _SpawnBot() -> void:
 func spawn() -> void:
 	if spawn_container == null or _spawning: return
 	_spawning = true
-	print("Spawning...")
 	
 	_asprite.play(ANIM_OPENING)
 	await _asprite.animation_finished
-	print("Spawner opened...")
 	_asprite.play(ANIM_OPENED)
 	_SpawnBot()
 	_num_spawned += 1
-	print("Added ", _num_spawned, " bots...")
 	
 	await get_tree().create_timer(1.0).timeout
 	_asprite.play(ANIM_CLOSING)
-	print("Spawner closing...")
 	
 	await _asprite.animation_finished
 	_asprite.play(ANIM_CLOSED)
-	print("--- Spawning complete ---")
 	_spawning = false
 	_interval = SPAWN_INTERVAL
 

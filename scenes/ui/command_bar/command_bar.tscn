@@ -55,6 +55,40 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Dig"
 
+[node name="SMC_MineCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+
+[node name="BTNMine" type="Button" parent="VBoxContainer/SMC_MineCommand"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Mine"
+
+[node name="SMC_TunnelCommand2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+
+[node name="BTNTunnel" type="Button" parent="VBoxContainer/SMC_TunnelCommand2"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Tunnel"
+
 [node name="SMC_BlockCommand" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -73,4 +107,6 @@ size_flags_vertical = 8
 text = "Block"
 
 [connection signal="pressed" from="VBoxContainer/SMC_DigCommand/BTNDig" to="." method="_on_btn_dig_pressed"]
+[connection signal="pressed" from="VBoxContainer/SMC_MineCommand/BTNMine" to="." method="_on_btn_mine_pressed"]
+[connection signal="pressed" from="VBoxContainer/SMC_TunnelCommand2/BTNTunnel" to="." method="_on_btn_tunnel_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BlockCommand/BTNBlock" to="." method="_on_btn_block_pressed"]

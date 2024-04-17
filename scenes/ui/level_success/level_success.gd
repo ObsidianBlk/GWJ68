@@ -1,4 +1,4 @@
-extends SlideoutMarginContainer
+extends UIControl
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -8,10 +8,7 @@ extends SlideoutMarginContainer
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const COMMAND_DIG : StringName = &"cmd_dig"
-const COMMAND_MINE : StringName = &"cmd_mine"
-const COMMAND_TUNNEL : StringName = &"cmd_tunnel"
-const COMMAND_BLOCK : StringName = &"cmd_block"
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -21,12 +18,15 @@ const COMMAND_BLOCK : StringName = &"cmd_block"
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _selected_bot : WeakRef = weakref(null)
+var _next_level_src : String = ""
+
 
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
-
+@onready var _lbl_saved: Label = %LBL_Saved
+@onready var _lbl_required: Label = %LBL_Required
+@onready var _btn_next_level: Button = %BTN_NextLevel
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -36,52 +36,36 @@ var _selected_bot : WeakRef = weakref(null)
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _physics_process(_delta: float) -> void:
-	if _selected_bot.get_ref() == null and not _IsSlidOut():
-		slide_out()
+
 
 # ------------------------------------------------------------------------------
-# Private Methods
+# "Virtual" Private Methods
 # ------------------------------------------------------------------------------
-func _IsSlidOut() -> bool:
-	return not is_sliding() and not is_slid_in()
-
-func _ToggleAction(bot : LilBot, action : StringName, data : Dictionary = {}) -> void:
-	match bot.get_current_action():
-		&"":
-			bot.request_action(action, data)
-		action:
-			bot.clear_action()
+func _visibility_updating(data : Dictionary) -> void:
+	if not visible:
+		if "required" in data:
+			_lbl_required.text = "%s"%[data["required"]]
+		if "saved" in data:
+			_lbl_saved.text = "%s"%[data["saved"]]
+		_next_level_src = ""
+		if "next_level_src" in data:
+			_next_level_src = data["next_level_src"]
+			_btn_next_level.visible = true
+		else:
+			_btn_next_level.visible = false
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func select_bot(bot : LilBot) -> void:
-	if bot != _selected_bot.get_ref():
-		_selected_bot = weakref(bot)
-		if bot != null:
-			slide_in()
+
 
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 
-func _on_btn_dig_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_DIG)
+func _on_btn_quit_pressed() -> void:
+	request(UILayer.REQUEST_QUIT_TO_MAIN)
 
-func _on_btn_mine_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_MINE)
 
-func _on_btn_tunnel_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_TUNNEL)
-
-func _on_btn_block_pressed():
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_BLOCK)
+func _on_btn_next_level_pressed() -> void:
+	pass # Replace with function body.

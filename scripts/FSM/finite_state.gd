@@ -67,9 +67,9 @@ func process_frame(delta : float) -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func transition_state(state : FiniteState) -> void:
+func transition_state(state : FiniteState, data : Dictionary = {}) -> void:
 	if state != null:
-		state_transition_requested.emit(state)
+		state_transition_requested.emit(state, data)
 
 func transition_to_action() -> void:
 	action_transition_requested.emit()

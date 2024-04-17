@@ -10,6 +10,7 @@ extends LilBotState
 # ------------------------------------------------------------------------------
 @export_category("Dig State")
 @export var idle_state : FiniteState = null
+@export var move_state : FiniteState = null
 @export var shovel : ComponentShovel = null
 @export var timer_interval : float = 0.5
 
@@ -19,8 +20,22 @@ extends LilBotState
 var _timer : float = 0.0
 
 # ------------------------------------------------------------------------------
+# Private Methods
+# ------------------------------------------------------------------------------
+func _CanDig() -> bool:
+	if shovel != null:
+		return shovel.can_dig()
+	return false
+
+# ------------------------------------------------------------------------------
 # "Virtual" Public Methods
 # ------------------------------------------------------------------------------
+func init(parent : Actor) -> int:
+	var res : int = super.init(parent)
+	if res == OK and shovel != null:
+		shovel.diggable.connect(_on_shovel_diggable)
+	return res
+
 func enter(data : Dictionary = {}) -> void:
 	_timer = timer_interval
 	if _parent != null:
@@ -36,7 +51,10 @@ func process_physics(delta : float) -> void:
 	if not _parent.is_on_floor():
 		transition_state(idle_state)
 	else:
-		_parent.move_and_slide()
+		if _CanDig():
+			_parent.move_and_slide()
+		else:
+			transition_state(move_state)
 
 func process_frame(delta : float) -> void:
 	_timer -= delta
@@ -45,4 +63,10 @@ func process_frame(delta : float) -> void:
 		if shovel != null:
 			shovel.dig()
 
-
+# ------------------------------------------------------------------------------
+# Handler Methods
+# ------------------------------------------------------------------------------
+func _on_shovel_diggable(diggable : bool) -> void:
+	if _parent == null: return
+	if _parent.get_current_action() == name:
+		transition_state(self, {"rotation": shovel.rotation})

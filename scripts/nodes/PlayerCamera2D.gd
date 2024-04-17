@@ -1,4 +1,5 @@
-extends SlideoutMarginContainer
+extends Camera2D
+class_name PlayerCamera2D
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -8,20 +9,24 @@ extends SlideoutMarginContainer
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const COMMAND_DIG : StringName = &"cmd_dig"
-const COMMAND_MINE : StringName = &"cmd_mine"
-const COMMAND_TUNNEL : StringName = &"cmd_tunnel"
-const COMMAND_BLOCK : StringName = &"cmd_block"
+
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-
+@export_category("PlayerCamera2D")
+@export var edge_left_px : int = -1000
+@export var edge_right_px : int = 1000
+@export var edge_top_px : int = -1000
+@export var edge_bottom_px : int = 1000
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _selected_bot : WeakRef = weakref(null)
+var _drag_active : bool = false
+var _senitivity : Vector2 = Vector2(0.2, 0.2)
+var _invert_x : bool = false
+var _invert_y : bool = false
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -36,52 +41,31 @@ var _selected_bot : WeakRef = weakref(null)
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _physics_process(_delta: float) -> void:
-	if _selected_bot.get_ref() == null and not _IsSlidOut():
-		slide_out()
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and _drag_active:
+		position += event.relative * _senitivity * Vector2(
+			1 if _invert_x else -1,
+			1 if _invert_y else -1
+		)
+		position.x = clampf(position.x, edge_left_px, edge_right_px)
+		position.y = clampf(position.y, edge_top_px, edge_bottom_px)
+	elif event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			_drag_active = event.pressed
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-func _IsSlidOut() -> bool:
-	return not is_sliding() and not is_slid_in()
 
-func _ToggleAction(bot : LilBot, action : StringName, data : Dictionary = {}) -> void:
-	match bot.get_current_action():
-		&"":
-			bot.request_action(action, data)
-		action:
-			bot.clear_action()
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func select_bot(bot : LilBot) -> void:
-	if bot != _selected_bot.get_ref():
-		_selected_bot = weakref(bot)
-		if bot != null:
-			slide_in()
+
 
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 
-func _on_btn_dig_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_DIG)
 
-func _on_btn_mine_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_MINE)
 
-func _on_btn_tunnel_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_TUNNEL)
-
-func _on_btn_block_pressed():
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_BLOCK)

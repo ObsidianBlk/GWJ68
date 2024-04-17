@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=22 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
 [ext_resource type="Texture2D" uid="uid://bb0sjpy03amb4" path="res://assets/graphics/lilbotty/body.png" id="2_r8b4k"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/spawn.gd" id="3_8inb2"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/idle.gd" id="3_y8ibv"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/despawn.gd" id="4_3ce7f"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/move.gd" id="4_w06rd"]
 [ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="5_56no6"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/air.gd" id="5_neuc7"]
@@ -18,6 +19,7 @@ emission_shape_scale = Vector3(3, 1, 0)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 gravity = Vector3(0, 98, 0)
+color = Color(0.933333, 0.901961, 0.811765, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ilcjh"]
 radius = 4.0
@@ -209,9 +211,62 @@ tracks/3/keys = {
 "values": [-0.785398, -0.785398, 0.349066, 0.0]
 }
 
+[sub_resource type="Animation" id="Animation_onmjv"]
+resource_name = "despawn"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Viz/Faceplate:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 2.82842, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, -0.785398, -0.591667, -0.785398]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Viz/Body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.9, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 2.92817, 2.63902, 0.535887, 1),
+"update": 0,
+"values": [Vector2(0, -8), Vector2(0, -8), Vector2(0, -4), Vector2(0, -5), Vector2(0, -4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Viz/Faceplate:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.9, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 4.92458, 3.36358, 4, 1),
+"update": 0,
+"values": [Vector2(0, -8), Vector2(0, -8), Vector2(0, -3), Vector2(0, -5), Vector2(0, -4)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ej3t"]
 _data = {
 "RESET": SubResource("Animation_ly3qu"),
+"despawn": SubResource("Animation_onmjv"),
 "fall": SubResource("Animation_l6u86"),
 "idle": SubResource("Animation_ty3tg"),
 "jump": SubResource("Animation_7sp7h"),
@@ -232,6 +287,10 @@ initial_state = NodePath("idle")
 script = ExtResource("3_8inb2")
 anim_player = NodePath("../../AnimationPlayer")
 
+[node name="despawn" type="Node" parent="FSM" node_paths=PackedStringArray("anim_player")]
+script = ExtResource("4_3ce7f")
+anim_player = NodePath("../../AnimationPlayer")
+
 [node name="idle" type="Node" parent="FSM" node_paths=PackedStringArray("move_state", "air_state", "anim_player")]
 script = ExtResource("3_y8ibv")
 move_state = NodePath("../move")
@@ -249,14 +308,27 @@ script = ExtResource("5_neuc7")
 idle_state = NodePath("../idle")
 anim_player = NodePath("../../AnimationPlayer")
 
-[node name="cmd_dig" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "shovel")]
-script = ExtResource("6_s1rcg")
-idle_state = NodePath("../idle")
-shovel = NodePath("../../ComponentShovel")
-
 [node name="cmd_block" type="Node" parent="FSM"]
 script = ExtResource("7_87rtb")
 collision = 16
+
+[node name="cmd_dig" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "move_state", "shovel")]
+script = ExtResource("6_s1rcg")
+idle_state = NodePath("../idle")
+move_state = NodePath("../move")
+shovel = NodePath("../../Viz/CompShovel_Vert")
+
+[node name="cmd_mine" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "move_state", "shovel")]
+script = ExtResource("6_s1rcg")
+idle_state = NodePath("../idle")
+move_state = NodePath("../move")
+shovel = NodePath("../../Viz/CompShovel_Horz")
+
+[node name="cmd_tunnel" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "move_state", "shovel")]
+script = ExtResource("6_s1rcg")
+idle_state = NodePath("../idle")
+move_state = NodePath("../move")
+shovel = NodePath("../../Viz/CompShovel_Diag")
 
 [node name="Viz" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -278,6 +350,45 @@ position = Vector2(0, -8)
 rotation = -0.785398
 texture = ExtResource("5_56no6")
 
+[node name="CompShovel_Vert" type="Node2D" parent="Viz" node_paths=PackedStringArray("polygon", "raycast")]
+position = Vector2(0, -7)
+script = ExtResource("8_c121b")
+polygon = NodePath("Polygon2D")
+raycast = NodePath("RayCast2D")
+
+[node name="Polygon2D" type="Polygon2D" parent="Viz/CompShovel_Vert"]
+visible = false
+polygon = PackedVector2Array(-5, -3, 5, -3, 4, 10, -4, 10)
+
+[node name="RayCast2D" type="RayCast2D" parent="Viz/CompShovel_Vert"]
+target_position = Vector2(0, 9)
+
+[node name="CompShovel_Horz" type="Node2D" parent="Viz" node_paths=PackedStringArray("polygon", "raycast")]
+position = Vector2(0, -7)
+script = ExtResource("8_c121b")
+polygon = NodePath("Polygon_H")
+raycast = NodePath("RayCast2D")
+
+[node name="Polygon_H" type="Polygon2D" parent="Viz/CompShovel_Horz"]
+visible = false
+polygon = PackedVector2Array(0, -8, -9, -8, -9, 7, 0, 7)
+
+[node name="RayCast2D" type="RayCast2D" parent="Viz/CompShovel_Horz"]
+target_position = Vector2(-8, 0)
+
+[node name="CompShovel_Diag" type="Node2D" parent="Viz" node_paths=PackedStringArray("polygon", "raycast")]
+position = Vector2(0, -7)
+script = ExtResource("8_c121b")
+polygon = NodePath("Polygon_D")
+raycast = NodePath("RayCast2D")
+
+[node name="Polygon_D" type="Polygon2D" parent="Viz/CompShovel_Diag"]
+visible = false
+polygon = PackedVector2Array(-7, -9, 0, 7, -11, 12, -18, -4)
+
+[node name="RayCast2D" type="RayCast2D" parent="Viz/CompShovel_Diag"]
+target_position = Vector2(-10, 8)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_ilcjh")
@@ -287,11 +398,3 @@ libraries = {
 "": SubResource("AnimationLibrary_1ej3t")
 }
 autoplay = "idle"
-
-[node name="ComponentShovel" type="Node2D" parent="." node_paths=PackedStringArray("polygon")]
-script = ExtResource("8_c121b")
-polygon = NodePath("Polygon2D")
-
-[node name="Polygon2D" type="Polygon2D" parent="ComponentShovel"]
-visible = false
-polygon = PackedVector2Array(-5, -3, 5, -3, 4, 18, -4, 18)
