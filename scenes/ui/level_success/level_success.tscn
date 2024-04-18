@@ -17,6 +17,7 @@ shader_parameter/base_palette = ExtResource("6_412f6")
 shader_parameter/new_palette = ExtResource("7_0tw1k")
 
 [node name="LevelSuccess" type="Control"]
+texture_filter = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

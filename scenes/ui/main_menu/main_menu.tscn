@@ -16,6 +16,7 @@ shader_parameter/base_palette = ExtResource("5_ejqbt")
 shader_parameter/new_palette = ExtResource("6_jbdju")
 
 [node name="MainMenu" type="Control"]
+texture_filter = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

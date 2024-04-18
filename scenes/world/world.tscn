@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=19 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
 [ext_resource type="PackedScene" uid="uid://jhyjv6stjlfl" path="res://scenes/ui/main_menu/main_menu.tscn" id="4_cn4tu"]
 [ext_resource type="PackedScene" uid="uid://c3p0rqkha82y4" path="res://scenes/ui/dialog_confirm/dialog_confirm.tscn" id="5_kc7ef"]
+[ext_resource type="PackedScene" uid="uid://bkf37hxf12d1p" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="6_1a3uq"]
 [ext_resource type="PackedScene" uid="uid://y0gx7ugbw0r4" path="res://scenes/ui/dialog_notify/dialog_notify.tscn" id="6_607fy"]
 [ext_resource type="PackedScene" uid="uid://nid73bvxr4dm" path="res://scenes/ui/options_menu/options_menu.tscn" id="7_81bss"]
 [ext_resource type="Shader" path="res://shaders/crt.gdshader" id="8_m71tx"]
@@ -57,11 +58,14 @@ initial_ui = &"MainMenu"
 [node name="MainMenu" parent="UILayer" instance=ExtResource("4_cn4tu")]
 options_menu_name = &"OptionsMenu"
 
+[node name="PauseMenu" parent="UILayer" instance=ExtResource("6_1a3uq")]
+options_menu_name = &"OptionsMenu"
+
+[node name="OptionsMenu" parent="UILayer" instance=ExtResource("7_81bss")]
+
 [node name="DialogConfirm" parent="UILayer" instance=ExtResource("5_kc7ef")]
 
 [node name="DialogNotify" parent="UILayer" instance=ExtResource("6_607fy")]
-
-[node name="OptionsMenu" parent="UILayer" instance=ExtResource("7_81bss")]
 
 [node name="LevelSuccess" parent="UILayer" instance=ExtResource("9_d8fl6")]
 

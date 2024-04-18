@@ -18,6 +18,7 @@ const REQUEST_CLOSE_UI : StringName = &"close_ui"
 const REQUEST_CLOSE_ALL_UI : StringName = &"close_all"
 
 const REQUEST_START_GAME : StringName = &"start_game"
+const REQUEST_RESTART_LEVEL : StringName = &"restart_level"
 const REQUEST_TOGGLE_PAUSE : StringName = &"toggle_pause"
 const REQUEST_QUIT_APPLICATION : StringName = &"quit_application"
 const REQUEST_QUIT_TO_MAIN : StringName = &"quit_to_main"

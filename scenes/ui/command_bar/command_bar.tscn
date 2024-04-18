@@ -1,10 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://db3xvis2jktv8"]
+[gd_scene load_steps=9 format=3 uid="uid://db3xvis2jktv8"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_eqwo6"]
 [ext_resource type="Script" path="res://scenes/ui/command_bar/command_bar.gd" id="1_hd7kd"]
 [ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_jwnha"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="4_4fue1"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="5_qwmfh"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="6_pwhvy"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="7_yhta4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vm7gv"]
+shader = ExtResource("4_4fue1")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("5_qwmfh")
+shader_parameter/new_palette = ExtResource("6_pwhvy")
 
 [node name="CommandBar" type="MarginContainer"]
+texture_filter = 3
 offset_right = 62.0
 offset_bottom = 77.0
 theme = ExtResource("1_eqwo6")
@@ -30,6 +42,8 @@ slide_length = 16
 slide_duration = 0.1
 inverted = true
 slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="Button" type="Button" parent="VBoxContainer/SMC_Button_01"]
 custom_minimum_size = Vector2(64, 78)
@@ -49,6 +63,8 @@ slide_length = 16
 slide_duration = 0.1
 inverted = true
 slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="BTNDig" type="Button" parent="VBoxContainer/SMC_DigCommand"]
 custom_minimum_size = Vector2(64, 78)
@@ -66,6 +82,8 @@ slide_length = 16
 slide_duration = 0.1
 inverted = true
 slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="BTNMine" type="Button" parent="VBoxContainer/SMC_MineCommand"]
 custom_minimum_size = Vector2(64, 78)
@@ -83,6 +101,8 @@ slide_length = 16
 slide_duration = 0.1
 inverted = true
 slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="BTNTunnel" type="Button" parent="VBoxContainer/SMC_TunnelCommand2"]
 custom_minimum_size = Vector2(64, 78)
@@ -100,6 +120,8 @@ slide_length = 16
 slide_duration = 0.1
 inverted = true
 slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="BTNBlock" type="Button" parent="VBoxContainer/SMC_BlockCommand"]
 custom_minimum_size = Vector2(64, 78)
@@ -107,6 +129,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Block"
+
+[node name="ColorRectSwap" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vm7gv")
+layout_mode = 2
+script = ExtResource("7_yhta4")
 
 [connection signal="pressed" from="VBoxContainer/SMC_DigCommand/BTNDig" to="." method="_on_btn_dig_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_MineCommand/BTNMine" to="." method="_on_btn_mine_pressed"]

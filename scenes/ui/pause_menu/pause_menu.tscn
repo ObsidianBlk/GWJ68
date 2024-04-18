@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://bkf37hxf12d1p"]
+
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_iutwq"]
+[ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_3ykqv"]
+[ext_resource type="Script" path="res://scenes/ui/pause_menu/pause_menu.gd" id="2_llv43"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="3_jn2ux"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="4_ld72e"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="5_4jekh"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="6_smxq2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hrxe8"]
+shader = ExtResource("3_jn2ux")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("4_ld72e")
+shader_parameter/new_palette = ExtResource("5_4jekh")
+
+[node name="PauseMenu" type="Control"]
+texture_filter = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_iutwq")
+script = ExtResource("2_llv43")
+
+[node name="Slideout" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.5
+offset_top = -140.0
+offset_right = 73.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("2_3ykqv")
+slide_edge = 3
+use_window_size = true
+use_window_center_as_initial = true
+start_hidden = true
+anim_ease_in = true
+anim_ease_out = true
+
+[node name="Options" type="VBoxContainer" parent="Slideout"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="BTN_Resume" type="Button" parent="Slideout/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="BTN_Options" type="Button" parent="Slideout/Options"]
+layout_mode = 2
+text = "Options"
+
+[node name="BTN_Restart" type="Button" parent="Slideout/Options"]
+layout_mode = 2
+text = "Restart"
+
+[node name="BTN_Quit" type="Button" parent="Slideout/Options"]
+layout_mode = 2
+text = "Quit to Menu"
+
+[node name="ColorRectSwap" type="ColorRect" parent="Slideout"]
+material = SubResource("ShaderMaterial_hrxe8")
+layout_mode = 2
+script = ExtResource("6_smxq2")
+
+[connection signal="pressed" from="Slideout/Options/BTN_Resume" to="." method="_on_btn_resume_pressed"]
+[connection signal="pressed" from="Slideout/Options/BTN_Options" to="." method="_on_btn_options_pressed"]
+[connection signal="pressed" from="Slideout/Options/BTN_Restart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="Slideout/Options/BTN_Quit" to="." method="_on_btn_quit_pressed"]

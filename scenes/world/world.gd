@@ -54,6 +54,18 @@ func _ready() -> void:
 		Settings.request_reset()
 		Settings.save()
 
+func _unhandled_input(event : InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if _active_level != null:
+			if get_tree().paused:
+				get_tree().paused = false
+				ui.close_all()
+			else:
+				get_tree().paused = true
+				ui.show_ui(MENU_PAUSE)
+		else:
+			get_tree().quit()
+
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
@@ -143,6 +155,21 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 				#PlayerData.reset()
 				#await _StartTransition(TRANSITION_VISIBLE_COLOR)
 				get_tree().paused = false
+		UILayer.REQUEST_RESTART_LEVEL:
+			if _active_level == null: return # Nothing to restart!
+			get_tree().paused = true
+			var level_src : String = _active_level_src
+			_UnloadActiveLevel()
+			if _LoadLevel(level_src) == OK:
+				ui.close_all()
+				Backdrops.Hide_Backdrops()
+				get_tree().paused = false
+			else:
+				ui.open_notify_dialog(
+					"Level Load Failure",
+					"Failed to load the initial level. This is a serious issue.\nHAVE FUN!!",
+					UILayer.REQUEST_QUIT_TO_MAIN
+				)
 		UILayer.REQUEST_QUIT_TO_MAIN:
 			if _active_level != null:
 				_UnloadActiveLevel()

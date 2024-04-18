@@ -9,6 +9,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	Pal.palette_changed.connect(_on_palette_changed)
 	Pal.palette_inverted.connect(_on_palette_inverted)
+	var palidx : int = Pal.get_current_palette_index()
+	_SetMaterialPalette(Pal.get_palette_texture(palidx), Pal.is_palette_inverted())
 
 # ------------------------------------------------------------------------------
 # Private Methods

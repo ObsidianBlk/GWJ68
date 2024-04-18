@@ -20,11 +20,15 @@ enum SLIDE_EDGE {Right, Top, Left, Bottom}
 @export_category("SlideoutMarginContainer")
 @export var slide_edge : SLIDE_EDGE = SLIDE_EDGE.Top
 @export var slide_length : int = 0
+@export var use_window_size : bool = false
+@export var use_window_center_as_initial : bool = false
 @export var slide_duration : float = 0.5
 @export var inverted : bool = false
 @export var start_hidden : bool = false
 @export var slide_on_start : bool = false
 @export var slide_in_on_mouse : bool = false
+@export var anim_ease_in : bool = false
+@export var anim_ease_out : bool = false
 
 
 # ------------------------------------------------------------------------------
@@ -64,7 +68,7 @@ func _ready() -> void:
 	_initial_edge_margin = get_theme_constant(_constant_name)
 	
 	if start_hidden:
-		add_theme_constant_override(_constant_name, _initial_edge_margin + (slide_length * _hide_direction))
+		add_theme_constant_override(_constant_name, _initial_edge_margin + (_GetSlideLength() * _hide_direction))
 	
 	if slide_on_start:
 		_Slide(not start_hidden)
@@ -74,6 +78,26 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 func _UpdateMargin(value : int) -> void:
 	add_theme_constant_override(_constant_name, value)
+
+func _GetInitialEdgeMargin() -> int:
+	if use_window_center_as_initial:
+		var window_size : Vector2i = DisplayServer.window_get_size()
+		match slide_edge:
+			SLIDE_EDGE.Top, SLIDE_EDGE.Bottom:
+				return window_size.y * 0.5
+			SLIDE_EDGE.Left, SLIDE_EDGE.Right:
+				return window_size.x * 0.5
+	return _initial_edge_margin
+
+func _GetSlideLength() -> int:
+	if use_window_size:
+		var window_size : Vector2i = DisplayServer.window_get_size()
+		match slide_edge:
+			SLIDE_EDGE.Top, SLIDE_EDGE.Bottom:
+				return window_size.y
+			SLIDE_EDGE.Left, SLIDE_EDGE.Right:
+				return window_size.x
+	return slide_length
 
 func _Slide(hide : bool = false) -> void:
 	if _slide_tween != null:
@@ -87,13 +111,21 @@ func _Slide(hide : bool = false) -> void:
 	else:
 		dir = _hide_direction if hide else 0
 
+	var length : int = _GetSlideLength()
+	var edge_margin = _GetInitialEdgeMargin()
 	var init : int = get_theme_constant(_constant_name)
-	var target : int = _initial_edge_margin + (slide_length * dir)
+	var target : int = edge_margin + (length * dir)
 	
-	var dur : float = (float(abs(target - init)) / slide_length) * slide_duration
+	var dur : float = (float(abs(target - init)) / length) * slide_duration
 	if dur <= 0.001: return
 	slide_started.emit()
 	_slide_tween = create_tween()
+	if anim_ease_in and anim_ease_out:
+		_slide_tween.set_ease(Tween.EASE_IN_OUT)
+	elif anim_ease_in:
+		_slide_tween.set_ease(Tween.EASE_IN)
+	elif anim_ease_out:
+		_slide_tween.set_ease(Tween.EASE_OUT)
 	_slide_tween.tween_method(_UpdateMargin, init, target, dur)
 	
 	await _slide_tween.finished

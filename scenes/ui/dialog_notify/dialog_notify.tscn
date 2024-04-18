@@ -15,6 +15,7 @@ shader_parameter/base_palette = ExtResource("4_7ok6u")
 shader_parameter/new_palette = ExtResource("5_tfkom")
 
 [node name="DialogNotify" type="Control"]
+texture_filter = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,7 +45,6 @@ theme_override_constants/separation = 0
 
 [node name="Titlebar" type="PanelContainer" parent="MarginContainer/Layout"]
 layout_mode = 2
-theme_type_variation = &"DialogPanelTitlebar"
 
 [node name="LBL_Titlebar" type="Label" parent="MarginContainer/Layout/Titlebar"]
 unique_name_in_owner = true
@@ -54,7 +54,6 @@ horizontal_alignment = 1
 
 [node name="Content" type="PanelContainer" parent="MarginContainer/Layout"]
 layout_mode = 2
-theme_type_variation = &"DialogPanelBody"
 
 [node name="LBL_Content" type="Label" parent="MarginContainer/Layout/Content"]
 unique_name_in_owner = true
@@ -64,7 +63,6 @@ horizontal_alignment = 1
 
 [node name="Options" type="PanelContainer" parent="MarginContainer/Layout"]
 layout_mode = 2
-theme_type_variation = &"DialogPanelFooter"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Layout/Options"]
 layout_mode = 2
