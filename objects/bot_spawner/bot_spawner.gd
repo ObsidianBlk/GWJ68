@@ -18,6 +18,7 @@ const BOT_ACTION_SPAWN : StringName = &"spawn"
 # ------------------------------------------------------------------------------
 @export_category("BotSpawner")
 @export var spawn_count : int = 0
+@export var spawn_direction : Actor.DIRECTION = Actor.DIRECTION.Left
 @export var spawn_container : Node2D = null
 
 # ------------------------------------------------------------------------------
@@ -50,6 +51,7 @@ func _process(delta : float) -> void:
 func _SpawnBot() -> void:
 	if spawn_container == null: return
 	var bot = SCENE_BOT.instantiate()
+	bot.initial_direction = spawn_direction
 	spawn_container.add_child(bot)
 	bot.global_position = _marker.global_position
 	bot.request_action.call_deferred(BOT_ACTION_SPAWN)

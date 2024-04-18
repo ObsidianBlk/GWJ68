@@ -72,6 +72,7 @@ layer_0/tile_data = PackedInt32Array(-262153, 131072, 3, 262135, 655360, 0, 2621
 [node name="BotSpawner" parent="." node_paths=PackedStringArray("spawn_container") instance=ExtResource("8_qe7xe")]
 position = Vector2(-40, 24)
 spawn_count = 3
+spawn_direction = 0
 spawn_container = NodePath("../BotContainer")
 
 [node name="BotDespawner" parent="." instance=ExtResource("9_5syok")]

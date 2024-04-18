@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://jhyjv6stjlfl"]
+[gd_scene load_steps=9 format=3 uid="uid://jhyjv6stjlfl"]
 
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_t6kqt"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu/main_menu.gd" id="1_uop50"]
 [ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_3q304"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="4_4t2vh"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="5_ejqbt"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="6_jbdju"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="7_bnxhu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p172u"]
+shader = ExtResource("4_4t2vh")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("5_ejqbt")
+shader_parameter/new_palette = ExtResource("6_jbdju")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_t6kqt")
 script = ExtResource("1_uop50")
 
 [node name="BottomBar" type="MarginContainer" parent="."]
@@ -51,6 +64,11 @@ text = "Options"
 layout_mode = 2
 text = "Quit
 "
+
+[node name="ColorRectSwap" type="ColorRect" parent="BottomBar"]
+material = SubResource("ShaderMaterial_p172u")
+layout_mode = 2
+script = ExtResource("7_bnxhu")
 
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Start" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Options" to="." method="_on_btn_options_pressed"]

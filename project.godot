@@ -33,6 +33,11 @@ folder_colors={
 "res://shaders/": "pink"
 }
 
+[gui]
+
+theme/default_font_antialiasing=0
+theme/default_font_subpixel_positioning=0
+
 [input]
 
 up={

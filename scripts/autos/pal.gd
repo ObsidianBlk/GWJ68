@@ -4,12 +4,14 @@ extends Node
 # Signals
 # ------------------------------------------------------------------------------
 signal palette_changed(pal_index : int)
+signal palette_inverted(inverted : bool)
 
 # ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 const CONFIG_SECTION : String = "SCREEN_EFFECTS"
-const CONFIG_KEY : String = "palette_index"
+const CONFIG_KEY_PALETTE : String = "palette_index"
+const CONFIG_KEY_INVERT : String = "invert_colors"
 
 const PALETTES : Dictionary = {
 	"Warm Ochre": preload("res://assets/graphics/palettes/warm-ochre-4-1x.png"),
@@ -32,11 +34,13 @@ const INDEX_PALETTE : Array[String] = [
 ]
 
 const DEFAULT_PALETTE : int = 0
+const DEFAULT_INVERT : bool = false
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _current_palette : int = 0
+var _current_palette : int = DEFAULT_PALETTE
+var _inverted : bool = DEFAULT_INVERT
 
 # ------------------------------------------------------------------------------
 # Override Methods
@@ -58,7 +62,7 @@ func get_current_palette_index() -> int:
 func set_current_palette_index(idx : int) -> int:
 	if idx >= 0 and idx < INDEX_PALETTE.size():
 		_current_palette = idx
-		Settings.set_value(CONFIG_SECTION, CONFIG_KEY, _current_palette)
+		Settings.set_value(CONFIG_SECTION, CONFIG_KEY_PALETTE, _current_palette)
 		#palette_changed.emit(_current_palette)
 		return OK
 	return ERR_PARAMETER_RANGE_ERROR
@@ -90,24 +94,48 @@ func get_palette_texture_by_name(pal_name : String) -> Texture:
 		return PALETTES[pal_name]
 	return null
 
+func is_palette_inverted() -> bool:
+	return _inverted
+
+func set_palette_inverted(invert : bool) -> void:
+	if _inverted != invert:
+		_inverted = invert
+		Settings.set_value(CONFIG_SECTION, CONFIG_KEY_INVERT, _inverted)
+
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 func _on_settings_loaded() -> void:
-	var idx = Settings.get_value(CONFIG_SECTION, CONFIG_KEY, DEFAULT_PALETTE)
-	if idx >= 0 and idx < INDEX_PALETTE.size():
-		_current_palette = idx
-		palette_changed.emit(_current_palette)
+	var idx = Settings.get_value(CONFIG_SECTION, CONFIG_KEY_PALETTE, DEFAULT_PALETTE)
+	if typeof(idx) == TYPE_INT:
+		if idx >= 0 and idx < INDEX_PALETTE.size():
+			_current_palette = idx
+			palette_changed.emit(_current_palette)
+	
+	var inv = Settings.get_value(CONFIG_SECTION, CONFIG_KEY_INVERT, DEFAULT_INVERT)
+	if typeof(inv) == TYPE_BOOL:
+		_inverted = inv
+		palette_inverted.emit(_inverted)
+	
 
 func _on_settings_reset() -> void:
 	_current_palette = DEFAULT_PALETTE
-	Settings.set_value(CONFIG_SECTION, CONFIG_KEY, DEFAULT_PALETTE)
+	_inverted = DEFAULT_INVERT
+	Settings.set_value(CONFIG_SECTION, CONFIG_KEY_PALETTE, DEFAULT_PALETTE)
+	Settings.set_value(CONFIG_SECTION, CONFIG_KEY_INVERT, DEFAULT_INVERT)
 	palette_changed.emit(_current_palette)
+	palette_inverted.emit(_inverted)
 
 func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
-	if section == CONFIG_SECTION and key == CONFIG_KEY and typeof(value) == TYPE_INT:
-		if value >= 0 and value < INDEX_PALETTE.size():
-			_current_palette = value
-			palette_changed.emit(_current_palette)
+	if section == CONFIG_SECTION:
+		match key:
+			CONFIG_KEY_PALETTE:
+				if typeof(value) == TYPE_INT and value >= 0 and value < INDEX_PALETTE.size():
+					_current_palette = value
+					palette_changed.emit(_current_palette)
+			CONFIG_KEY_INVERT:
+				if typeof(value) == TYPE_BOOL:
+					_inverted = value
+					palette_inverted.emit(_inverted)
 
 

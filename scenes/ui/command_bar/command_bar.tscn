@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://db3xvis2jktv8"]
+[gd_scene load_steps=4 format=3 uid="uid://db3xvis2jktv8"]
 
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_eqwo6"]
 [ext_resource type="Script" path="res://scenes/ui/command_bar/command_bar.gd" id="1_hd7kd"]
 [ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_jwnha"]
 
 [node name="CommandBar" type="MarginContainer"]
 offset_right = 62.0
 offset_bottom = 77.0
+theme = ExtResource("1_eqwo6")
 script = ExtResource("1_hd7kd")
 
 [node name="Panel" type="Panel" parent="."]

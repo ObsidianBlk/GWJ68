@@ -26,6 +26,7 @@ extends UIControl
 @onready var _hs_vol_music: HSlider = %HS_VolMusic
 @onready var _hs_vol_sfx: HSlider = %HS_VolSFX
 @onready var _options_palettes: OptionButton = %Options_Palettes
+@onready var _check_invert_colors = %CHECK_InvertColors
 
 @onready var _effect_checks : Dictionary = {
 	"CRT": %CHECK_EffectCRT
@@ -55,7 +56,9 @@ func _ready() -> void:
 		printerr("Failed to find Screen Effects")
 	
 	Pal.palette_changed.connect(_on_palette_changed)
+	Pal.palette_inverted.connect(_on_palette_inverted)
 	_UpdatePaletteList()
+	_check_invert_colors.button_pressed = Pal.is_palette_inverted()
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -92,6 +95,9 @@ func _on_screen_effect_changed(effect_name : String, enabled : bool) -> void:
 func _on_palette_changed(palidx : int) -> void:
 	_options_palettes.selected = palidx
 
+func _on_palette_inverted(inverted : bool) -> void:
+	_check_invert_colors.button_pressed = inverted
+
 #func _on_settings_value_changed(section : String, key : String, value : Variant) -> void:
 	#match section:
 		#ScreenEffects.CONFIG_SECTION:
@@ -118,3 +124,6 @@ func _on_check_effect_toggled(toggled_on: bool, effect_name : String) -> void:
 
 func _on_options_palettes_item_selected(idx : int) -> void:
 	Pal.set_current_palette_index(idx)
+
+func _on_check_invert_colors_toggled(toggled_on):
+	Pal.set_palette_inverted(toggled_on)
