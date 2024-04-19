@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3 uid="uid://dcprua3j14uf3"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_a8p6g"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="1_dqg4v"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="2_sbwxs"]
+[ext_resource type="Script" path="res://scripts/nodes/ChaseCamera2D.gd" id="3_5o2dp"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="4_d54rf"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="5_c0jkh"]
+[ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="6_dpjhx"]
+[ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="7_ubfsf"]
+[ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="7_ubqc1"]
+[ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_cmmbi"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="8_hamhi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
+
+[node name="BlankLevel" type="Node2D" node_paths=PackedStringArray("bot_container")]
+script = ExtResource("1_a8p6g")
+bot_container = NodePath("BotContainer")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("1_dqg4v")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_sbwxs")
+
+[node name="ChaseCamera" type="Camera2D" parent="SubViewport" node_paths=PackedStringArray("target")]
+zoom = Vector2(6, 6)
+script = ExtResource("3_5o2dp")
+target = NodePath("../../PlayerCamera2D")
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("4_d54rf")
+map = NodePath("../../Diggable_TileMap")
+
+[node name="DigSector_Collisions" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("4_d54rf")
+map = NodePath("../Diggable_TileMap")
+quadrant_type = 1
+
+[node name="Diggable_TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("5_c0jkh")
+rendering_quadrant_size = 8
+format = 2
+
+[node name="Static_TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("5_c0jkh")
+rendering_quadrant_size = 8
+format = 2
+
+[node name="MiscItemContainer" type="Node2D" parent="."]
+
+[node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("7_ubqc1")]
+position = Vector2(-17, 0)
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("8_cmmbi")]
+position = Vector2(22, 0)
+
+[node name="BotContainer" type="Node2D" parent="."]
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+script = ExtResource("6_dpjhx")
+
+[node name="PointerHandler" type="Node2D" parent="."]
+script = ExtResource("8_hamhi")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_u1fep")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="CommandBar" parent="HUD" instance=ExtResource("7_ubfsf")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+slide_edge = 3
+slide_length = 77
+start_hidden = true
+
+[connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
+[connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

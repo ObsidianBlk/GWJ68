@@ -32,6 +32,9 @@ var _back_items : Dictionary = {}
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var _viz: Node2D = %Viz
+@onready var _selector: AnimatedSprite2D = %Selector
+@onready var _hard_hat : Sprite2D = %HardHat
+
 @onready var _part: Sprite2D = %Part
 @onready var _booster: Sprite2D = %Booster
 
@@ -74,6 +77,19 @@ func _UpdateFlip() -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
+func show_selector(enable : bool) -> void:
+	if _selector != null:
+		_selector.visible = enable
+
+func is_selector_visible() -> bool:
+	if _selector != null:
+		return _selector.visible
+	return false
+
+func show_hard_hat(enable : bool) -> void:
+	if _hard_hat != null:
+		_hard_hat.visible = enable
+
 func enable_back_item(item_name : StringName, enable : bool) -> void:
 	if item_name in _back_items:
 		_back_items[item_name].visible = enable

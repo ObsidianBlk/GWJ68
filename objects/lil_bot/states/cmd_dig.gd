@@ -41,6 +41,7 @@ func enter(data : Dictionary = {}) -> void:
 	_timer = timer_interval
 	if _parent != null:
 		_parent.velocity = Vector2.ZERO
+		_parent.show_hard_hat(true)
 	if shovel != null:
 		if data.is_empty():
 			shovel.rotation = 0.0
@@ -51,8 +52,13 @@ func exit() -> void:
 	if inactive_interval <= 0.0: return
 	await get_tree().create_timer(inactive_interval).timeout
 	if _parent == null: return
-	if _parent.get_current_action() == name and _parent.get_current_state() != name:
+	if _parent.get_current_action() != name:
+		_parent.show_hard_hat(false)
+	elif _parent.get_current_state() != name:
+		_parent.show_hard_hat(false)
 		_parent.clear_action()
+	#if _parent.get_current_action() == name and _parent.get_current_state() != name:
+	#	_parent.clear_action()
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

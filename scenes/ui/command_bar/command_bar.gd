@@ -54,13 +54,28 @@ func _ToggleAction(bot : LilBot, action : StringName, data : Dictionary = {}) ->
 		action:
 			bot.clear_action()
 
+func _ToggleDigAction(bot : LilBot, action : StringName, data : Dictionary = {}) -> void:
+	# NOTE: No, I don't like this, but time is short and I don't have the time to think
+	# of a more appropriate method to put the hat on and off.
+	match bot.get_current_action():
+		&"":
+			bot.request_action(action, data)
+			bot.show_hard_hat(true)
+		action:
+			bot.clear_action()
+			bot.show_hard_hat(false)
+
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
 func select_bot(bot : LilBot) -> void:
-	if bot != _selected_bot.get_ref():
+	var obot : LilBot = _selected_bot.get_ref()
+	if bot != obot:
+		if obot != null:
+			obot.show_selector(false)
 		_selected_bot = weakref(bot)
 		if bot != null:
+			bot.show_selector(true)
 			slide_in()
 
 # ------------------------------------------------------------------------------
@@ -70,17 +85,17 @@ func select_bot(bot : LilBot) -> void:
 func _on_btn_dig_pressed() -> void:
 	var bot : LilBot = _selected_bot.get_ref()
 	if bot == null: return
-	_ToggleAction(bot, COMMAND_DIG)
+	_ToggleDigAction(bot, COMMAND_DIG)
 
 func _on_btn_mine_pressed() -> void:
 	var bot : LilBot = _selected_bot.get_ref()
 	if bot == null: return
-	_ToggleAction(bot, COMMAND_MINE)
+	_ToggleDigAction(bot, COMMAND_MINE)
 
 func _on_btn_tunnel_pressed() -> void:
 	var bot : LilBot = _selected_bot.get_ref()
 	if bot == null: return
-	_ToggleAction(bot, COMMAND_TUNNEL)
+	_ToggleDigAction(bot, COMMAND_TUNNEL)
 
 func _on_btn_block_pressed():
 	var bot : LilBot = _selected_bot.get_ref()

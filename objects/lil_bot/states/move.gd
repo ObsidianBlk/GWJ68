@@ -17,7 +17,6 @@ var _direction : float = 0.0
 # "Virtual" Public Methods
 # ------------------------------------------------------------------------------
 func enter(data : Dictionary = {}) -> void:
-	print("On the ground")
 	if abs(_direction) < Actor.DIRECTIONAL_THRESHOLD:
 		_direction = -1.0 if _parent.initial_direction == Actor.DIRECTION.Left else 1.0
 

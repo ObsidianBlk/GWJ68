@@ -1,0 +1,115 @@
+[gd_scene load_steps=16 format=3 uid="uid://bw36kbp443dsa"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_u2w65"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_udsf4"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_bg4fi"]
+[ext_resource type="Script" path="res://scripts/nodes/ChaseCamera2D.gd" id="4_jk3dj"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="5_kpjme"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="6_sbp1c"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="6_sj08g"]
+[ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="7_oclq4"]
+[ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="7_uxpgr"]
+[ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="8_50csw"]
+[ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_sg34m"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_esbn4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wfqiv"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nux2"]
+resource_local_to_scene = true
+shader = ExtResource("6_sj08g")
+shader_parameter/mask = SubResource("ViewportTexture_wfqiv")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a881p"]
+
+[node name="Level_001" type="Node2D" node_paths=PackedStringArray("bot_container")]
+script = ExtResource("1_u2w65")
+bot_container = NodePath("BotContainer")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_udsf4")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_bg4fi")
+
+[node name="ChaseCamera" type="Camera2D" parent="SubViewport" node_paths=PackedStringArray("target")]
+zoom = Vector2(6, 6)
+script = ExtResource("4_jk3dj")
+target = NodePath("../../PlayerCamera2D")
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("5_kpjme")
+map = NodePath("../../Diggable_TileMap")
+
+[node name="DigSector_Collisions" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("5_kpjme")
+map = NodePath("../Diggable_TileMap")
+quadrant_type = 1
+
+[node name="Diggable_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+material = SubResource("ShaderMaterial_5nux2")
+tile_set = ExtResource("6_sbp1c")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(5, 720896, 0, 4, 655360, 0, 3, 655360, 0, 2, 655360, 0, 1, 655360, 0, 0, 655360, 0, 65535, 655360, 0, 65534, 655360, 0, 65533, 655360, 0, 65532, 655360, 0, 65531, 655360, 0, 65530, 524288, 0, 131066, 524288, 1, 131067, 589824, 2, 131068, 589824, 2, 131069, 589824, 2, 131070, 589824, 2, 131071, 589824, 2, 65536, 589824, 2, 65537, 589824, 2, 65538, 589824, 2, 65539, 589824, 2, 65540, 589824, 2, 65541, 720896, 2, 131077, 720896, 2, 131076, 589824, 2, 131075, 589824, 2, 131074, 589824, 2, 131073, 589824, 2, 131072, 589824, 2, 196607, 589824, 2, 196606, 589824, 2, 196605, 589824, 2, 196604, 589824, 2, 196603, 589824, 2, 196602, 524288, 1, 262138, 524288, 1, 262139, 589824, 2, 262140, 589824, 2, 262141, 589824, 2, 262142, 589824, 2, 262143, 589824, 2, 196608, 589824, 2, 196609, 589824, 2, 196610, 589824, 2, 196611, 589824, 2, 196612, 589824, 2, 196613, 720896, 2, 262149, 720896, 2, 262148, 589824, 2, 262147, 589824, 2, 262146, 589824, 2, 262145, 589824, 2, 262144, 589824, 2, 327679, 589824, 2, 327678, 589824, 2, 327677, 589824, 2, 327676, 589824, 2, 327675, 589824, 2, 327674, 524288, 1, 393210, 524288, 3, 393211, 589824, 3, 393212, 589824, 3, 393213, 589824, 3, 393214, 589824, 3, 393215, 589824, 3, 327680, 589824, 3, 327681, 589824, 3, 327682, 589824, 3, 327683, 589824, 3, 327684, 589824, 3, 327685, 720896, 3)
+
+[node name="Static_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+tile_set = ExtResource("6_sbp1c")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(-393222, 262144, 6, -327686, 0, 5, -262150, 0, 5, -196614, 0, 5, -131078, 0, 5, -65542, 0, 5, -6, 0, 5, 65530, 0, 5, 131066, 0, 5, 196602, 0, 5, 262138, 0, 5, 327674, 0, 5, 393210, 0, 5, 458746, 0, 5, 524282, 0, 5, 589818, 0, 5, 655354, 0, 5, 720890, 0, 5, 786426, 0, 5, 851962, 262144, 5, 851963, 655360, 4, 851964, 655360, 4, 851965, 655360, 4, 851966, 655360, 4, 851967, 655360, 4, 786432, 655360, 4, 786433, 655360, 4, 786434, 655360, 4, 786435, 655360, 4, 786436, 655360, 4, 786437, 458752, 5, -458747, 458752, 6, -393211, 0, 5, 5, 0, 5, 65541, 0, 5, 131077, 0, 5, 196613, 0, 5, 262149, 0, 5, 327685, 0, 5, 393221, 0, 5, 458757, 0, 5, 524293, 0, 5, 589829, 0, 5, 655365, 0, 5, 720901, 0, 5, -393221, 589824, 7, -393220, 589824, 7, -393219, 589824, 7, -393218, 589824, 7, -393217, 589824, 7, -458752, 589824, 7, -458751, 589824, 7, -458750, 589824, 7, -458749, 589824, 7, -458748, 589824, 7, 851973, 720896, 6, 851972, 589824, 6, 851971, 589824, 6, 851970, 589824, 6, 851969, 589824, 6, 851968, 589824, 6, 917503, 589824, 6, 917502, 589824, 6, 917501, 589824, 6, 917500, 589824, 6, 917499, 589824, 6, 917498, 524288, 5, 983034, 524288, 5, 983035, 589824, 6, 983036, 589824, 6, 983037, 589824, 6, 983038, 589824, 6, 983039, 589824, 6, 917504, 589824, 6, 917505, 589824, 6, 917506, 589824, 6, 917507, 589824, 6, 917508, 589824, 6, 917509, 720896, 6, 983045, 720896, 6, 983044, 589824, 6, 983043, 589824, 6, 983042, 589824, 6, 983041, 589824, 6, 983040, 589824, 6, 1048575, 589824, 6, 1048574, 589824, 6, 1048573, 589824, 6, 1048572, 589824, 6, 1048571, 589824, 6, 1048570, 524288, 5, 1114106, 524288, 7, 1114107, 589824, 7, 1114108, 589824, 7, 1114109, 589824, 7, 1114110, 589824, 7, 1114111, 589824, 7, 1048576, 589824, 7, 1048577, 589824, 7, 1048578, 589824, 7, 1048579, 589824, 7, 1048580, 589824, 7, 1048581, 720896, 7, -524283, 720896, 6, -524284, 589824, 6, -524285, 589824, 6, -524286, 589824, 6, -524287, 589824, 6, -524288, 589824, 6, -458753, 589824, 6, -458754, 589824, 6, -458755, 589824, 6, -458756, 589824, 6, -458757, 589824, 6, -458758, 524288, 5, -655355, 720896, 6, -524294, 524288, 5, -524293, 589824, 6, -524292, 589824, 6, -524291, 589824, 6, -524290, 589824, 6, -524289, 589824, 6, -589824, 589824, 6, -589823, 589824, 6, -589822, 589824, 6, -589821, 589824, 6, -589820, 589824, 6, -589819, 720896, 6, -655356, 589824, 6, -655357, 589824, 6, -655358, 589824, 6, -655359, 589824, 6, -655360, 589824, 6, -589825, 589824, 6, -589826, 589824, 6, -589827, 589824, 6, -589828, 589824, 6, -589829, 589824, 6, -589830, 524288, 5, -655366, 524288, 4, -655365, 655360, 4, -655364, 655360, 4, -655363, 655360, 4, -655362, 655360, 4, -655361, 655360, 4, -720896, 655360, 4, -720895, 655360, 4, -720894, 655360, 4, -720893, 655360, 4, -720892, 655360, 4, -720891, 720896, 4, -65531, 0, 5, -131067, 0, 5, -196603, 0, 5, -262139, 0, 5, -327675, 0, 5)
+
+[node name="MiscItemContainer" type="Node2D" parent="."]
+
+[node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("7_oclq4")]
+spawn_count = 1
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("8_sg34m")]
+position = Vector2(29, 96)
+
+[node name="BotContainer" type="Node2D" parent="."]
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+script = ExtResource("7_uxpgr")
+edge_left_px = -50
+edge_right_px = 50
+edge_top_px = -75
+edge_bottom_px = 125
+
+[node name="PointerHandler" type="Node2D" parent="."]
+script = ExtResource("11_esbn4")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_a881p")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="CommandBar" parent="HUD" instance=ExtResource("8_50csw")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+slide_edge = 3
+slide_length = 77
+start_hidden = true
+
+[connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
+[connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

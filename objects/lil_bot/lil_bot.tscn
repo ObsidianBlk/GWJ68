@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=45 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
@@ -15,7 +15,9 @@
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_booster.gd" id="10_7m6dn"]
 [ext_resource type="Texture2D" uid="uid://jnxbia8jdfqe" path="res://assets/graphics/part.png" id="11_y7pim"]
 [ext_resource type="Texture2D" uid="uid://bc527iuu3polc" path="res://assets/graphics/lilbotty/booster.png" id="12_nhtxc"]
+[ext_resource type="Texture2D" uid="uid://f8jwnwh8oreg" path="res://assets/graphics/lilbotty/selection_notifier.png" id="15_nm61i"]
 [ext_resource type="Texture2D" uid="uid://c5iyxdadl4ol" path="res://assets/graphics/lilbotty/explosion.png" id="15_srdud"]
+[ext_resource type="Texture2D" uid="uid://djtrcsw48urju" path="res://assets/graphics/lilbotty/hard_hat.png" id="15_v643y"]
 [ext_resource type="Script" path="res://scripts/nodes/audio_stream_library.gd" id="17_da8a0"]
 [ext_resource type="AudioStream" uid="uid://rcefne6dcqnp" path="res://assets/audio/lilbot/greeting_001.wav" id="18_ubcgi"]
 [ext_resource type="AudioStream" uid="uid://b2u5grkgf3ruk" path="res://assets/audio/lilbot/greeting_002.wav" id="19_5nmes"]
@@ -47,6 +49,35 @@ emission_shape = 3
 emission_box_extents = Vector3(1, 0, 1)
 gravity = Vector3(0, 98, 0)
 scale_curve = SubResource("CurveTexture_01myf")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_citla"]
+atlas = ExtResource("15_nm61i")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3damw"]
+atlas = ExtResource("15_nm61i")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1hsh"]
+atlas = ExtResource("15_nm61i")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ujnqk"]
+animations = [{
+"frames": [{
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_citla")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3damw")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_a1hsh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ilcjh"]
 radius = 4.0
@@ -100,7 +131,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-0.785398]
+"values": [0.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -477,8 +508,21 @@ lifetime = 0.5
 [node name="Faceplate" type="Sprite2D" parent="Viz"]
 texture_filter = 3
 position = Vector2(0, -8)
-rotation = -0.785398
 texture = ExtResource("5_56no6")
+
+[node name="HardHat" type="Sprite2D" parent="Viz/Faceplate"]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("15_v643y")
+
+[node name="Selector" type="AnimatedSprite2D" parent="Viz"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 3
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_ujnqk")
+autoplay = "default"
+frame_progress = 0.911596
 
 [node name="CompShovel_Vert" type="Node2D" parent="Viz" node_paths=PackedStringArray("polygon", "raycast")]
 position = Vector2(0, -7)

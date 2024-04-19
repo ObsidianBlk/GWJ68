@@ -10,7 +10,7 @@ const ANIMATION_FALL : StringName = &"fall"
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Move State")
+@export_category("Air State")
 @export var idle_state : FiniteState = null
 
 # ------------------------------------------------------------------------------
