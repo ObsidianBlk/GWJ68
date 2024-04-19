@@ -57,76 +57,149 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Back"
 
-[node name="OptionsHBC" type="HBoxContainer" parent="Margin/BottomHBC"]
+[node name="TabContainer" type="TabContainer" parent="Margin/BottomHBC"]
+custom_minimum_size = Vector2(512, 256)
 layout_mode = 2
 
-[node name="EffectOptions" type="GridContainer" parent="Margin/BottomHBC/OptionsHBC"]
+[node name="Gameplay" type="VBoxContainer" parent="Margin/BottomHBC/TabContainer"]
+layout_mode = 2
+
+[node name="LBL_MouseControls" type="Label" parent="Margin/BottomHBC/TabContainer/Gameplay"]
+layout_mode = 2
+text = "Mouse Controls"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/BottomHBC/TabContainer/Gameplay"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Margin/BottomHBC/TabContainer/Gameplay"]
 layout_mode = 2
 columns = 2
 
-[node name="CHECK_EffectCRT" type="CheckBox" parent="Margin/BottomHBC/OptionsHBC/EffectOptions"]
+[node name="LBL_MSensX" type="Label" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+layout_mode = 2
+text = "Sensitivity X:"
+
+[node name="SPIN_MSensX" type="SpinBox" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "CRT Effect"
+max_value = 1.0
+step = 0.01
+value = 0.2
 
-[node name="VSeparator" type="VSeparator" parent="Margin/BottomHBC/OptionsHBC"]
+[node name="Spacer1" type="Control" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
 layout_mode = 2
 
-[node name="PaletteOptions" type="GridContainer" parent="Margin/BottomHBC/OptionsHBC"]
+[node name="CHECK_MInvertX" type="CheckBox" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Invert X"
+
+[node name="LBL_MSensY" type="Label" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+layout_mode = 2
+text = "Sensitivity Y:"
+
+[node name="SPIN_MSensY" type="SpinBox" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.2
+
+[node name="Spacer2" type="Control" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+layout_mode = 2
+
+[node name="CHECK_MInvertY" type="CheckBox" parent="Margin/BottomHBC/TabContainer/Gameplay/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Invert Y"
+
+[node name="Visuals" type="VBoxContainer" parent="Margin/BottomHBC/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="LBL_Palettes" type="Label" parent="Margin/BottomHBC/TabContainer/Visuals"]
+layout_mode = 2
+text = "Colors"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/BottomHBC/TabContainer/Visuals"]
+layout_mode = 2
+
+[node name="PaletteOptions" type="GridContainer" parent="Margin/BottomHBC/TabContainer/Visuals"]
 layout_mode = 2
 columns = 2
 
-[node name="LBL_Palettes" type="Label" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+[node name="LBL_Palettes" type="Label" parent="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions"]
 layout_mode = 2
 text = "Palette:"
 
-[node name="Options_Palettes" type="OptionButton" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+[node name="Options_Palettes" type="OptionButton" parent="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 
-[node name="Control" type="Control" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+[node name="Control" type="Control" parent="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions"]
 layout_mode = 2
 
-[node name="CHECK_InvertColors" type="CheckBox" parent="Margin/BottomHBC/OptionsHBC/PaletteOptions"]
+[node name="CHECK_InvertColors" type="CheckBox" parent="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Invert Colors"
 
-[node name="VSeparator2" type="VSeparator" parent="Margin/BottomHBC/OptionsHBC"]
+[node name="LBL_Effects" type="Label" parent="Margin/BottomHBC/TabContainer/Visuals"]
+layout_mode = 2
+text = "Effects"
+
+[node name="HSeparator2" type="HSeparator" parent="Margin/BottomHBC/TabContainer/Visuals"]
 layout_mode = 2
 
-[node name="Volume" type="GridContainer" parent="Margin/BottomHBC/OptionsHBC"]
+[node name="EffectOptions" type="GridContainer" parent="Margin/BottomHBC/TabContainer/Visuals"]
 layout_mode = 2
 columns = 2
 
-[node name="LBL_VolMaster" type="Label" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="CHECK_EffectCRT" type="CheckBox" parent="Margin/BottomHBC/TabContainer/Visuals/EffectOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CRT"
+
+[node name="Audio" type="VBoxContainer" parent="Margin/BottomHBC/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/BottomHBC/TabContainer/Audio"]
+layout_mode = 2
+text = "Volume"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/BottomHBC/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="Volume" type="GridContainer" parent="Margin/BottomHBC/TabContainer/Audio"]
+layout_mode = 2
+columns = 2
+
+[node name="LBL_VolMaster" type="Label" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 layout_mode = 2
 text = "Master:"
 
-[node name="HS_VolMaster" type="HSlider" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="HS_VolMaster" type="HSlider" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LBL_VolMusic" type="Label" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="LBL_VolMusic" type="Label" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 layout_mode = 2
 text = "Music:"
 
-[node name="HS_VolMusic" type="HSlider" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="HS_VolMusic" type="HSlider" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LBL_VolSFX" type="Label" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="LBL_VolSFX" type="Label" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 layout_mode = 2
 text = "SFX:"
 
-[node name="HS_VolSFX" type="HSlider" parent="Margin/BottomHBC/OptionsHBC/Volume"]
+[node name="HS_VolSFX" type="HSlider" parent="Margin/BottomHBC/TabContainer/Audio/Volume"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -137,9 +210,13 @@ script = ExtResource("6_gqbf0")
 
 [connection signal="pressed" from="Margin/BottomHBC/ControlsVBC/BTN_Apply" to="." method="_on_btn_apply_pressed"]
 [connection signal="pressed" from="Margin/BottomHBC/ControlsVBC/BTN_Back" to="." method="_on_btn_back_pressed"]
-[connection signal="toggled" from="Margin/BottomHBC/OptionsHBC/EffectOptions/CHECK_EffectCRT" to="." method="_on_check_effect_toggled" binds= ["CRT"]]
-[connection signal="item_selected" from="Margin/BottomHBC/OptionsHBC/PaletteOptions/Options_Palettes" to="." method="_on_options_palettes_item_selected"]
-[connection signal="toggled" from="Margin/BottomHBC/OptionsHBC/PaletteOptions/CHECK_InvertColors" to="." method="_on_check_invert_colors_toggled"]
-[connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolMaster" to="." method="_on_hs_vol_master_value_changed"]
-[connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolMusic" to="." method="_on_hs_vol_music_value_changed"]
-[connection signal="value_changed" from="Margin/BottomHBC/OptionsHBC/Volume/HS_VolSFX" to="." method="_on_hs_vol_sfx_value_changed"]
+[connection signal="value_changed" from="Margin/BottomHBC/TabContainer/Gameplay/GridContainer/SPIN_MSensX" to="." method="_on_spin_m_sens_x_value_changed"]
+[connection signal="toggled" from="Margin/BottomHBC/TabContainer/Gameplay/GridContainer/CHECK_MInvertX" to="." method="_on_check_m_invert_x_toggled"]
+[connection signal="value_changed" from="Margin/BottomHBC/TabContainer/Gameplay/GridContainer/SPIN_MSensY" to="." method="_on_spin_m_sens_y_value_changed"]
+[connection signal="toggled" from="Margin/BottomHBC/TabContainer/Gameplay/GridContainer/CHECK_MInvertY" to="." method="_on_check_m_invert_y_toggled"]
+[connection signal="item_selected" from="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions/Options_Palettes" to="." method="_on_options_palettes_item_selected"]
+[connection signal="toggled" from="Margin/BottomHBC/TabContainer/Visuals/PaletteOptions/CHECK_InvertColors" to="." method="_on_check_invert_colors_toggled"]
+[connection signal="toggled" from="Margin/BottomHBC/TabContainer/Visuals/EffectOptions/CHECK_EffectCRT" to="." method="_on_check_effect_toggled" binds= ["CRT"]]
+[connection signal="value_changed" from="Margin/BottomHBC/TabContainer/Audio/Volume/HS_VolMaster" to="." method="_on_hs_vol_master_value_changed"]
+[connection signal="value_changed" from="Margin/BottomHBC/TabContainer/Audio/Volume/HS_VolMusic" to="." method="_on_hs_vol_music_value_changed"]
+[connection signal="value_changed" from="Margin/BottomHBC/TabContainer/Audio/Volume/HS_VolSFX" to="." method="_on_hs_vol_sfx_value_changed"]

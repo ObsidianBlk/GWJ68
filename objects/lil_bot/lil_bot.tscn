@@ -477,6 +477,7 @@ audio_library = NodePath("../../ASL_Excite")
 unique_name_in_owner = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Viz"]
+texture_filter = 3
 position = Vector2(0, -4)
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_3c6c7")
@@ -522,7 +523,7 @@ texture_filter = 3
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_ujnqk")
 autoplay = "default"
-frame_progress = 0.911596
+frame_progress = 0.925783
 
 [node name="CompShovel_Vert" type="Node2D" parent="Viz" node_paths=PackedStringArray("polygon", "raycast")]
 position = Vector2(0, -7)
