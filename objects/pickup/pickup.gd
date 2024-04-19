@@ -1,4 +1,5 @@
-extends SlideoutMarginContainer
+@tool
+extends Node2D
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -8,88 +9,71 @@ extends SlideoutMarginContainer
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const COMMAND_DIG : StringName = &"cmd_dig"
-const COMMAND_MINE : StringName = &"cmd_mine"
-const COMMAND_TUNNEL : StringName = &"cmd_tunnel"
-const COMMAND_BLOCK : StringName = &"cmd_block"
-const COMMAND_BOOSTER : StringName = &"cmd_booster"
+enum PICK {Part, Booster}
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-
+@export_category("Pickup")
+@export var pickup_item : PICK = PICK.Part:			set = set_pickup_item
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _selected_bot : WeakRef = weakref(null)
+var _given : bool = false
 
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
+@onready var _viz: Node2D = %Viz
+@onready var _part: Sprite2D = %Part
+@onready var _booster: Sprite2D = %Booster
 
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
-
+func set_pickup_item(i : PICK) -> void:
+	pickup_item = i
+	_UpdateVisibleSprite()
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-func _physics_process(_delta: float) -> void:
-	if _selected_bot.get_ref() == null and not _IsSlidOut():
-		slide_out()
+func _ready() -> void:
+	_UpdateVisibleSprite()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-func _IsSlidOut() -> bool:
-	return not is_sliding() and not is_slid_in()
-
-func _ToggleAction(bot : LilBot, action : StringName, data : Dictionary = {}) -> void:
-	match bot.get_current_action():
-		&"":
-			bot.request_action(action, data)
-		action:
-			bot.clear_action()
+func _UpdateVisibleSprite() -> void:
+	if _viz == null: return
+	for child : Node in _viz.get_children():
+		if child is Node2D:
+			child.visible = false
+	
+	match pickup_item:
+		PICK.Part:
+			_part.visible = true
+		PICK.Booster:
+			_booster.visible = true
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func select_bot(bot : LilBot) -> void:
-	if bot != _selected_bot.get_ref():
-		_selected_bot = weakref(bot)
-		if bot != null:
-			slide_in()
+
 
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
+func _on_part_collection_area_body_entered(body: Node2D) -> void:
+	if Engine.is_editor_hint(): return
+	if body is LilBot and body.can_pickup() and not _given:
+		_given = true
+		match pickup_item:
+			PICK.Part:
+				body.enable_back_item(LilBot.BACK_ITEM_PART, true)
+			PICK.Booster:
+				body.enable_back_item(LilBot.BACK_ITEM_BOOSTER, true)
+		queue_free.call_deferred()
 
-func _on_btn_dig_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_DIG)
-
-func _on_btn_mine_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_MINE)
-
-func _on_btn_tunnel_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_TUNNEL)
-
-func _on_btn_block_pressed():
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	_ToggleAction(bot, COMMAND_BLOCK)
-
-func _on_btn_booster_pressed() -> void:
-	var bot : LilBot = _selected_bot.get_ref()
-	if bot == null: return
-	if bot.get_current_action() != COMMAND_BOOSTER:
-		if bot.has_back_item(LilBot.BACK_ITEM_BOOSTER):
-			bot.request_action(COMMAND_BOOSTER)

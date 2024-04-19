@@ -33,27 +33,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="SMC_Button_01" type="MarginContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("2_jwnha")
-slide_edge = 3
-slide_length = 16
-slide_duration = 0.1
-inverted = true
-slide_in_on_mouse = true
-anim_ease_in = true
-anim_ease_out = true
-
-[node name="Button" type="Button" parent="VBoxContainer/SMC_Button_01"]
-custom_minimum_size = Vector2(64, 78)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-text = "This is
-A Test
-Button"
-
 [node name="SMC_DigCommand" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -130,6 +109,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Block"
 
+[node name="SMC_BoosterCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
+
+[node name="BTNBooster" type="Button" parent="VBoxContainer/SMC_BoosterCommand"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Booster"
+
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_vm7gv")
 layout_mode = 2
@@ -139,3 +137,4 @@ script = ExtResource("7_yhta4")
 [connection signal="pressed" from="VBoxContainer/SMC_MineCommand/BTNMine" to="." method="_on_btn_mine_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_TunnelCommand2/BTNTunnel" to="." method="_on_btn_tunnel_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BlockCommand/BTNBlock" to="." method="_on_btn_block_pressed"]
+[connection signal="pressed" from="VBoxContainer/SMC_BoosterCommand/BTNBooster" to="." method="_on_btn_booster_pressed"]

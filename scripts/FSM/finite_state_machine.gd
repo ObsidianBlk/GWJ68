@@ -116,6 +116,11 @@ func change_to_action_state(data : Dictionary = {}) -> void:
 	else:
 		change_state(initial_state, data)
 
+func get_current_state_name() -> StringName:
+	if _active_state != null:
+		return _active_state.name
+	return &""
+
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------

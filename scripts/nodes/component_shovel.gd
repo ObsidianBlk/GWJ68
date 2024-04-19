@@ -36,6 +36,10 @@ var _diggable : bool = false
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
+func _ready() -> void:
+	if polygon != null:
+		polygon.visible = false
+
 func _physics_process(delta: float) -> void:
 	if raycast != null:
 		var colliding : bool = raycast.is_colliding()

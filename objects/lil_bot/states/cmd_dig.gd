@@ -13,6 +13,7 @@ extends LilBotState
 @export var move_state : FiniteState = null
 @export var shovel : ComponentShovel = null
 @export var timer_interval : float = 0.5
+@export var inactive_interval : float = 0.4
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -45,6 +46,13 @@ func enter(data : Dictionary = {}) -> void:
 			shovel.rotation = 0.0
 		elif "rotation" in data:
 			shovel.rotation = data["rotation"]
+
+func exit() -> void:
+	if inactive_interval <= 0.0: return
+	await get_tree().create_timer(inactive_interval).timeout
+	if _parent == null: return
+	if _parent.get_current_action() == name and _parent.get_current_state() != name:
+		_parent.clear_action()
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

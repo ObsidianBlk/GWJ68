@@ -64,6 +64,11 @@ func request_state(state_name : StringName, data : Dictionary = {}) -> void:
 	if state_machine != null:
 		state_machine.change_state_by_name(state_name, data)
 
+func get_current_state() -> StringName:
+	if state_machine != null:
+		return state_machine.get_current_state_name()
+	return &""
+
 func request_action(state_name : StringName, data : Dictionary = {}) -> void:
 	if state_machine == null: return
 	if state_machine.has_state(state_name):
