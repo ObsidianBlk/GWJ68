@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://da2688ky30yw"]
+[gd_scene load_steps=21 format=3 uid="uid://da2688ky30yw"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_cl60p"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_ll1ci"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="10_0v1yb"]
 [ext_resource type="Script" path="res://scripts/nodes/bot_basket.gd" id="10_sdeq6"]
 [ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="11_32lyv"]
+[ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="14_gt2yt"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ig6sc"]
 viewport_path = NodePath("SubViewport")
@@ -148,8 +149,19 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 slide_edge = 3
-slide_length = 77
+slide_length = 98
 start_hidden = true
 
+[node name="InfoHUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="LevelInfoBar" parent="InfoHUD" instance=ExtResource("14_gt2yt")]
+offset_left = -220.0
+offset_right = 220.0
+offset_bottom = 56.0
+
+[connection signal="bot_removed" from="." to="InfoHUD/LevelInfoBar" method="bot_removed"]
+[connection signal="bot_saved" from="." to="InfoHUD/LevelInfoBar" method="bots_saved"]
+[connection signal="bot_spawned" from="MiscItemContainer/BotSpawner" to="InfoHUD/LevelInfoBar" method="bots_spawned"]
 [connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
 [connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

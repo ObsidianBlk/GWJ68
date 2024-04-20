@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=21 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bkf37hxf12d1p" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="6_1a3uq"]
 [ext_resource type="PackedScene" uid="uid://y0gx7ugbw0r4" path="res://scenes/ui/dialog_notify/dialog_notify.tscn" id="6_607fy"]
 [ext_resource type="PackedScene" uid="uid://nid73bvxr4dm" path="res://scenes/ui/options_menu/options_menu.tscn" id="7_81bss"]
+[ext_resource type="PackedScene" uid="uid://c303ma20dy0nx" path="res://scenes/ui/level_select_menu/level_select_menu.tscn" id="8_jeatg"]
 [ext_resource type="Shader" path="res://shaders/crt.gdshader" id="8_m71tx"]
 [ext_resource type="Script" path="res://scenes/world/Backdrops.gd" id="9_a3ncl"]
 [ext_resource type="PackedScene" uid="uid://idcqe653mwl2" path="res://scenes/backdrops/backdrop_001/backdrop_001.tscn" id="9_cjdpu"]
@@ -63,6 +64,8 @@ options_menu_name = &"OptionsMenu"
 options_menu_name = &"OptionsMenu"
 
 [node name="OptionsMenu" parent="UILayer" instance=ExtResource("7_81bss")]
+
+[node name="LevelSelectMenu" parent="UILayer" instance=ExtResource("8_jeatg")]
 
 [node name="DialogConfirm" parent="UILayer" instance=ExtResource("5_kc7ef")]
 

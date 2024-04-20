@@ -11,6 +11,7 @@ class_name World
 # ------------------------------------------------------------------------------
 const MENU_MAIN : StringName = &"MainMenu"
 const MENU_PAUSE : StringName = &"PauseMenu"
+const MENU_LEVELSELECT : StringName = &"LevelSelectMenu"
 
 const MENU_LEVEL_SUCCESS : StringName = &"LevelSuccess"
 const MENU_LEVEL_FAILED : StringName = &"LevelFailed"
@@ -18,7 +19,7 @@ const MENU_LEVEL_FAILED : StringName = &"LevelFailed"
 const BACKDROP_001 : StringName = &"Backdrop_001"
 
 #const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
-const INITIAL_LEVEL : String = "res://scenes/levels/level_001/level_001.tscn"
+#const INITIAL_LEVEL : String = "res://scenes/levels/level_001/level_001.tscn"
 #const INITIAL_LEVEL : String = "res://scenes/levels/level_005/level_005.tscn"
 
 # ------------------------------------------------------------------------------
@@ -160,7 +161,8 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 			get_tree().paused = not get_tree().paused
 		UILayer.REQUEST_START_GAME:
 			if _active_level != null: return # Don't start a new game if we're running one.
-			_ChangeLevel(INITIAL_LEVEL)
+			ui.show_ui(MENU_LEVELSELECT)
+			#_ChangeLevel(Game.INITIAL_LEVEL)
 		UILayer.REQUEST_RESTART_LEVEL:
 			if _active_level == null: return # Nothing to restart!
 			_ChangeLevel(_active_level_src)

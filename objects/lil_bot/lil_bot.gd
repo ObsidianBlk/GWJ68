@@ -5,6 +5,8 @@ class_name LilBot
 # Signals
 # ------------------------------------------------------------------------------
 signal part_count_changed(part_count : int)
+signal pickup_obtained(item_name : StringName)
+signal pickup_lost(item_name : StringName)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -104,6 +106,11 @@ func get_part_count() -> int:
 func enable_back_item(item_name : StringName, enable : bool) -> void:
 	if item_name in _back_items:
 		_back_items[item_name].visible = enable
+		if enable:
+			pickup_obtained.emit(item_name)
+		else:
+			pickup_lost.emit(item_name)
+		
 		if enable and item_name == BACK_ITEM_PART:
 			_part_count = MAX_PARTS
 			part_count_changed.emit(_part_count)

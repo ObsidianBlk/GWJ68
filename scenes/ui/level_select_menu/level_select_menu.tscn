@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=3 uid="uid://c303ma20dy0nx"]
+
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_ao3km"]
+[ext_resource type="Script" path="res://scenes/ui/level_select_menu/level_select_menu.gd" id="1_x4c3a"]
+
+[node name="LevelSelectMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ao3km")
+script = ExtResource("1_x4c3a")
+
+[node name="CC" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VLayout" type="VBoxContainer" parent="CC"]
+layout_mode = 2
+
+[node name="TitleBar" type="PanelContainer" parent="CC/VLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CC/VLayout/TitleBar"]
+layout_mode = 2
+text = "Level Select"
+horizontal_alignment = 1
+
+[node name="BTN_HardCore" type="Button" parent="CC/VLayout"]
+layout_mode = 2
+text = "Hardcore Run"
+
+[node name="SelectorLayoutH" type="HBoxContainer" parent="CC/VLayout"]
+layout_mode = 2
+
+[node name="BTN_PrevGroup" type="Button" parent="CC/VLayout/SelectorLayoutH"]
+layout_mode = 2
+text = "<"
+
+[node name="MainLevelBtns" type="GridContainer" parent="CC/VLayout/SelectorLayoutH"]
+layout_mode = 2
+columns = 3
+
+[node name="BTN_Level_01" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+01"
+
+[node name="BTN_Level_02" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+02"
+
+[node name="BTN_Level_03" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+03"
+
+[node name="BTN_Level_04" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+04"
+
+[node name="BTN_Level_05" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+05"
+
+[node name="BTN_Level_06" type="Button" parent="CC/VLayout/SelectorLayoutH/MainLevelBtns"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level
+06"
+
+[node name="BTN_NextGroup" type="Button" parent="CC/VLayout/SelectorLayoutH"]
+layout_mode = 2
+text = ">"
+
+[node name="HSeparator" type="HSeparator" parent="CC/VLayout"]
+layout_mode = 2
+
+[node name="BTN_Back" type="Button" parent="CC/VLayout"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="CC/VLayout/BTN_HardCore" to="." method="_on_btn_hard_core_pressed"]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/BTN_PrevGroup" to="." method="_on_btn_prev_group_pressed"]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_01" to="." method="_on_level_btn_pressed" binds= [0]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_02" to="." method="_on_level_btn_pressed" binds= [1]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_03" to="." method="_on_level_btn_pressed" binds= [2]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_04" to="." method="_on_level_btn_pressed" binds= [3]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_05" to="." method="_on_level_btn_pressed" binds= [4]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_06" to="." method="_on_level_btn_pressed" binds= [5]]
+[connection signal="pressed" from="CC/VLayout/SelectorLayoutH/BTN_NextGroup" to="." method="_on_btn_next_group_pressed"]
+[connection signal="pressed" from="CC/VLayout/BTN_Back" to="." method="_on_btn_back_pressed"]

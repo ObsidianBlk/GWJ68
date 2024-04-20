@@ -39,6 +39,7 @@ grow_horizontal = 2
 script = ExtResource("2_3ykqv")
 use_window_size = true
 use_window_center_as_initial = true
+slide_duration = 1.0
 start_hidden = true
 anim_ease_in = true
 anim_ease_out = true
@@ -57,6 +58,7 @@ layout_mode = 2
 text = "Options"
 
 [node name="BTN_Restart" type="Button" parent="Slideout/Options"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Restart"
 

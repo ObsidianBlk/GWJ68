@@ -12,6 +12,7 @@ extends UIControl
 # ------------------------------------------------------------------------------
 @onready var _slideout : SlideoutMarginContainer = %Slideout
 @onready var _btn_resume : Button = %BTN_Resume
+@onready var _btn_restart: Button = %BTN_Restart
 
 
 # ------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ func _visibility_updating(data : Dictionary) -> void:
 	if visible:
 		_slideout.slide_out(true)
 	else:
+		_btn_restart.visible = not Game.is_hardcore_mode()
 		_slideout.slide_in(true)
 		_btn_resume.grab_focus()
 

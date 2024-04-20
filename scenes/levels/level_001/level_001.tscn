@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bw36kbp443dsa"]
+[gd_scene load_steps=20 format=3 uid="uid://bw36kbp443dsa"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_u2w65"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_udsf4"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_sg34m"]
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_esbn4"]
 [ext_resource type="Script" path="res://scripts/nodes/bot_basket.gd" id="13_xy6h4"]
+[ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="13_ykvu2"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_wfqiv"]
 viewport_path = NodePath("SubViewport")
@@ -104,6 +105,16 @@ script = ExtResource("11_esbn4")
 object_group = &"lilbot"
 shape = SubResource("CircleShape2D_a881p")
 
+[node name="TopHud" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="LevelInfoBar" parent="TopHud" instance=ExtResource("13_ykvu2")]
+offset_left = -220.0
+offset_right = 220.0
+offset_bottom = 56.0
+slide_length = 56
+slide_duration = 1.0
+
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 6
 
@@ -112,13 +123,13 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -78.0
+offset_top = -96.0
 offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 slide_edge = 3
-slide_length = 77
+slide_length = 98
 start_hidden = true
 
 [node name="BotBasket_01" type="Area2D" parent="."]
@@ -137,5 +148,8 @@ script = ExtResource("13_xy6h4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BotBasket_02"]
 shape = SubResource("SegmentShape2D_hecxd")
 
+[connection signal="bot_removed" from="." to="TopHud/LevelInfoBar" method="bot_removed"]
+[connection signal="bot_saved" from="." to="TopHud/LevelInfoBar" method="bots_saved"]
+[connection signal="bot_spawned" from="MiscItemContainer/BotSpawner" to="TopHud/LevelInfoBar" method="bots_spawned"]
 [connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
 [connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

@@ -22,6 +22,7 @@ Settings="*res://scripts/autos/settings.gd"
 GAS="*res://scripts/autos/GAS.gd"
 Pal="*res://scripts/autos/pal.gd"
 Relay="*res://scripts/autos/relay.gd"
+Game="*res://scripts/autos/Game.gd"
 
 [file_customization]
 

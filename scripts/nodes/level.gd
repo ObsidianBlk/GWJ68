@@ -5,6 +5,9 @@ class_name Level
 # Signals
 # ------------------------------------------------------------------------------
 signal requested(action : StringName, payload : Dictionary)
+signal bot_saved(save_count : int, required_count : int)
+signal bot_entered()
+signal bot_removed()
 
 
 # ------------------------------------------------------------------------------
@@ -58,6 +61,7 @@ func set_bot_container(c : Node2D) -> void:
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	_ConnectBotContainer()
+	bot_saved.emit(_bots_saved, required_saved)
 
 func _enter_tree() -> void:
 	if _Instance == null:
@@ -80,11 +84,15 @@ func _ConnectBotContainer() -> void:
 	if bot_container == null: return
 	if not bot_container.child_entered_tree.is_connected(_on_bot_container_child_entered):
 		bot_container.child_entered_tree.connect(_on_bot_container_child_entered)
+	if not bot_container.child_exiting_tree.is_connected(_on_bot_container_child_exited):
+		bot_container.child_exiting_tree.connect(_on_bot_container_child_exited)
 
 func _DisconnectBotContainer() -> void:
 	if bot_container == null: return
 	if bot_container.child_entered_tree.is_connected(_on_bot_container_child_entered):
 		bot_container.child_entered_tree.disconnect(_on_bot_container_child_entered)
+	if bot_container.child_exiting_tree.is_connected(_on_bot_container_child_exited):
+		bot_container.child_exiting_tree.disconnect(_on_bot_container_child_exited)
 
 func _RequestNextLevel() -> void:
 	if _bots_saved < required_saved:
@@ -122,6 +130,7 @@ func request(action : StringName, payload : Dictionary = {}) -> void:
 
 func bot_rescued() -> void:
 	_bots_saved += 1
+	bot_saved.emit(_bots_saved, required_saved)
 
 func build_at(pos : Vector2) -> void:
 	if map == null: return
@@ -145,5 +154,9 @@ func is_paused() -> bool:
 func _on_bot_container_child_entered(node : Node) -> void:
 	if node is LilBot:
 		_bots_entered += 1
+		bot_entered.emit()
 
+func _on_bot_container_child_exited(node : Node) -> void:
+	if node is LilBot:
+		bot_removed.emit()
 

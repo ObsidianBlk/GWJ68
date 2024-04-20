@@ -2,6 +2,11 @@ extends Node2D
 
 
 # ------------------------------------------------------------------------------
+# Signals
+# ------------------------------------------------------------------------------
+signal bot_spawned(num_spawned : int, spawn_total : int)
+
+# ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 const ANIM_OPENING : StringName = &"opening"
@@ -38,6 +43,9 @@ var _interval : float = SPAWN_INTERVAL
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
+func _ready() -> void:
+	bot_spawned.emit(_num_spawned, spawn_count)
+
 func _process(delta : float) -> void:
 	if not _spawning:
 		if _interval > 0.0:
@@ -68,6 +76,7 @@ func spawn() -> void:
 	_asprite.play(ANIM_OPENED)
 	_SpawnBot()
 	_num_spawned += 1
+	bot_spawned.emit(_num_spawned, spawn_count)
 	
 	await get_tree().create_timer(1.0).timeout
 	_asprite.play(ANIM_CLOSING)
