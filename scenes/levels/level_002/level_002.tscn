@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://bkg4heajb2oao"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_hqqwb"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_h3qfc"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_00fdd"]
+[ext_resource type="Script" path="res://scripts/nodes/ChaseCamera2D.gd" id="4_0hpk8"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="5_b7bn2"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="6_uhdhd"]
+[ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="7_bxqar"]
+[ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_2ha7c"]
+[ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="9_geik4"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="10_r34nk"]
+[ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="11_vohug"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
+
+[node name="Level_002" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
+script = ExtResource("1_hqqwb")
+bot_container = NodePath("BotContainer")
+map = NodePath("Static_TileMap")
+atlas_id = Vector2i(12, 4)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_h3qfc")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_00fdd")
+
+[node name="ChaseCamera" type="Camera2D" parent="SubViewport" node_paths=PackedStringArray("target")]
+zoom = Vector2(6, 6)
+script = ExtResource("4_0hpk8")
+target = NodePath("../../PlayerCamera2D")
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("5_b7bn2")
+map = NodePath("../../Diggable_TileMap")
+
+[node name="DigSector_Collisions" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("5_b7bn2")
+map = NodePath("../Diggable_TileMap")
+quadrant_type = 1
+
+[node name="Diggable_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+tile_set = ExtResource("6_uhdhd")
+rendering_quadrant_size = 8
+format = 2
+
+[node name="Static_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+tile_set = ExtResource("6_uhdhd")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(-262151, 0, 5, -196615, 0, 5, -131079, 0, 5, -65543, 0, 5, -7, 0, 5, 65529, 65536, 6, 65530, 131072, 7, 65531, 131072, 7, 65532, 131072, 7, 65533, 131072, 7, 65534, 131072, 7, 65535, 131072, 7, 0, 131072, 7, 1, 131072, 7, 2, 131072, 7, 3, 131072, 7, 4, 131072, 7, 5, 131072, 7, 6, 131072, 7, 7, 131072, 7, 8, 131072, 7, 9, 131072, 6, -65527, 0, 5, -131063, 0, 5, -196599, 0, 5, -262135, 0, 5, -327671, 0, 5, -393207, 131072, 4, -393208, 131072, 7, -393209, 131072, 7, -393210, 131072, 7, -393211, 131072, 7, -393212, 131072, 7, -393213, 131072, 7, -393214, 131072, 7, -393215, 131072, 7, -393216, 131072, 7, -327681, 131072, 7, -327682, 131072, 7, -327683, 131072, 7, -327684, 131072, 7, -327685, 131072, 7, -327686, 131072, 7, -327687, 65536, 4, 10, 131072, 7, 11, 131072, 7, 12, 131072, 7, 13, 131072, 7, 14, 131072, 7, 15, 131072, 7, 16, 196608, 6, -65520, 0, 5, -131056, 0, 5, -196592, 0, 5, -262128, 0, 5, -327664, 0, 5, -393200, 196608, 4, -393201, 131072, 7, -393202, 131072, 7, -393203, 131072, 7, -393204, 131072, 7, -393205, 131072, 7, -393206, 131072, 7)
+
+[node name="MiscItemContainer" type="Node2D" parent="."]
+
+[node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("7_bxqar")]
+position = Vector2(-17, 0)
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("8_2ha7c")]
+position = Vector2(108, 0)
+
+[node name="BotContainer" type="Node2D" parent="."]
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+script = ExtResource("9_geik4")
+
+[node name="PointerHandler" type="Node2D" parent="."]
+script = ExtResource("10_r34nk")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_u1fep")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="CommandBar" parent="HUD" instance=ExtResource("11_vohug")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+slide_edge = 3
+slide_length = 77
+start_hidden = true
+
+[connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
+[connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

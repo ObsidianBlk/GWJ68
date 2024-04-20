@@ -72,6 +72,7 @@ func process_frame(delta : float) -> void:
 	_parent.move_and_slide()
 	_duration -= delta
 	if _duration <= 0.0:
+		_parent.enable_back_item(LilBot.BACK_ITEM_BOOSTER, false)
 		_parent.clear_action()
 
 # ------------------------------------------------------------------------------

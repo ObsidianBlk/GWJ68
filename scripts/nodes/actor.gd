@@ -4,7 +4,8 @@ class_name Actor
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-
+signal state_changed(state_name : StringName)
+signal action_state_changed(state_name : StringName)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -40,6 +41,12 @@ const DIRECTIONAL_THRESHOLD : float = 0.0001
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	if state_machine != null:
+		state_machine.state_changed.connect(
+			func(state_name : StringName): state_changed.emit(state_name)
+		)
+		state_machine.action_state_changed.connect(
+			func(state_name : StringName): action_state_changed.emit(state_name)
+		)
 		state_machine.init(self)
 
 #func _process(delta: float) -> void:

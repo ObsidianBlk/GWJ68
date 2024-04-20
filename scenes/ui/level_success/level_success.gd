@@ -24,9 +24,11 @@ var _next_level_src : String = ""
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
+@onready var _slideout: SlideoutMarginContainer = %Slideout
 @onready var _lbl_saved: Label = %LBL_Saved
 @onready var _lbl_required: Label = %LBL_Required
 @onready var _btn_next_level: Button = %BTN_NextLevel
+
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -50,9 +52,12 @@ func _visibility_updating(data : Dictionary) -> void:
 		_next_level_src = ""
 		if "next_level_src" in data:
 			_next_level_src = data["next_level_src"]
-			_btn_next_level.visible = true
+			_btn_next_level.visible = not _next_level_src.is_empty()
 		else:
 			_btn_next_level.visible = false
+		_slideout.slide_in(true)
+	else:
+		_slideout.slide_out(true)
 
 # ------------------------------------------------------------------------------
 # Public Methods
@@ -68,4 +73,5 @@ func _on_btn_quit_pressed() -> void:
 
 
 func _on_btn_next_level_pressed() -> void:
-	pass # Replace with function body.
+	if not _next_level_src.is_empty():
+		request(UILayer.REQUEST_LOAD_LEVEL, {"src":_next_level_src})

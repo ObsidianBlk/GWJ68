@@ -17,9 +17,18 @@ const REQUEST_LEVEL_FAILED : StringName = &"level_failed"
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Level")
-@export var next_level_src : String = ""
+@export_file var next_level_src : String = ""
 @export var required_saved : int = 1
 @export var bot_container : Node2D = null:				set = set_bot_container
+@export_subgroup("Build")
+@export var map : TileMap = null
+@export var layer : int = 0
+@export var atlas_id : Vector2i = Vector2i.ZERO
+
+# ------------------------------------------------------------------------------
+# Static Variables
+# ------------------------------------------------------------------------------
+static var _Instance : Level = null
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -45,6 +54,14 @@ func set_bot_container(c : Node2D) -> void:
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	_ConnectBotContainer()
+
+func _enter_tree() -> void:
+	if _Instance == null:
+		_Instance = self
+
+func _exit_tree() -> void:
+	if _Instance == self:
+		_Instance = null
 
 func _process(_delta: float) -> void:
 	if bot_container == null: return
@@ -79,6 +96,13 @@ func _RequestNextLevel() -> void:
 		})
 
 # ------------------------------------------------------------------------------
+# Public Static Methods
+# ------------------------------------------------------------------------------
+static func Build_At(pos : Vector2) -> void:
+	if _Instance == null: return
+	_Instance.build_at(pos)
+
+# ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
 func request(action : StringName, payload : Dictionary = {}) -> void:
@@ -86,6 +110,10 @@ func request(action : StringName, payload : Dictionary = {}) -> void:
 
 func bot_rescued() -> void:
 	_bots_saved += 1
+
+func build_at(pos : Vector2) -> void:
+	if map == null: return
+	map.set_cell(layer, map.local_to_map(pos), 0, atlas_id)
 
 # ------------------------------------------------------------------------------
 # Handler Methods

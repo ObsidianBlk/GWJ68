@@ -4,7 +4,7 @@ class_name LilBot
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-
+signal part_count_changed(part_count : int)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -12,6 +12,7 @@ class_name LilBot
 const BACK_ITEM_PART : StringName = &"Part"
 const BACK_ITEM_BOOSTER : StringName = &"Booster"
 
+const MAX_PARTS : int = 12
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -27,6 +28,8 @@ const BACK_ITEM_BOOSTER : StringName = &"Booster"
 var _flipped_h : bool = false
 var _flipped_v : bool = false
 var _back_items : Dictionary = {}
+
+var _part_count : int = 0
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -90,9 +93,20 @@ func show_hard_hat(enable : bool) -> void:
 	if _hard_hat != null:
 		_hard_hat.visible = enable
 
+func use_part() -> void:
+	if _part_count > 0:
+		_part_count -= 1
+		part_count_changed.emit(_part_count)
+
+func get_part_count() -> int:
+	return _part_count
+
 func enable_back_item(item_name : StringName, enable : bool) -> void:
 	if item_name in _back_items:
 		_back_items[item_name].visible = enable
+		if enable and item_name == BACK_ITEM_PART:
+			_part_count = MAX_PARTS
+			part_count_changed.emit(_part_count)
 
 func has_back_item(item_name : StringName) -> bool:
 	if item_name in _back_items:

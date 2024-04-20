@@ -14,9 +14,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
 
-[node name="BlankLevel" type="Node2D" node_paths=PackedStringArray("bot_container")]
+[node name="BlankLevel" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
 script = ExtResource("1_a8p6g")
 bot_container = NodePath("BotContainer")
+map = NodePath("Static_TileMap")
+atlas_id = Vector2i(12, 4)
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -47,11 +49,13 @@ map = NodePath("../Diggable_TileMap")
 quadrant_type = 1
 
 [node name="Diggable_TileMap" type="TileMap" parent="."]
+texture_filter = 3
 tile_set = ExtResource("5_c0jkh")
 rendering_quadrant_size = 8
 format = 2
 
 [node name="Static_TileMap" type="TileMap" parent="."]
+texture_filter = 3
 tile_set = ExtResource("5_c0jkh")
 rendering_quadrant_size = 8
 format = 2

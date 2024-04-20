@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhmtvsqn05jlj"]
+[gd_scene load_steps=11 format=3 uid="uid://bhmtvsqn05jlj"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_oykyk"]
 [ext_resource type="Script" path="res://scenes/ui/level_success/level_success.gd" id="1_ytily"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="6_412f6"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="7_0tw1k"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="8_gcurq"]
+[ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="9_ytvps"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2xrm"]
 shader = ExtResource("5_8843t")
@@ -27,29 +28,36 @@ grow_vertical = 2
 theme = ExtResource("1_oykyk")
 script = ExtResource("1_ytily")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Slideout" type="MarginContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
 grow_horizontal = 2
-grow_vertical = 2
+script = ExtResource("9_ytvps")
+use_window_size = true
+use_window_center_as_initial = true
+start_hidden = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Slideout"]
 layout_mode = 2
 
-[node name="MainLayout" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+[node name="MainLayout" type="VBoxContainer" parent="Slideout/PanelContainer"]
 layout_mode = 2
 
-[node name="InfoContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MainLayout"]
+[node name="InfoContainer" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout"]
 layout_mode = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -59,65 +67,67 @@ size_2d_override = Vector2i(24, 24)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="Camera2D" type="Camera2D" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
+[node name="Camera2D" type="Camera2D" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
 
-[node name="Body" type="Sprite2D" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
+[node name="Body" type="Sprite2D" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
 texture = ExtResource("2_ar5x7")
+flip_h = true
 
-[node name="Faceplate" type="Sprite2D" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
+[node name="Faceplate" type="Sprite2D" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
 texture = ExtResource("3_nbnql")
+flip_h = true
 
-[node name="VBC" type="VBoxContainer" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer"]
+[node name="VBC" type="VBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC"]
+[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC"]
 layout_mode = 2
 text = "Number of Lil Botty's Saved / Required"
 
-[node name="HBC" type="HBoxContainer" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC"]
+[node name="HBC" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="Spacer" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LBL_Saved" type="Label" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="LBL_Saved" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Label" type="Label" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
 layout_mode = 2
 text = "/"
 
-[node name="LBL_Required" type="Label" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="LBL_Required" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Spacer2" type="Control" parent="CenterContainer/MarginContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="Spacer2" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OptionsContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MainLayout"]
+[node name="OptionsContainer" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout"]
 layout_mode = 2
 
-[node name="BTN_Quit" type="Button" parent="CenterContainer/MarginContainer/MainLayout/OptionsContainer"]
+[node name="BTN_Quit" type="Button" parent="Slideout/PanelContainer/MainLayout/OptionsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit to Main"
 
-[node name="BTN_NextLevel" type="Button" parent="CenterContainer/MarginContainer/MainLayout/OptionsContainer"]
+[node name="BTN_NextLevel" type="Button" parent="Slideout/PanelContainer/MainLayout/OptionsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Continue to Next Level"
 
-[node name="ColorRectSwap" type="ColorRect" parent="CenterContainer/MarginContainer"]
+[node name="ColorRectSwap" type="ColorRect" parent="Slideout"]
 material = SubResource("ShaderMaterial_h2xrm")
 layout_mode = 2
 script = ExtResource("8_gcurq")
 
-[connection signal="pressed" from="CenterContainer/MarginContainer/MainLayout/OptionsContainer/BTN_Quit" to="." method="_on_btn_quit_pressed"]
-[connection signal="pressed" from="CenterContainer/MarginContainer/MainLayout/OptionsContainer/BTN_NextLevel" to="." method="_on_btn_next_level_pressed"]
+[connection signal="pressed" from="Slideout/PanelContainer/MainLayout/OptionsContainer/BTN_Quit" to="." method="_on_btn_quit_pressed"]
+[connection signal="pressed" from="Slideout/PanelContainer/MainLayout/OptionsContainer/BTN_NextLevel" to="." method="_on_btn_next_level_pressed"]

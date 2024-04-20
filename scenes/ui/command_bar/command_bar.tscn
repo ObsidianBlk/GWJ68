@@ -128,6 +128,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Booster"
 
+[node name="SMC_BuildCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
+
+[node name="BTNBuild" type="Button" parent="VBoxContainer/SMC_BuildCommand"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Build"
+
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_vm7gv")
 layout_mode = 2
@@ -138,3 +157,4 @@ script = ExtResource("7_yhta4")
 [connection signal="pressed" from="VBoxContainer/SMC_TunnelCommand2/BTNTunnel" to="." method="_on_btn_tunnel_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BlockCommand/BTNBlock" to="." method="_on_btn_block_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BoosterCommand/BTNBooster" to="." method="_on_btn_booster_pressed"]
+[connection signal="pressed" from="VBoxContainer/SMC_BuildCommand/BTNBuild" to="." method="_on_btn_build_pressed"]

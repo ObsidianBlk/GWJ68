@@ -13,6 +13,7 @@ const MENU_MAIN : StringName = &"MainMenu"
 const MENU_PAUSE : StringName = &"PauseMenu"
 
 const MENU_LEVEL_SUCCESS : StringName = &"LevelSuccess"
+const MENU_LEVEL_FAILED : StringName = &"LevelFailed"
 
 const BACKDROP_001 : StringName = &"Backdrop_001"
 
@@ -123,6 +124,22 @@ func _LoadLevel(level_src : String) -> int:
 	
 	return OK
 
+func _ChangeLevel(level_src : String) -> int:
+	get_tree().paused = true
+	_UnloadActiveLevel()
+	var res : int = _LoadLevel(level_src)
+	if res == OK:
+		ui.close_all()
+		Backdrops.Hide_Backdrops()
+		get_tree().paused = false
+	else:
+		ui.open_notify_dialog(
+			"Level Load Failure",
+			"Failed to load the initial level. This is a serious issue.\nHAVE FUN!!",
+			UILayer.REQUEST_QUIT_TO_MAIN
+		)
+	return res
+
 # ------------------------------------------------------------------------------
 # Public Static Methods
 # ------------------------------------------------------------------------------
@@ -142,35 +159,14 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 			get_tree().paused = not get_tree().paused
 		UILayer.REQUEST_START_GAME:
 			if _active_level != null: return # Don't start a new game if we're running one.
-			get_tree().paused = true
-			#await _StartTransition(TRANSITION_HIDDEN_COLOR)
-			if _LoadLevel(INITIAL_LEVEL) != OK:
-				ui.open_notify_dialog(
-					"Level Load Failure",
-					"Failed to load the initial level. This is a serious issue.\nHAVE FUN!!",
-					UILayer.REQUEST_CLOSE_UI
-				)
-			else:
-				ui.close_all()
-				Backdrops.Hide_Backdrops()
-				#PlayerData.reset()
-				#await _StartTransition(TRANSITION_VISIBLE_COLOR)
-				get_tree().paused = false
+			_ChangeLevel(INITIAL_LEVEL)
 		UILayer.REQUEST_RESTART_LEVEL:
 			if _active_level == null: return # Nothing to restart!
-			get_tree().paused = true
-			var level_src : String = _active_level_src
-			_UnloadActiveLevel()
-			if _LoadLevel(level_src) == OK:
-				ui.close_all()
-				Backdrops.Hide_Backdrops()
-				get_tree().paused = false
-			else:
-				ui.open_notify_dialog(
-					"Level Load Failure",
-					"Failed to load the initial level. This is a serious issue.\nHAVE FUN!!",
-					UILayer.REQUEST_QUIT_TO_MAIN
-				)
+			_ChangeLevel(_active_level_src)
+		UILayer.REQUEST_LOAD_LEVEL:
+			if not "src" in payload: return
+			if typeof(payload["src"]) == TYPE_STRING:
+				_ChangeLevel(payload["src"])
 		UILayer.REQUEST_QUIT_TO_MAIN:
 			if _active_level != null:
 				_UnloadActiveLevel()
@@ -185,5 +181,6 @@ func _on_level_requested(action : StringName, payload : Dictionary = {}) -> void
 			get_tree().paused = true
 			ui.show_ui(MENU_LEVEL_SUCCESS, payload)
 		Level.REQUEST_LEVEL_FAILED:
-			print("Level Failed")
+			get_tree().paused = true
+			ui.show_ui(MENU_LEVEL_FAILED, payload)
 

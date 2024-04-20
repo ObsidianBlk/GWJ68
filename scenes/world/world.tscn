@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=20 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bhmtvsqn05jlj" path="res://scenes/ui/level_success/level_success.tscn" id="9_d8fl6"]
 [ext_resource type="Script" path="res://scripts/ui/ui_layer.gd" id="9_qbg83"]
 [ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="11_ro01n"]
+[ext_resource type="PackedScene" uid="uid://bcuqxcuh16nl7" path="res://scenes/ui/level_failed/level_failed.tscn" id="11_s506n"]
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="12_8joya"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="13_bd80w"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="14_3lxwe"]
@@ -68,6 +69,8 @@ options_menu_name = &"OptionsMenu"
 [node name="DialogNotify" parent="UILayer" instance=ExtResource("6_607fy")]
 
 [node name="LevelSuccess" parent="UILayer" instance=ExtResource("9_d8fl6")]
+
+[node name="LevelFailed" parent="UILayer" instance=ExtResource("11_s506n")]
 
 [node name="Backdrops" type="CanvasLayer" parent="."]
 layer = -5

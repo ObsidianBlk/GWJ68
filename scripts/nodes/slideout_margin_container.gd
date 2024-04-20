@@ -84,9 +84,9 @@ func _GetInitialEdgeMargin() -> int:
 		var window_size : Vector2i = DisplayServer.window_get_size()
 		match slide_edge:
 			SLIDE_EDGE.Top, SLIDE_EDGE.Bottom:
-				return window_size.y * 0.5
+				return (window_size.y * 0.5) * _hide_direction
 			SLIDE_EDGE.Left, SLIDE_EDGE.Right:
-				return window_size.x * 0.5
+				return (window_size.x * 0.5) * _hide_direction
 	return _initial_edge_margin
 
 func _GetSlideLength() -> int:
@@ -99,22 +99,26 @@ func _GetSlideLength() -> int:
 				return window_size.x
 	return slide_length
 
+func _GetTargetEdge(length : int, hide : bool) -> int:
+	var dir : int = 0
+	var hdir : int = (-_hide_direction) if use_window_center_as_initial else _hide_direction
+	if inverted:
+		dir = 0 if hide else -hdir
+	else:
+		dir = hdir if hide else 0
+	
+	var edge_margin = _GetInitialEdgeMargin()
+	return edge_margin + (length * dir)
+
 func _Slide(hide : bool = false) -> void:
 	if _slide_tween != null:
 		_slide_tween.stop()
 		_slide_tween = null
 		slide_interrupted.emit()
-	
-	var dir : int = 0
-	if inverted:
-		dir = 0 if hide else -_hide_direction
-	else:
-		dir = _hide_direction if hide else 0
 
 	var length : int = _GetSlideLength()
-	var edge_margin = _GetInitialEdgeMargin()
 	var init : int = get_theme_constant(_constant_name)
-	var target : int = edge_margin + (length * dir)
+	var target : int = _GetTargetEdge(length, hide)
 	
 	var dur : float = (float(abs(target - init)) / length) * slide_duration
 	if dur <= 0.001: return
@@ -135,10 +139,17 @@ func _Slide(hide : bool = false) -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
-func slide_out() -> void:
+func slide_out(force_from_terminus : bool = false) -> void:
+	if force_from_terminus:
+		add_theme_constant_override(
+			_constant_name,
+			_GetInitialEdgeMargin()
+		)
 	_Slide(true)
 
-func slide_in() -> void:
+func slide_in(force_from_origin : bool = false) -> void:
+	if force_from_origin:
+		add_theme_constant_override(_constant_name, _GetTargetEdge(_GetSlideLength(), true))
 	_Slide(false)
 
 func is_sliding() -> bool:

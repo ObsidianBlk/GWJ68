@@ -103,6 +103,9 @@ func change_state(state : FiniteState, data : Dictionary = {}) -> void:
 	_active_state = state
 	if _active_state != null:
 		_active_state.enter(data)
+		state_changed.emit(_active_state.name)
+	else:
+		state_changed.emit(&"")
 
 func change_state_by_name(state_name : StringName, data : Dictionary = {}) -> void:
 	for child in get_children():
