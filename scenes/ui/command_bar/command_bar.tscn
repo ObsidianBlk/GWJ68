@@ -147,6 +147,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Build"
 
+[node name="SMC_PauseCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
+
+[node name="BTNPause" type="Button" parent="VBoxContainer/SMC_PauseCommand"]
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Pause"
+
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_vm7gv")
 layout_mode = 2
@@ -158,3 +177,4 @@ script = ExtResource("7_yhta4")
 [connection signal="pressed" from="VBoxContainer/SMC_BlockCommand/BTNBlock" to="." method="_on_btn_block_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BoosterCommand/BTNBooster" to="." method="_on_btn_booster_pressed"]
 [connection signal="pressed" from="VBoxContainer/SMC_BuildCommand/BTNBuild" to="." method="_on_btn_build_pressed"]
+[connection signal="pressed" from="VBoxContainer/SMC_PauseCommand/BTNPause" to="." method="_on_btn_pause_pressed"]

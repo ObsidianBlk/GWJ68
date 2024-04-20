@@ -144,3 +144,7 @@ func _on_btn_build_pressed() -> void:
 		bot.request_action(COMMAND_BUILD)
 	elif action_in_use:
 		bot.clear_action()
+
+func _on_btn_pause_pressed() -> void:
+	var is_paused : bool = Level.Is_Paused()
+	Level.Pause_Level(not is_paused)

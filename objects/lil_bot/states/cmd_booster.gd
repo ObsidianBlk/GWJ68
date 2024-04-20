@@ -15,7 +15,7 @@ extends LilBotState
 # ------------------------------------------------------------------------------
 @export_category("CMD Booster")
 @export var fly_speed : float = 50.0
-@export var move_speed : float = 10.0
+@export var move_speed : float = 20.0
 @export var duration : float = 1.0
 @export var booster_particles : GPUParticles2D = null
 @export var audio_library : AudioStreamLibrary = null

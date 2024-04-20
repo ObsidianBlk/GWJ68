@@ -13,6 +13,8 @@ signal requested(action : StringName, payload : Dictionary)
 const REQUEST_LEVEL_SUCCESS : StringName = &"level_success"
 const REQUEST_LEVEL_FAILED : StringName = &"level_failed"
 
+const PAUSABLE_GROUP : StringName = &"pausable"
+
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
@@ -35,6 +37,8 @@ static var _Instance : Level = null
 # ------------------------------------------------------------------------------
 var _bots_entered : int = 0
 var _bots_saved : int = 0
+
+var _paused : bool = false
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -102,6 +106,14 @@ static func Build_At(pos : Vector2) -> void:
 	if _Instance == null: return
 	_Instance.build_at(pos)
 
+static func Pause_Level(pause : bool) -> void:
+	if _Instance == null: return
+	_Instance.pause_level(pause)
+
+static func Is_Paused() -> bool:
+	if _Instance == null: return false
+	return _Instance.is_paused()
+
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
@@ -114,6 +126,18 @@ func bot_rescued() -> void:
 func build_at(pos : Vector2) -> void:
 	if map == null: return
 	map.set_cell(layer, map.local_to_map(pos), 0, atlas_id)
+
+func pause_level(pause : bool) -> void:
+	var pnodes : Array[Node] = get_tree().get_nodes_in_group(PAUSABLE_GROUP)
+	for node : Node in pnodes:
+		if pause:
+			node.process_mode = Node.PROCESS_MODE_DISABLED
+		else:
+			node.process_mode = Node.PROCESS_MODE_INHERIT
+		_paused = pause
+
+func is_paused() -> bool:
+	return _paused
 
 # ------------------------------------------------------------------------------
 # Handler Methods

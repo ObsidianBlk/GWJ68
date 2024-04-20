@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dcprua3j14uf3"]
+[gd_scene load_steps=16 format=3 uid="uid://dcprua3j14uf3"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_a8p6g"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="1_dqg4v"]
@@ -7,10 +7,19 @@
 [ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="4_d54rf"]
 [ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="5_c0jkh"]
 [ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="6_dpjhx"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="6_u87e3"]
 [ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="7_ubfsf"]
 [ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="7_ubqc1"]
 [ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_cmmbi"]
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="8_hamhi"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_alcab"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mtrmu"]
+resource_local_to_scene = true
+shader = ExtResource("6_u87e3")
+shader_parameter/mask = SubResource("ViewportTexture_alcab")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
 
@@ -50,6 +59,7 @@ quadrant_type = 1
 
 [node name="Diggable_TileMap" type="TileMap" parent="."]
 texture_filter = 3
+material = SubResource("ShaderMaterial_mtrmu")
 tile_set = ExtResource("5_c0jkh")
 rendering_quadrant_size = 8
 format = 2
@@ -60,7 +70,7 @@ tile_set = ExtResource("5_c0jkh")
 rendering_quadrant_size = 8
 format = 2
 
-[node name="MiscItemContainer" type="Node2D" parent="."]
+[node name="MiscItemContainer" type="Node2D" parent="." groups=["pausable"]]
 
 [node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("7_ubqc1")]
 position = Vector2(-17, 0)
@@ -69,13 +79,13 @@ spawn_container = NodePath("../../BotContainer")
 [node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("8_cmmbi")]
 position = Vector2(22, 0)
 
-[node name="BotContainer" type="Node2D" parent="."]
+[node name="BotContainer" type="Node2D" parent="." groups=["pausable"]]
 
 [node name="PlayerCamera2D" type="Camera2D" parent="."]
 zoom = Vector2(6, 6)
 script = ExtResource("6_dpjhx")
 
-[node name="PointerHandler" type="Node2D" parent="."]
+[node name="PointerHandler" type="Node2D" parent="." groups=["pausable"]]
 script = ExtResource("8_hamhi")
 object_group = &"lilbot"
 shape = SubResource("CircleShape2D_u1fep")

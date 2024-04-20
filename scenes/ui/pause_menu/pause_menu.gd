@@ -19,9 +19,9 @@ extends UIControl
 # ------------------------------------------------------------------------------
 func _visibility_updating(data : Dictionary) -> void:
 	if visible:
-		_slideout.slide_out()
+		_slideout.slide_out(true)
 	else:
-		_slideout.slide_in()
+		_slideout.slide_in(true)
 		_btn_resume.grab_focus()
 
 # ------------------------------------------------------------------------------

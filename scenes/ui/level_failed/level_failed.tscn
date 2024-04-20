@@ -30,6 +30,8 @@ script = ExtResource("2_35u2y")
 use_window_size = true
 use_window_center_as_initial = true
 start_hidden = true
+anim_ease_in = true
+anim_ease_out = true
 
 [node name="PanelContainer" type="PanelContainer" parent="Slideout"]
 layout_mode = 2

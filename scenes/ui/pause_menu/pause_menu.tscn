@@ -29,18 +29,14 @@ script = ExtResource("2_llv43")
 [node name="Slideout" type="MarginContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
 offset_left = -73.5
-offset_top = -140.0
 offset_right = 73.5
+offset_bottom = 140.0
 grow_horizontal = 2
-grow_vertical = 0
 script = ExtResource("2_3ykqv")
-slide_edge = 3
 use_window_size = true
 use_window_center_as_initial = true
 start_hidden = true
@@ -49,7 +45,7 @@ anim_ease_out = true
 
 [node name="Options" type="VBoxContainer" parent="Slideout"]
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 0
 
 [node name="BTN_Resume" type="Button" parent="Slideout/Options"]
 unique_name_in_owner = true

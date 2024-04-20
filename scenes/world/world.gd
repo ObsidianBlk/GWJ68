@@ -19,6 +19,7 @@ const BACKDROP_001 : StringName = &"Backdrop_001"
 
 #const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
 const INITIAL_LEVEL : String = "res://scenes/levels/level_001/level_001.tscn"
+#const INITIAL_LEVEL : String = "res://scenes/levels/level_005/level_005.tscn"
 
 # ------------------------------------------------------------------------------
 # Export Variables
