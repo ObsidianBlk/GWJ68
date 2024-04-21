@@ -4,6 +4,8 @@ extends UIControl
 # Constants
 # ------------------------------------------------------------------------------
 const MENU_HARDCORE_INFO : StringName = &"HardcoreInfoScreen"
+const MENU_HOW_TO : StringName = &"HowToPlay"
+
 const BTN_COUNT : int = 6
 
 # ------------------------------------------------------------------------------
@@ -74,6 +76,8 @@ func _on_btn_hard_core_pressed() -> void:
 func _on_btn_back_pressed() -> void:
 	request(UILayer.REQUEST_CLOSE_UI)
 
-
 func _on_btn_about_hardcore_pressed() -> void:
 	request(UILayer.REQUEST_SHOW_UI, {"ui_name":MENU_HARDCORE_INFO})
+
+func _on_btn_how_to_pressed() -> void:
+	request(UILayer.REQUEST_SHOW_UI, {"ui_name":MENU_HOW_TO})

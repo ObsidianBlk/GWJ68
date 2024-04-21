@@ -9,6 +9,7 @@ extends UIControl
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
 const OBS_ITCH_URI : String = "https://obsidianblk.itch.io/"
+const GWJ68_URI : String = "https://itch.io/jam/godot-wild-jam-68"
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -81,3 +82,6 @@ func _on_btn_quit_pressed() -> void:
 
 func _on_btn_oblogo_pressed() -> void:
 	OS.shell_open(OBS_ITCH_URI)
+
+func _on_btn_gwj_pressed() -> void:
+	OS.shell_open(GWJ68_URI)

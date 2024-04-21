@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jhyjv6stjlfl"]
+[gd_scene load_steps=14 format=3 uid="uid://jhyjv6stjlfl"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_t6kqt"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu/main_menu.gd" id="1_uop50"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cghs8eqmukhkv" path="res://assets/graphics/obs_logo/ObsidianLogo_Small.png" id="8_48rpk"]
 [ext_resource type="Texture2D" uid="uid://dt7armburqf15" path="res://assets/graphics/obs_logo/Logo_Open_Small.png" id="9_mhaqd"]
 [ext_resource type="Texture2D" uid="uid://08xq04vwyh5x" path="res://assets/graphics/obs_logo/Logo_Facing_Small.png" id="10_lh7la"]
+[ext_resource type="Texture2D" uid="uid://cjwqleon288io" path="res://assets/graphics/gwj_logo/GWJLogoFace_Small.png" id="11_ap0pm"]
+[ext_resource type="Texture2D" uid="uid://dne4g7tyfaijy" path="res://assets/graphics/gwj_logo/GWJLogoFace_Small_Highlight.png" id="12_wfa2m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p172u"]
 shader = ExtResource("4_4t2vh")
@@ -76,6 +78,7 @@ layout_mode = 2
 script = ExtResource("7_bnxhu")
 
 [node name="OBLogoContainer" type="MarginContainer" parent="."]
+texture_filter = 4
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -89,13 +92,53 @@ grow_vertical = 0
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="BTNOBLogo" type="TextureButton" parent="OBLogoContainer"]
+[node name="Layout" type="HBoxContainer" parent="OBLogoContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OBLogoContainer/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "By: Bryan Miller
+( ObsidianBlk )
+(c) 2024"
+horizontal_alignment = 2
+
+[node name="BTNOBLogo" type="TextureButton" parent="OBLogoContainer/Layout"]
 layout_mode = 2
 texture_normal = ExtResource("8_48rpk")
 texture_pressed = ExtResource("9_mhaqd")
 texture_hover = ExtResource("10_lh7la")
 
+[node name="GWJLogoContainer" type="MarginContainer" parent="."]
+texture_filter = 4
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Layout" type="HBoxContainer" parent="GWJLogoContainer"]
+layout_mode = 2
+
+[node name="BTN_GWJ" type="TextureButton" parent="GWJLogoContainer/Layout"]
+layout_mode = 2
+texture_normal = ExtResource("11_ap0pm")
+texture_pressed = ExtResource("12_wfa2m")
+texture_hover = ExtResource("12_wfa2m")
+
+[node name="Label" type="Label" parent="GWJLogoContainer/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Developed for the
+Godot Wild Jam #68
+4/12/2024 -> 4/21/2024"
+
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Start" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Options" to="." method="_on_btn_options_pressed"]
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Quit" to="." method="_on_btn_quit_pressed"]
-[connection signal="pressed" from="OBLogoContainer/BTNOBLogo" to="." method="_on_btn_oblogo_pressed"]
+[connection signal="pressed" from="OBLogoContainer/Layout/BTNOBLogo" to="." method="_on_btn_oblogo_pressed"]
+[connection signal="pressed" from="GWJLogoContainer/Layout/BTN_GWJ" to="." method="_on_btn_gwj_pressed"]

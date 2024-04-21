@@ -10,7 +10,9 @@ config_version=5
 
 [application]
 
-config/name="GWJ68"
+config/name="Li'l Bottys: Forging Pathways"
+config/description="Guide your Li'l Bottys to the exit!"
+config/version="1.0"
 config/tags=PackedStringArray("2024", "2d", "game_jam", "jam", "puzzle")
 run/main_scene="res://scenes/world/world.tscn"
 config/features=PackedStringArray("4.2", "Mobile")

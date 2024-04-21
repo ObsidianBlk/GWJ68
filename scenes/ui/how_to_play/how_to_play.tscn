@@ -1,0 +1,448 @@
+[gd_scene load_steps=21 format=3 uid="uid://dueuyxfuq6h26"]
+
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_pssa6"]
+[ext_resource type="Script" path="res://scenes/ui/how_to_play/how_to_play.gd" id="2_eaneq"]
+[ext_resource type="Texture2D" uid="uid://bb0sjpy03amb4" path="res://assets/graphics/lilbotty/body.png" id="2_jcbxi"]
+[ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="3_jjwch"]
+[ext_resource type="Texture2D" uid="uid://bsymcyucej4c5" path="res://assets/graphics/bot_despawner/bot_despawner.png" id="4_2okcm"]
+[ext_resource type="Texture2D" uid="uid://tc15wqna5h85" path="res://assets/graphics/ui/command_cards/CC_Dig.png" id="5_nby3g"]
+[ext_resource type="Texture2D" uid="uid://ciq36xwhpclux" path="res://assets/graphics/ui/command_cards/CC_Mine.png" id="6_bwodc"]
+[ext_resource type="Texture2D" uid="uid://bkrdngx1uc4wg" path="res://assets/graphics/ui/command_cards/CC_Tunnel.png" id="7_j1bvs"]
+[ext_resource type="Texture2D" uid="uid://caa1xvoih5ws2" path="res://assets/graphics/ui/command_cards/CC_Dig_selected.png" id="8_2i6qj"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="9_rknxn"]
+[ext_resource type="Texture2D" uid="uid://bhcqekfkvaulm" path="res://assets/graphics/ui/command_cards/CC_Block.png" id="9_wcll6"]
+[ext_resource type="Texture2D" uid="uid://jnxbia8jdfqe" path="res://assets/graphics/part.png" id="10_cndk3"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="10_ertwy"]
+[ext_resource type="Texture2D" uid="uid://dqirdbuy3voyc" path="res://assets/graphics/booster.png" id="11_4vuxv"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="11_lnooc"]
+[ext_resource type="Texture2D" uid="uid://depdta8itx1gh" path="res://assets/graphics/ui/command_cards/CC_Boost.png" id="12_5lp2v"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="12_31l44"]
+[ext_resource type="Texture2D" uid="uid://bqdm8ic3ve2ep" path="res://assets/graphics/ui/command_cards/CC_Build.png" id="13_ilxb6"]
+[ext_resource type="Texture2D" uid="uid://qnlyi3dhxpp2" path="res://assets/graphics/ui/command_cards/CC_Pause.png" id="14_y8ab4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t84uo"]
+shader = ExtResource("9_rknxn")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("10_ertwy")
+shader_parameter/new_palette = ExtResource("11_lnooc")
+
+[node name="HowToPlay" type="Control"]
+texture_filter = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_pssa6")
+script = ExtResource("2_eaneq")
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBC" type="VBoxContainer" parent="MC"]
+layout_mode = 2
+
+[node name="TitleBar" type="PanelContainer" parent="MC/VBC"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/TitleBar"]
+layout_mode = 2
+text = "How to Play"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MC/VBC"]
+layout_mode = 2
+
+[node name="BTN_PrevPage" type="Button" parent="MC/VBC/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "< Page"
+
+[node name="BTN_Back" type="Button" parent="MC/VBC/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BACK"
+
+[node name="BTN_NextPage" type="Button" parent="MC/VBC/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Page >"
+
+[node name="Content" type="PanelContainer" parent="MC/VBC"]
+custom_minimum_size = Vector2(475, 300)
+layout_mode = 2
+
+[node name="Page_01" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PageLayout" type="VBoxContainer" parent="MC/VBC/Content/Page_01"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_01/PageLayout"]
+layout_mode = 2
+text = "In each level of Li'l Bottys, your goal is
+to guide a target number of lil bottys to
+the level exit.
+
+"
+
+[node name="HBC_Botty" type="HBoxContainer" parent="MC/VBC/Content/Page_01/PageLayout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_01/PageLayout/HBC_Botty"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("2_jcbxi")
+stretch_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_01/PageLayout/HBC_Botty/TextureRect"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_jjwch")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_01/PageLayout/HBC_Botty"]
+layout_mode = 2
+text = "<-- These are your Li'l Bottys!"
+
+[node name="HBC_Exit" type="HBoxContainer" parent="MC/VBC/Content/Page_01/PageLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_01/PageLayout/HBC_Exit"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "These are the Exits -->"
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_01/PageLayout/HBC_Exit"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("4_2okcm")
+stretch_mode = 4
+
+[node name="Page_02" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_02"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_02/Layout"]
+layout_mode = 2
+text = "Each Lil Botty can be given commands
+seperately.
+
+To issue a command, click on the Lil Botty
+you wish to give an order to. With a Lil
+Botty selected, a command bar will appear
+from the bottom of the screen.
+
+Examples of commands include...
+"
+
+[node name="HBC_CommandsExample" type="HBoxContainer" parent="MC/VBC/Content/Page_02/Layout"]
+layout_mode = 2
+
+[node name="SpacerA" type="Control" parent="MC/VBC/Content/Page_02/Layout/HBC_CommandsExample"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_02/Layout/HBC_CommandsExample"]
+layout_mode = 2
+texture = ExtResource("5_nby3g")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="MC/VBC/Content/Page_02/Layout/HBC_CommandsExample"]
+layout_mode = 2
+texture = ExtResource("6_bwodc")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="MC/VBC/Content/Page_02/Layout/HBC_CommandsExample"]
+layout_mode = 2
+texture = ExtResource("7_j1bvs")
+stretch_mode = 4
+
+[node name="SpacerB" type="Control" parent="MC/VBC/Content/Page_02/Layout/HBC_CommandsExample"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_02/Layout"]
+layout_mode = 2
+text = "(description later)
+
+and commands can either be"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MC/VBC/Content/Page_02/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_02/Layout/HBoxContainer"]
+layout_mode = 2
+text = "[ OFF ]"
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_02/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_nby3g")
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_02/Layout/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "or"
+horizontal_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="MC/VBC/Content/Page_02/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("8_2i6qj")
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="MC/VBC/Content/Page_02/Layout/HBoxContainer"]
+layout_mode = 2
+text = "[ ON ]"
+
+[node name="Page_03" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_03"]
+layout_mode = 2
+
+[node name="CMD_Dig" type="HBoxContainer" parent="MC/VBC/Content/Page_03/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_03/Layout/CMD_Dig"]
+layout_mode = 2
+texture = ExtResource("5_nby3g")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_03/Layout/CMD_Dig"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "DIG
+Lil Botty will attempt to dig
+downwards on diggable terrain"
+
+[node name="CMD_Mine" type="HBoxContainer" parent="MC/VBC/Content/Page_03/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_03/Layout/CMD_Mine"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "MINE
+Lil Botty will attempt to dig
+horizontally through diggable
+terrain."
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_03/Layout/CMD_Mine"]
+layout_mode = 2
+texture = ExtResource("6_bwodc")
+stretch_mode = 4
+
+[node name="CMD_Tunnel" type="HBoxContainer" parent="MC/VBC/Content/Page_03/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_03/Layout/CMD_Tunnel"]
+layout_mode = 2
+texture = ExtResource("7_j1bvs")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_03/Layout/CMD_Tunnel"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "TUNNEL
+Lil Botty will attempt
+to dig diagnally through diggable
+terrain"
+
+[node name="HSeparator" type="HSeparator" parent="MC/VBC/Content/Page_03/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_03/Layout"]
+layout_mode = 2
+text = "Each of these commands will automatically
+end if the Lil Botty starts falling."
+
+[node name="Page_04" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_04"]
+layout_mode = 2
+
+[node name="CMD_Block" type="HBoxContainer" parent="MC/VBC/Content/Page_04/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_04/Layout/CMD_Block"]
+layout_mode = 2
+texture = ExtResource("9_wcll6")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_04/Layout/CMD_Block"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "BLOCK
+When active, Lil Botty will stand
+in place and act like a wall that
+other Lil Bottys will bounce off of."
+
+[node name="Page_05" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_05"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_05/Layout"]
+layout_mode = 2
+text = "There are two pickups in the game...
+
+"
+
+[node name="Pickups" type="HBoxContainer" parent="MC/VBC/Content/Page_05/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "PARTS"
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("10_cndk3")
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "and"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("11_4vuxv")
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "BOOSTER"
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout"]
+layout_mode = 2
+text = "
+A Lil Botty can only have one pickup at
+any time, and the pickup will give the
+Lil Botty a new command"
+
+[node name="Page_06" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_06"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CMD_Booster" type="HBoxContainer" parent="MC/VBC/Content/Page_06/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_06/Layout/CMD_Booster"]
+layout_mode = 2
+texture = ExtResource("12_5lp2v")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_06/Layout/CMD_Booster"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "BOOSTER
+A one use command. The Lil Botty
+will be boosted up and over for a
+brief period of time. Once the
+boost has ended, the Lil Botty will
+loose the Booster pickup."
+
+[node name="CMD_Build" type="HBoxContainer" parent="MC/VBC/Content/Page_06/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_06/Layout/CMD_Build"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "BUILD
+The Parts pickup gives the Lil
+Botty the ability to build bridges
+in empty space and over spikes.
+ONLY -- 12 -- PARTS are given. Once
+used, the Lil Botty looses the
+Parts Pickup."
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_06/Layout/CMD_Build"]
+layout_mode = 2
+texture = ExtResource("13_ilxb6")
+stretch_mode = 4
+
+[node name="Page_07" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_07"]
+layout_mode = 2
+
+[node name="CMD_Pause" type="HBoxContainer" parent="MC/VBC/Content/Page_07/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_07/Layout/CMD_Pause"]
+layout_mode = 2
+texture = ExtResource("14_y8ab4")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_07/Layout/CMD_Pause"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "PAUSE
+When active, the level will pause
+allowing you to scroll around the
+level.
+
+"
+
+[node name="ColorRectSwap" type="ColorRect" parent="MC"]
+material = SubResource("ShaderMaterial_t84uo")
+layout_mode = 2
+script = ExtResource("12_31l44")
+
+[connection signal="pressed" from="MC/VBC/HBoxContainer/BTN_PrevPage" to="." method="_on_btn_prev_page_pressed"]
+[connection signal="pressed" from="MC/VBC/HBoxContainer/BTN_Back" to="." method="_on_btn_back_pressed"]
+[connection signal="pressed" from="MC/VBC/HBoxContainer/BTN_NextPage" to="." method="_on_btn_next_page_pressed"]

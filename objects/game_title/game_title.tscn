@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://so0ood5unm8k"]
+
+[ext_resource type="Texture2D" uid="uid://cyb6chhmpbgey" path="res://assets/graphics/game_title/game_title_main.png" id="1_3js7b"]
+[ext_resource type="Texture2D" uid="uid://8ui7yyqdx1mt" path="res://assets/graphics/game_title/game_title_sub.png" id="2_86lq7"]
+
+[sub_resource type="Animation" id="Animation_x4i48"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite_Sub:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hd1kq"]
+resource_name = "bobbing"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite_Sub:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.7, 1.2),
+"transitions": PackedFloat32Array(0.63728, 1, 1.23115, 1),
+"update": 0,
+"values": [Vector2(0, -20), Vector2(0, -15), Vector2(0, -15), Vector2(0, -20)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rf78o"]
+_data = {
+"RESET": SubResource("Animation_x4i48"),
+"bobbing": SubResource("Animation_hd1kq")
+}
+
+[node name="GameTitle" type="Node2D"]
+
+[node name="Sprite_Sub" type="Sprite2D" parent="."]
+texture_filter = 3
+rotation = -0.0872665
+texture = ExtResource("2_86lq7")
+
+[node name="Sprite_Main" type="Sprite2D" parent="."]
+texture_filter = 3
+texture = ExtResource("1_3js7b")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rf78o")
+}
+autoplay = "bobbing"

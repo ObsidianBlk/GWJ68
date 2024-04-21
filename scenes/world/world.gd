@@ -16,6 +16,7 @@ const MENU_LEVELSELECT : StringName = &"LevelSelectMenu"
 const MENU_LEVEL_SUCCESS : StringName = &"LevelSuccess"
 const MENU_LEVEL_FAILED : StringName = &"LevelFailed"
 
+const BACKDROP_GAME_TITLE : StringName = &"Backdrop_GameTitle"
 const BACKDROP_001 : StringName = &"Backdrop_001"
 
 #const INITIAL_LEVEL : String = "res://scenes/levels/test_level/test_level.tscn"
@@ -174,6 +175,7 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 			if _active_level != null:
 				_UnloadActiveLevel()
 			Backdrops.Show_Backdrop(BACKDROP_001)
+			Backdrops.Show_Backdrop(BACKDROP_GAME_TITLE)
 			ui.show_ui(MENU_MAIN)
 		UILayer.REQUEST_QUIT_APPLICATION:
 			_Quit()

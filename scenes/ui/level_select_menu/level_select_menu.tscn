@@ -116,9 +116,18 @@ text = ">"
 [node name="HSeparator" type="HSeparator" parent="MC/VLayout"]
 layout_mode = 2
 
-[node name="BTN_Back" type="Button" parent="MC/VLayout"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MC/VLayout"]
 layout_mode = 2
+
+[node name="BTN_Back" type="Button" parent="MC/VLayout/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Back"
+
+[node name="BTN_HowTo" type="Button" parent="MC/VLayout/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "How to Play"
 
 [node name="ColorRectSwap" type="ColorRect" parent="MC"]
 material = SubResource("ShaderMaterial_3pd4w")
@@ -135,4 +144,5 @@ script = ExtResource("6_fnamd")
 [connection signal="pressed" from="MC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_05" to="." method="_on_level_btn_pressed" binds= [4]]
 [connection signal="pressed" from="MC/VLayout/SelectorLayoutH/MainLevelBtns/BTN_Level_06" to="." method="_on_level_btn_pressed" binds= [5]]
 [connection signal="pressed" from="MC/VLayout/SelectorLayoutH/BTN_NextGroup" to="." method="_on_btn_next_group_pressed"]
-[connection signal="pressed" from="MC/VLayout/BTN_Back" to="." method="_on_btn_back_pressed"]
+[connection signal="pressed" from="MC/VLayout/HBoxContainer/BTN_Back" to="." method="_on_btn_back_pressed"]
+[connection signal="pressed" from="MC/VLayout/HBoxContainer/BTN_HowTo" to="." method="_on_btn_how_to_pressed"]

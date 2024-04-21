@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bvay3xbksfx63"]
+[gd_scene load_steps=25 format=3 uid="uid://bvay3xbksfx63"]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_7dgkc"]
 [ext_resource type="Script" path="res://scripts/nodes/screen_effects.gd" id="2_wo1df"]
@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="13_bd80w"]
 [ext_resource type="PackedScene" uid="uid://d3xgh0ndiqtw2" path="res://scenes/ui/hardcore_info_screen/hardcore_info_screen.tscn" id="13_wt3ci"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="14_3lxwe"]
+[ext_resource type="PackedScene" uid="uid://dueuyxfuq6h26" path="res://scenes/ui/how_to_play/how_to_play.tscn" id="14_d3bsw"]
+[ext_resource type="PackedScene" uid="uid://cavdmop5q4nyi" path="res://scenes/backdrops/backdrop_game_title/backdrop_game_title.tscn" id="16_cvqpn"]
 [ext_resource type="AudioStream" uid="uid://b8qiegv18vq1s" path="res://assets/audio/music/b423b42.ogg" id="19_70c0q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wpvio"]
@@ -59,25 +61,36 @@ layer = 10
 script = ExtResource("9_qbg83")
 initial_ui = &"MainMenu"
 
+[node name="HowToPlay" parent="UILayer" instance=ExtResource("14_d3bsw")]
+visible = false
+
 [node name="MainMenu" parent="UILayer" instance=ExtResource("4_cn4tu")]
 options_menu_name = &"OptionsMenu"
 
 [node name="PauseMenu" parent="UILayer" instance=ExtResource("6_1a3uq")]
+visible = false
 options_menu_name = &"OptionsMenu"
 
 [node name="OptionsMenu" parent="UILayer" instance=ExtResource("7_81bss")]
+visible = false
 
 [node name="LevelSelectMenu" parent="UILayer" instance=ExtResource("8_jeatg")]
+visible = false
 
 [node name="DialogConfirm" parent="UILayer" instance=ExtResource("5_kc7ef")]
+visible = false
 
 [node name="DialogNotify" parent="UILayer" instance=ExtResource("6_607fy")]
+visible = false
 
 [node name="LevelSuccess" parent="UILayer" instance=ExtResource("9_d8fl6")]
+visible = false
 
 [node name="LevelFailed" parent="UILayer" instance=ExtResource("11_s506n")]
+visible = false
 
 [node name="HardcoreInfoScreen" parent="UILayer" instance=ExtResource("13_wt3ci")]
+visible = false
 
 [node name="Backdrops" type="CanvasLayer" parent="."]
 layer = -5
@@ -95,6 +108,8 @@ color = Color(0.141176, 0.12549, 0.129412, 1)
 
 [node name="Backdrop_001" parent="Backdrops" instance=ExtResource("9_cjdpu")]
 mouse_filter = 2
+
+[node name="Backdrop_GameTitle" parent="Backdrops" instance=ExtResource("16_cvqpn")]
 
 [node name="PaletteSwap" type="CanvasLayer" parent="."]
 layer = 4
