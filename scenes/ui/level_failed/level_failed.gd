@@ -19,7 +19,12 @@ extends UIControl
 # ------------------------------------------------------------------------------
 func _visibility_updating(data : Dictionary) -> void:
 	if not visible:
-		_btn_restart.grab_focus.call_deferred()
+		if Game.is_hardcore_mode():
+			_btn_restart.visible = false
+			_btn_quit.grab_focus.call_deferred()
+		else:
+			_btn_restart.visible = true
+			_btn_restart.grab_focus.call_deferred()
 		_slideout.slide_in(true)
 	else:
 		_slideout.slide_out(true)

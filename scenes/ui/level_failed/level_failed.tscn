@@ -1,9 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcuqxcuh16nl7"]
+[gd_scene load_steps=10 format=3 uid="uid://bcuqxcuh16nl7"]
 
 [ext_resource type="Script" path="res://scenes/ui/level_failed/level_failed.gd" id="1_0cr7q"]
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_fxhpt"]
 [ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="2_35u2y"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="4_krvjg"]
 [ext_resource type="AudioStream" uid="uid://coc8owoa10ybx" path="res://assets/audio/lilbot/you_let_us_die.wav" id="4_ooiru"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="5_aihdf"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="6_kw4km"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="7_au825"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5lfs2"]
+shader = ExtResource("4_krvjg")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("5_aihdf")
+shader_parameter/new_palette = ExtResource("6_kw4km")
 
 [node name="LevelFailed" type="Control"]
 texture_filter = 3
@@ -64,6 +75,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit to Menu"
+
+[node name="ColorRectSwap" type="ColorRect" parent="Slideout"]
+material = SubResource("ShaderMaterial_5lfs2")
+layout_mode = 2
+script = ExtResource("7_au825")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true

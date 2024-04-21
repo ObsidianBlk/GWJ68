@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3xgh0ndiqtw2"]
+
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_lcta4"]
+[ext_resource type="Script" path="res://scenes/ui/hardcore_info_screen/hardcore_info_screen.gd" id="2_d5a4k"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="3_0kuk2"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="4_68c36"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="5_th0el"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="6_17ype"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5kea7"]
+shader = ExtResource("3_0kuk2")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("4_68c36")
+shader_parameter/new_palette = ExtResource("5_th0el")
+
+[node name="HardcoreInfoScreen" type="Control"]
+texture_filter = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_lcta4")
+script = ExtResource("2_d5a4k")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LayoutV" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Titlebar" type="PanelContainer" parent="MarginContainer/LayoutV"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/LayoutV/Titlebar"]
+layout_mode = 2
+text = "About Hardcore Mode"
+
+[node name="Body" type="PanelContainer" parent="MarginContainer/LayoutV"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/LayoutV/Body"]
+layout_mode = 2
+text = "In hardcore mode you will automatically start at Level 1
+
+All options to restart a level will be removed from the
+Pause menu, and, if a level is failed, the only option
+in the fail screen will be to return to the main menu...
+
+So, if you go hardcore... you best successfully finish
+EVERY
+DAMN
+LEVEL
+!!!"
+horizontal_alignment = 1
+
+[node name="BTN_OK" type="Button" parent="MarginContainer/LayoutV"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OK"
+
+[node name="ColorRectSwap" type="ColorRect" parent="MarginContainer"]
+material = SubResource("ShaderMaterial_5kea7")
+layout_mode = 2
+script = ExtResource("6_17ype")
+
+[connection signal="pressed" from="MarginContainer/LayoutV/BTN_OK" to="." method="_on_btn_ok_pressed"]
