@@ -9,7 +9,7 @@ class_name BotBasket
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-
+const ACTION_EXPLODE : StringName = &"boom"
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -53,7 +53,9 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 func _on_body_entered(body : Node) -> void:
 	if body is LilBot:
-		print("Basket despawning LilBot")
-		body.queue_free()
+		if body.get_current_action() != ACTION_EXPLODE:
+			body.request_action(ACTION_EXPLODE)
+		#print("Basket despawning LilBot")
+		#body.queue_free()
 
 

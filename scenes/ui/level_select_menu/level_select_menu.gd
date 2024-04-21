@@ -53,11 +53,11 @@ func _UpdateLevelLabels() -> void:
 # ------------------------------------------------------------------------------
 
 func _on_btn_prev_group_pressed() -> void:
-	_idx_offset = max(0, min(Game.LEVELS.size()-(BTN_COUNT+1), _idx_offset - BTN_COUNT))
+	_idx_offset = max(0, min(Game.LEVELS.size()-1, _idx_offset - BTN_COUNT))
 	_UpdateLevelLabels()
 
 func _on_btn_next_group_pressed() -> void:
-	_idx_offset = max(0, min(Game.LEVELS.size()-(BTN_COUNT+1), _idx_offset + BTN_COUNT))
+	_idx_offset = max(0, min(Game.LEVELS.size()-1, _idx_offset + BTN_COUNT))
 	_UpdateLevelLabels()
 
 func _on_level_btn_pressed(btn_idx : int) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://jhyjv6stjlfl"]
+[gd_scene load_steps=12 format=3 uid="uid://jhyjv6stjlfl"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_t6kqt"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu/main_menu.gd" id="1_uop50"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="5_ejqbt"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="6_jbdju"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="7_bnxhu"]
+[ext_resource type="Texture2D" uid="uid://cghs8eqmukhkv" path="res://assets/graphics/obs_logo/ObsidianLogo_Small.png" id="8_48rpk"]
+[ext_resource type="Texture2D" uid="uid://dt7armburqf15" path="res://assets/graphics/obs_logo/Logo_Open_Small.png" id="9_mhaqd"]
+[ext_resource type="Texture2D" uid="uid://08xq04vwyh5x" path="res://assets/graphics/obs_logo/Logo_Facing_Small.png" id="10_lh7la"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p172u"]
 shader = ExtResource("4_4t2vh")
@@ -49,6 +52,7 @@ slide_on_start = true
 
 [node name="ButtonPanel" type="PanelContainer" parent="BottomBar"]
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="HBC" type="HBoxContainer" parent="BottomBar/ButtonPanel"]
 layout_mode = 2
@@ -71,6 +75,27 @@ material = SubResource("ShaderMaterial_p172u")
 layout_mode = 2
 script = ExtResource("7_bnxhu")
 
+[node name="OBLogoContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="BTNOBLogo" type="TextureButton" parent="OBLogoContainer"]
+layout_mode = 2
+texture_normal = ExtResource("8_48rpk")
+texture_pressed = ExtResource("9_mhaqd")
+texture_hover = ExtResource("10_lh7la")
+
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Start" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Options" to="." method="_on_btn_options_pressed"]
 [connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Quit" to="." method="_on_btn_quit_pressed"]
+[connection signal="pressed" from="OBLogoContainer/BTNOBLogo" to="." method="_on_btn_oblogo_pressed"]

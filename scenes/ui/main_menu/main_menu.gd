@@ -8,7 +8,7 @@ extends UIControl
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-
+const OBS_ITCH_URI : String = "https://obsidianblk.itch.io/"
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -78,3 +78,6 @@ func _on_btn_quit_pressed() -> void:
 			"content": "Are you sure you want to quit the game?"
 		}
 	})
+
+func _on_btn_oblogo_pressed() -> void:
+	OS.shell_open(OBS_ITCH_URI)

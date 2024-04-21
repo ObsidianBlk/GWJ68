@@ -1,9 +1,8 @@
-# Godot Wild Jam #68 Project
+# Pathways
 
-Description TBD
+Give commands to your Little Botties to help them forge their way to home base!
 
-
-This game is being developed for the [Godot Wild Jam #68](https://itch.io/jam/godot-wild-jam-68), using the [Godot Game Engine v4.2.1](https://godotengine.org/).
+This game was developed for the [Godot Wild Jam #68](https://itch.io/jam/godot-wild-jam-68), using the [Godot Game Engine v4.2.1](https://godotengine.org/).
 
 ## Author
 Bryan "ObsidianBlk" Miller
@@ -22,6 +21,12 @@ TBD
 
 ## Credits
 
+### Music
+> **Title:** Loading Screen Loop
+**Author:** Brandon Morrid
+**URL:** [https://opengameart.org/content/loading-screen-loop](https://opengameart.org/content/loading-screen-loop) 
+**License:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+**Modified:** Yes, Converted to OGG Vorbis format.
 
 
 ## License

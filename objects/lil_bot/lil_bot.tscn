@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=48 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://objects/lil_bot/states/despawn.gd" id="4_3ce7f"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/move.gd" id="4_w06rd"]
 [ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="5_56no6"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/boom.gd" id="5_j4nws"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/air.gd" id="5_neuc7"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_dig.gd" id="6_s1rcg"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_block.gd" id="7_87rtb"]
@@ -28,6 +29,7 @@
 [ext_resource type="AudioStream" uid="uid://duxj73fare6k2" path="res://assets/audio/lilbot/bye_003.wav" id="23_fotco"]
 [ext_resource type="AudioStream" uid="uid://c3rxvdiag0ack" path="res://assets/audio/lilbot/excite_001.wav" id="24_ealu8"]
 [ext_resource type="AudioStream" uid="uid://c64b72ckeiwf4" path="res://assets/audio/lilbot/excite_002.wav" id="25_7nhco"]
+[ext_resource type="AudioStream" uid="uid://cxxpcpwgaukwv" path="res://assets/audio/lilbot/boom.wav" id="30_jdb2f"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3c6c7"]
 particle_flag_disable_z = true
@@ -429,6 +431,11 @@ script = ExtResource("4_3ce7f")
 audio_library = NodePath("../../ASL_Bye")
 anim_player = NodePath("../../AnimationPlayer")
 
+[node name="boom" type="Node" parent="FSM" node_paths=PackedStringArray("audio_library", "anim_player")]
+script = ExtResource("5_j4nws")
+audio_library = NodePath("../../ASL_Explode")
+anim_player = NodePath("../../AnimationPlayer")
+
 [node name="idle" type="Node" parent="FSM" node_paths=PackedStringArray("move_state", "air_state", "anim_player")]
 script = ExtResource("3_y8ibv")
 move_state = NodePath("../move")
@@ -613,4 +620,10 @@ script = ExtResource("17_da8a0")
 player = NodePath("../AudioStreamPlayer2D")
 streams = Array[AudioStream]([ExtResource("24_ealu8"), ExtResource("25_7nhco")])
 
+[node name="ASL_Explode" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("17_da8a0")
+player = NodePath("../AudioStreamPlayer2D")
+streams = Array[AudioStream]([ExtResource("30_jdb2f")])
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
