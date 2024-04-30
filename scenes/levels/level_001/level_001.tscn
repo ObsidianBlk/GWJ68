@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bw36kbp443dsa"]
+[gd_scene load_steps=21 format=3 uid="uid://bw36kbp443dsa"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_u2w65"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_udsf4"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="8_50csw"]
 [ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_sg34m"]
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_esbn4"]
+[ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_hmvg4"]
 [ext_resource type="Script" path="res://scripts/nodes/bot_basket.gd" id="13_xy6h4"]
 [ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="13_ykvu2"]
 
@@ -131,6 +132,21 @@ grow_vertical = 0
 slide_edge = 3
 slide_length = 98
 start_hidden = true
+
+[node name="SpeedBarLayer" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="SpeedBar" parent="SpeedBarLayer" instance=ExtResource("13_hmvg4")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -83.0
+offset_right = 244.0
+offset_bottom = 0.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 48
 
 [node name="BotBasket_01" type="Area2D" parent="."]
 collision_layer = 0

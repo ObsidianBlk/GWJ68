@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://blu51cyln12p5"]
+
+[ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_2rude"]
+[ext_resource type="Script" path="res://scenes/ui/speed_bar/speed_bar.gd" id="2_ekiuj"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="2_wt052"]
+[ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="3_w7mgf"]
+[ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="4_rhswf"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="5_gljo0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2owvf"]
+shader = ExtResource("2_wt052")
+shader_parameter/num_colors = 4
+shader_parameter/invert = false
+shader_parameter/base_palette = ExtResource("3_w7mgf")
+shader_parameter/new_palette = ExtResource("4_rhswf")
+
+[node name="SpeedBar" type="MarginContainer"]
+texture_filter = 3
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("1_2rude")
+script = ExtResource("2_ekiuj")
+
+[node name="ButtonContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BTN_Pause" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "||"
+
+[node name="BTN_Normal" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+text = ">"
+
+[node name="BTN_TimeHalf" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = ">>"
+
+[node name="BTN_DoubleTime" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = ">>>"
+
+[node name="ColorRectSwap" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2owvf")
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_gljo0")

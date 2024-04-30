@@ -56,6 +56,7 @@ var _cmdbtns : Dictionary = {}
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	super._ready()
+	Relay.requested.connect(_on_relay_requested)
 	_cmdbtns[COMMAND_DIG] = {"btn":_btn_dig, "active":true}
 	_cmdbtns[COMMAND_MINE] = {"btn":_btn_mine, "active":true}
 	_cmdbtns[COMMAND_TUNNEL] = {"btn":_btn_tunnel, "active":true}
@@ -152,6 +153,11 @@ func select_bot(bot : LilBot) -> void:
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
+func _on_relay_requested(action : StringName, payload : Dictionary = {}) -> void:
+	if action == &"lock_commands":
+		if "lock" in payload and typeof(payload["lock"]) == TYPE_BOOL:
+			_LockCommands(payload["lock"])
+
 func _on_selected_bot_state_changed(state_name : StringName) -> void:
 	pass
 

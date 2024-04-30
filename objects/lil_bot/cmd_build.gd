@@ -51,7 +51,7 @@ func process_physics(delta : float) -> void:
 		transition_state(idle_state)
 	elif not _built:
 		if _delay > 0.0:
-			_delay -= delta
+			_delay -= delta * _parent.get_timer_multiplier()
 		else:
 			Level.Build_At(build_position_marker.global_position)
 			_parent.use_part()

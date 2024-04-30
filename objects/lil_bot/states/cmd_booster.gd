@@ -67,10 +67,12 @@ func process_physics(_delta : float) -> void:
 
 func process_frame(delta : float) -> void:
 	if _parent == null: return
+	var mult : float = _parent.get_timer_multiplier()
 	_parent.velocity.y = -fly_speed
 	_parent.velocity.x = move_speed if _parent.flip_h else -move_speed
+	_parent.velocity *= mult
 	_parent.move_and_slide()
-	_duration -= delta
+	_duration -= delta * mult
 	if _duration <= 0.0:
 		_parent.enable_back_item(LilBot.BACK_ITEM_BOOSTER, false)
 		_parent.clear_action()

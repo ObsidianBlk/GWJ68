@@ -194,6 +194,7 @@ texture_disabled = ExtResource("6_xm3hp")
 texture_focused = ExtResource("6_xec74")
 
 [node name="SMC_PauseCommand" type="MarginContainer" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("2_jwnha")
