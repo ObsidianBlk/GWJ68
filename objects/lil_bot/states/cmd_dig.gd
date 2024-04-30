@@ -71,8 +71,7 @@ func process_physics(delta : float) -> void:
 			transition_state(move_state)
 
 func process_frame(delta : float) -> void:
-	if _parent == null: return
-	_timer -= (delta * _parent.get_timer_multiplier())
+	_timer -= (delta * LilBot.Get_Timer_Multiplier())
 	if _timer <= 0.0:
 		_timer += timer_interval
 		if shovel != null:

@@ -49,7 +49,7 @@ func _ready() -> void:
 func _process(delta : float) -> void:
 	if not _spawning:
 		if _interval > 0.0:
-			_interval -= delta
+			_interval -= delta * LilBot.Get_Timer_Multiplier()
 		elif _num_spawned < spawn_count:
 			spawn()
 

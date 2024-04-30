@@ -26,6 +26,7 @@ const GWJ68_URI : String = "https://itch.io/jam/godot-wild-jam-68"
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var _bottom_bar: SlideoutMarginContainer = %BottomBar
+@onready var _lbl_version: Label = %LBL_Version
 
 
 # ------------------------------------------------------------------------------
@@ -36,7 +37,9 @@ const GWJ68_URI : String = "https://itch.io/jam/godot-wild-jam-68"
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
+func _ready() -> void:
+	super._ready()
+	_lbl_version.text = "Version: " + ProjectSettings.get_setting("application/config/version", "1.0")
 
 # ------------------------------------------------------------------------------
 # "Virtual" Private Methods

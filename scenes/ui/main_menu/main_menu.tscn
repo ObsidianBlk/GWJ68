@@ -56,21 +56,31 @@ slide_on_start = true
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="HBC" type="HBoxContainer" parent="BottomBar/ButtonPanel"]
+[node name="VBC" type="VBoxContainer" parent="BottomBar/ButtonPanel"]
 layout_mode = 2
 
-[node name="BTN_Start" type="Button" parent="BottomBar/ButtonPanel/HBC"]
+[node name="HBC" type="HBoxContainer" parent="BottomBar/ButtonPanel/VBC"]
+layout_mode = 2
+
+[node name="BTN_Start" type="Button" parent="BottomBar/ButtonPanel/VBC/HBC"]
 layout_mode = 2
 text = "Start Game"
 
-[node name="BTN_Options" type="Button" parent="BottomBar/ButtonPanel/HBC"]
+[node name="BTN_Options" type="Button" parent="BottomBar/ButtonPanel/VBC/HBC"]
 layout_mode = 2
 text = "Options"
 
-[node name="BTN_Quit" type="Button" parent="BottomBar/ButtonPanel/HBC"]
+[node name="BTN_Quit" type="Button" parent="BottomBar/ButtonPanel/VBC/HBC"]
 layout_mode = 2
 text = "Quit
 "
+
+[node name="LBL_Version" type="Label" parent="BottomBar/ButtonPanel/VBC"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Version: 1.0"
+horizontal_alignment = 1
 
 [node name="ColorRectSwap" type="ColorRect" parent="BottomBar"]
 material = SubResource("ShaderMaterial_p172u")
@@ -133,12 +143,12 @@ texture_hover = ExtResource("12_wfa2m")
 [node name="Label" type="Label" parent="GWJLogoContainer/Layout"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Developed for the
-Godot Wild Jam #68
+text = "Originally Developed
+for Godot Wild Jam #68
 4/12/2024 -> 4/21/2024"
 
-[connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Start" to="." method="_on_btn_start_pressed"]
-[connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Options" to="." method="_on_btn_options_pressed"]
-[connection signal="pressed" from="BottomBar/ButtonPanel/HBC/BTN_Quit" to="." method="_on_btn_quit_pressed"]
+[connection signal="pressed" from="BottomBar/ButtonPanel/VBC/HBC/BTN_Start" to="." method="_on_btn_start_pressed"]
+[connection signal="pressed" from="BottomBar/ButtonPanel/VBC/HBC/BTN_Options" to="." method="_on_btn_options_pressed"]
+[connection signal="pressed" from="BottomBar/ButtonPanel/VBC/HBC/BTN_Quit" to="." method="_on_btn_quit_pressed"]
 [connection signal="pressed" from="OBLogoContainer/Layout/BTNOBLogo" to="." method="_on_btn_oblogo_pressed"]
 [connection signal="pressed" from="GWJLogoContainer/Layout/BTN_GWJ" to="." method="_on_btn_gwj_pressed"]

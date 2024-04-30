@@ -35,5 +35,5 @@ func process_physics(delta : float) -> void:
 		transition_state(idle_state)
 	else:
 		_parent.velocity.x = 0.0
-		_parent.velocity.y = get_gravity() * _parent.get_timer_multiplier()
+		_parent.velocity.y = get_gravity() * LilBot.Get_Timer_Multiplier()
 		_parent.move_and_slide()

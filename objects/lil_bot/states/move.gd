@@ -27,9 +27,9 @@ func process_physics(delta : float) -> void:
 		transition_state(air_state)
 	if abs(_direction) > Actor.DIRECTIONAL_THRESHOLD:
 		_parent.flip_h = _direction > 0.0
-		_parent.velocity.x = _direction * _parent.max_speed * _parent.get_timer_multiplier()
+		_parent.velocity.x = _direction * _parent.max_speed * LilBot.Get_Timer_Multiplier()
 	else:
-		_parent.velocity.x = move_toward(_parent.velocity.x, 0.0, 1000.0 * delta * _parent.get_timer_multiplier())
+		_parent.velocity.x = move_toward(_parent.velocity.x, 0.0, 1000.0 * delta * LilBot.Get_Timer_Multiplier())
 		if abs(_parent.velocity.x) < Actor.DIRECTIONAL_THRESHOLD:
 			transition_state(idle_state)
 	

@@ -67,7 +67,7 @@ func process_physics(_delta : float) -> void:
 
 func process_frame(delta : float) -> void:
 	if _parent == null: return
-	var mult : float = _parent.get_timer_multiplier()
+	var mult : float = LilBot.Get_Timer_Multiplier()
 	_parent.velocity.y = -fly_speed
 	_parent.velocity.x = move_speed if _parent.flip_h else -move_speed
 	_parent.velocity *= mult

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcprua3j14uf3"]
+[gd_scene load_steps=18 format=3 uid="uid://dcprua3j14uf3"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_a8p6g"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="1_dqg4v"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="7_ubqc1"]
 [ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="8_cmmbi"]
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="8_hamhi"]
+[ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_c31fm"]
 [ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="13_nc61a"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_alcab"]
@@ -107,6 +108,22 @@ grow_vertical = 0
 slide_edge = 3
 slide_length = 77
 start_hidden = true
+
+[node name="SpeedBarLayer" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="SpeedBar" parent="SpeedBarLayer" instance=ExtResource("13_c31fm")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -83.0
+offset_right = 244.0
+offset_bottom = 0.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 48
+metadata/_edit_use_anchors_ = true
 
 [node name="InfoHUD" type="CanvasLayer" parent="."]
 layer = 6

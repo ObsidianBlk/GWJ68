@@ -569,7 +569,7 @@ raycast = NodePath("RayCast2D")
 
 [node name="Polygon_H" type="Polygon2D" parent="Viz/CompShovel_Horz"]
 visible = false
-polygon = PackedVector2Array(0, -8, -9, -8, -9, 7, 0, 7)
+polygon = PackedVector2Array(0, -8, -10, -8, -10, 7, 0, 7)
 
 [node name="RayCast2D" type="RayCast2D" parent="Viz/CompShovel_Horz"]
 target_position = Vector2(-6, 0)

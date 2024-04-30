@@ -28,6 +28,11 @@ const MAX_PARTS : int = 12
 @export var flip_v : bool:					set=set_flip_v,get=get_flip_v
 
 # ------------------------------------------------------------------------------
+# Static Variables
+# ------------------------------------------------------------------------------
+static var _Timer_Multiplier : float = 1.0
+
+# ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
 var _flipped_h : bool = false
@@ -35,8 +40,6 @@ var _flipped_v : bool = false
 var _back_items : Dictionary = {}
 
 var _part_count : int = 0
-
-var _timer_multiplier : float = 1.0 # This is to adjust the timings used by various states
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -71,7 +74,6 @@ func get_flip_v() -> bool:
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	super._ready()
-	Relay.requested.connect(_on_relay_requested)
 	_back_items[BACK_ITEM_PART] = _part
 	_back_items[BACK_ITEM_BOOSTER] = _booster
 
@@ -84,6 +86,16 @@ func _UpdateFlip() -> void:
 		-1.0 if _flipped_h else 1.0,
 		-1.0 if _flipped_v else 1.0
 	)
+
+# ------------------------------------------------------------------------------
+# Static Public Methods
+# ------------------------------------------------------------------------------
+static func Set_Timer_Multiplier(multiplier : float) -> void:
+	if multiplier >= 0.0:
+		_Timer_Multiplier = multiplier
+
+static func Get_Timer_Multiplier() -> float:
+	return _Timer_Multiplier
 
 # ------------------------------------------------------------------------------
 # Public Methods
@@ -137,19 +149,8 @@ func can_pickup() -> bool:
 		return not has_any_back_item()
 	return false
 
-func set_timer_multiplier(multiplier : float) -> void:
-	if multiplier > 0.0:
-		_timer_multiplier = multiplier
-
-func get_timer_multiplier() -> float:
-	return _timer_multiplier
-
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
-func _on_relay_requested(action : StringName, payload : Dictionary = {}) -> void:
-	if action == ACTION_TIME_MULTIPLIER:
-		if PAYLOAD_PROPERTY in payload and typeof(payload[PAYLOAD_PROPERTY]) == TYPE_FLOAT:
-			set_timer_multiplier(payload[PAYLOAD_PROPERTY])
 
 
