@@ -63,6 +63,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="BTN_Start" type="Button" parent="BottomBar/ButtonPanel/VBC/HBC"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Start Game"
 
@@ -71,6 +72,7 @@ layout_mode = 2
 text = "Options"
 
 [node name="BTN_Quit" type="Button" parent="BottomBar/ButtonPanel/VBC/HBC"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Quit
 "
