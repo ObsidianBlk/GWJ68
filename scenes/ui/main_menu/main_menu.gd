@@ -11,6 +11,8 @@ extends UIControl
 const OBS_ITCH_URI : String = "https://obsidianblk.itch.io/"
 const GWJ68_URI : String = "https://itch.io/jam/godot-wild-jam-68"
 
+const FEATURE_WEB : String = "web"
+
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
@@ -27,6 +29,8 @@ const GWJ68_URI : String = "https://itch.io/jam/godot-wild-jam-68"
 # ------------------------------------------------------------------------------
 @onready var _bottom_bar: SlideoutMarginContainer = %BottomBar
 @onready var _lbl_version: Label = %LBL_Version
+@onready var _btn_start : Button = %BTN_Start
+@onready var _btn_quit : Button = %BTN_Quit
 
 
 # ------------------------------------------------------------------------------
@@ -48,6 +52,8 @@ func _visibility_updating(data : Dictionary) -> void:
 	if visible:
 		_bottom_bar.slide_out()
 	else:
+		_btn_quit.visible = not OS.has_feature(FEATURE_WEB)
+		_btn_start.grab_focus()
 		_bottom_bar.slide_in()
 
 # ------------------------------------------------------------------------------
