@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://kmvkcur8wujl"]
+
+[ext_resource type="Texture2D" uid="uid://cegodn1vv20tv" path="res://assets/graphics/trigger_terminal/TriggerTerminal.png" id="1_receg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7h0d"]
+atlas = ExtResource("1_receg")
+region = Rect2(8, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akx6y"]
+atlas = ExtResource("1_receg")
+region = Rect2(16, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp5eb"]
+atlas = ExtResource("1_receg")
+region = Rect2(24, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajmhg"]
+atlas = ExtResource("1_receg")
+region = Rect2(0, 0, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ebw4m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7h0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akx6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pp5eb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7h0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pp5eb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7h0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akx6y")
+}],
+"loop": true,
+"name": &"active",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ajmhg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coh86"]
+size = Vector2(8, 10)
+
+[node name="TriggerTerminal" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+sprite_frames = SubResource("SpriteFrames_ebw4m")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.651492
+offset = Vector2(0, -8)
+
+[node name="TriggerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_coh86")
