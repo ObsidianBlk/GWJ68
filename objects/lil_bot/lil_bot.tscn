@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=49 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_dig.gd" id="6_s1rcg"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_block.gd" id="7_87rtb"]
 [ext_resource type="Script" path="res://scripts/nodes/component_shovel.gd" id="8_c121b"]
+[ext_resource type="Script" path="res://objects/lil_bot/states/cmd_interact.gd" id="9_xor8o"]
 [ext_resource type="Script" path="res://objects/lil_bot/states/cmd_booster.gd" id="10_7m6dn"]
 [ext_resource type="Script" path="res://objects/lil_bot/cmd_build.gd" id="11_7lu3h"]
 [ext_resource type="Texture2D" uid="uid://jnxbia8jdfqe" path="res://assets/graphics/part.png" id="11_y7pim"]
@@ -452,6 +453,10 @@ anim_player = NodePath("../../AnimationPlayer")
 script = ExtResource("5_neuc7")
 idle_state = NodePath("../idle")
 anim_player = NodePath("../../AnimationPlayer")
+
+[node name="cmd_interact" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("9_xor8o")
+idle_state = NodePath("../idle")
 
 [node name="cmd_block" type="Node" parent="FSM"]
 script = ExtResource("7_87rtb")

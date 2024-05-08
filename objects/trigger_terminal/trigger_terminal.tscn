@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://kmvkcur8wujl"]
+[gd_scene load_steps=9 format=3 uid="uid://kmvkcur8wujl"]
 
+[ext_resource type="Script" path="res://objects/trigger_terminal/trigger_terminal.gd" id="1_n6taa"]
 [ext_resource type="Texture2D" uid="uid://cegodn1vv20tv" path="res://assets/graphics/trigger_terminal/TriggerTerminal.png" id="1_receg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i7h0d"]
@@ -59,6 +60,7 @@ animations = [{
 size = Vector2(8, 10)
 
 [node name="TriggerTerminal" type="Node2D"]
+script = ExtResource("1_n6taa")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 3
@@ -73,3 +75,6 @@ offset = Vector2(0, -8)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_coh86")
+
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_area_body_entered"]
+[connection signal="body_exited" from="TriggerArea" to="." method="_on_trigger_area_body_exited"]
