@@ -47,6 +47,7 @@ func enter(data : Dictionary = {}) -> void:
 			shovel.rotation = 0.0
 		elif "rotation" in data:
 			shovel.rotation = data["rotation"]
+	super.enter(data)
 
 func exit() -> void:
 	if inactive_interval <= 0.0: return
@@ -59,6 +60,7 @@ func exit() -> void:
 		_parent.clear_action()
 	#if _parent.get_current_action() == name and _parent.get_current_state() != name:
 	#	_parent.clear_action()
+	super.exit()
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

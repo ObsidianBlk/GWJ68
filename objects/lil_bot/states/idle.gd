@@ -32,6 +32,7 @@ func init(parent : Actor) -> int:
 
 func enter(data : Dictionary = {}) -> void:
 	play_animation(ANIMATION_IDLE)
+	super.enter(data)
 
 func process_frame(delta : float) -> void:
 	if _parent == null: return

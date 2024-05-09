@@ -44,6 +44,7 @@ func enter(data : Dictionary) -> void:
 		_parent.clear_action()
 	_built = false
 	_delay = build_delay
+	super.enter(data)
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

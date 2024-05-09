@@ -24,7 +24,11 @@ func init(parent : Actor) -> int:
 
 func enter(data : Dictionary = {}) -> void:
 	_parent.collision_layer = _original_collision | collision
+	play_animation(&"block_start")
+	super.enter(data)
 
 func exit() -> void:
 	_parent.collision_layer = _original_collision
+	play_animation(&"block_end")
+	on_anim_finished(func(): state_exited.emit())
 

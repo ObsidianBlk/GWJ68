@@ -25,6 +25,9 @@ var _states : Dictionary = {}
 var _action_state : FiniteState = null
 var _active_state : FiniteState = null
 
+var _state_transitioning : bool = false
+var _state_queue : Dictionary = {}
+
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
@@ -39,14 +42,17 @@ var _active_state : FiniteState = null
 # Override Methods
 # ------------------------------------------------------------------------------
 func _process(delta: float) -> void:
+	if _state_transitioning: return
 	if _active_state != null:
 		_active_state.process_frame(delta)
 
 func _physics_process(delta: float) -> void:
+	if _state_transitioning: return
 	if _active_state != null:
 		_active_state.process_physics(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _state_transitioning: return
 	if _active_state != null:
 		_active_state.process_input(event)
 
@@ -98,14 +104,31 @@ func get_action_state_name() -> StringName:
 
 func change_state(state : FiniteState, data : Dictionary = {}) -> void:
 	if _active_state == state: return # Already the active state.
+	if _state_transitioning:
+		_state_queue["state"] = state
+		_state_queue["data"] = data
+		return
+	
+	_state_transitioning = true
 	if _active_state != null:
-		_active_state.exit()
+		_active_state.exit.call_deferred()
+		await _active_state.state_exited
 	_active_state = state
 	if _active_state != null:
 		_active_state.enter(data)
+		#await _active_state.state_entered
+		_state_transitioning = false
 		state_changed.emit(_active_state.name)
 	else:
+		_state_transitioning = false
 		state_changed.emit(&"")
+	
+	if not _state_queue.is_empty():
+		var s : FiniteState = _state_queue["state"]
+		var d : Dictionary = _state_queue["data"]
+		_state_queue.clear()
+		change_state.call_deferred(s, d)
+
 
 func change_state_by_name(state_name : StringName, data : Dictionary = {}) -> void:
 	for child in get_children():

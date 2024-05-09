@@ -57,10 +57,12 @@ func enter(data : Dictionary) -> void:
 			booster_particles.emitting = true
 		if audio_library != null:
 			audio_library.play_random()
+	super.enter(data)
 
 func exit() -> void:
 	if booster_particles != null:
-			booster_particles.emitting = false
+		booster_particles.emitting = false
+	super.exit()
 
 func process_physics(_delta : float) -> void:
 	pass

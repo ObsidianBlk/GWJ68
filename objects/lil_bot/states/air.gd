@@ -27,6 +27,7 @@ func enter(data : Dictionary = {}) -> void:
 		play_animation(ANIMATION_JUMP)
 	else:
 		play_animation(ANIMATION_FALL)
+	super.enter(data)
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

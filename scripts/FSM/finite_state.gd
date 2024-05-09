@@ -4,8 +4,11 @@ class_name FiniteState
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
+signal state_entered()
+signal state_exited()
 signal state_transition_requested(state : FiniteState, data : Dictionary)
 signal action_transition_requested(data : Dictionary)
+
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -49,10 +52,10 @@ func init(parent : Actor) -> int:
 	return OK
 
 func enter(data : Dictionary) -> void:
-	pass
+	state_entered.emit()
 
 func exit() -> void:
-	pass
+	state_exited.emit()
 
 func process_input(event : InputEvent) -> void:
 	pass

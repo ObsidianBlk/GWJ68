@@ -19,7 +19,7 @@ var _direction : float = 0.0
 func enter(data : Dictionary = {}) -> void:
 	if abs(_direction) < Actor.DIRECTIONAL_THRESHOLD:
 		_direction = -1.0 if _parent.initial_direction == Actor.DIRECTION.Left else 1.0
-
+	super.enter(data)
 
 func process_physics(delta : float) -> void:
 	if _parent == null: return

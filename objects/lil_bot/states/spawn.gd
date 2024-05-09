@@ -37,12 +37,14 @@ func enter(data : Dictionary = {}) -> void:
 			audio_library.play_random()
 	else:
 		_parent.clear_action()
+	super.enter(data)
 
 func exit() -> void:
 	_parent.collision_mask = _original_mask
 	if anim_player != null:
 		if anim_player.animation_finished.is_connected(_on_animation_finished):
 			anim_player.animation_finished.disconnect(_on_animation_finished)
+	super.exit()
 
 # ------------------------------------------------------------------------------
 # Handler Methods

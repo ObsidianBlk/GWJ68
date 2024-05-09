@@ -45,6 +45,7 @@ func enter(data : Dictionary = {}) -> void:
 			audio_library.play_random(true)
 	else:
 		_parent.clear_action()
+	super.enter(data)
 
 # ------------------------------------------------------------------------------
 # Handler Methods
