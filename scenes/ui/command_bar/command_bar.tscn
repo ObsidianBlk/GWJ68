@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://db3xvis2jktv8"]
+[gd_scene load_steps=27 format=3 uid="uid://db3xvis2jktv8"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_eqwo6"]
 [ext_resource type="Script" path="res://scenes/ui/command_bar/command_bar.gd" id="1_hd7kd"]
@@ -20,6 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://depdta8itx1gh" path="res://assets/graphics/ui/command_cards/CC_Boost.png" id="12_o5p1m"]
 [ext_resource type="Texture2D" uid="uid://cxtsxaf7y3l5w" path="res://assets/graphics/ui/command_cards/CC_Boost_selected.png" id="13_c2mol"]
 [ext_resource type="Texture2D" uid="uid://bqdm8ic3ve2ep" path="res://assets/graphics/ui/command_cards/CC_Build.png" id="14_2evik"]
+[ext_resource type="Texture2D" uid="uid://dmigt3tmtjhke" path="res://assets/graphics/ui/command_cards/CC_Interact.png" id="14_7clay"]
+[ext_resource type="Texture2D" uid="uid://bp1efh6dj20ca" path="res://assets/graphics/ui/command_cards/CC_Interact_selected.png" id="15_h5q11"]
 [ext_resource type="Texture2D" uid="uid://y6f0cffwcpu6" path="res://assets/graphics/ui/command_cards/CC_Build_selected.png" id="15_wsxcq"]
 [ext_resource type="Texture2D" uid="uid://qnlyi3dhxpp2" path="res://assets/graphics/ui/command_cards/CC_Pause.png" id="16_2rwny"]
 [ext_resource type="Texture2D" uid="uid://cleltg38m5o12" path="res://assets/graphics/ui/command_cards/CC_Pause_selected.png" id="17_f1p5k"]
@@ -145,6 +147,30 @@ texture_pressed = ExtResource("11_hiaml")
 texture_disabled = ExtResource("6_xm3hp")
 texture_focused = ExtResource("6_xec74")
 
+[node name="SMC_InteractCommand" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jwnha")
+slide_edge = 3
+slide_length = 16
+slide_duration = 0.1
+inverted = true
+slide_in_on_mouse = true
+anim_ease_in = true
+anim_ease_out = true
+
+[node name="BTNInteract" type="TextureButton" parent="VBoxContainer/SMC_InteractCommand"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+toggle_mode = true
+texture_normal = ExtResource("14_7clay")
+texture_pressed = ExtResource("15_h5q11")
+texture_disabled = ExtResource("6_xm3hp")
+texture_focused = ExtResource("6_xec74")
+
 [node name="SMC_BoosterCommand" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -227,6 +253,7 @@ script = ExtResource("7_yhta4")
 [connection signal="toggled" from="VBoxContainer/SMC_MineCommand/BTNMine" to="." method="_on_btn_mine_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_TunnelCommand2/BTNTunnel" to="." method="_on_btn_tunnel_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_BlockCommand/BTNBlock" to="." method="_on_btn_block_toggled"]
+[connection signal="toggled" from="VBoxContainer/SMC_InteractCommand/BTNInteract" to="." method="_on_btn_interact_toggles"]
 [connection signal="toggled" from="VBoxContainer/SMC_BoosterCommand/BTNBooster" to="." method="_on_btn_booster_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_BuildCommand/BTNBuild" to="." method="_on_btn_build_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_PauseCommand/BTNPause" to="." method="_on_btn_pause_toggled"]

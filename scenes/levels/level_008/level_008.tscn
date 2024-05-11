@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b1g0aqs1fsk0i"]
+[gd_scene load_steps=21 format=3 uid="uid://b1g0aqs1fsk0i"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_kkao3"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_xvsl2"]
@@ -10,7 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="8_84cly"]
 [ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="9_3s58i"]
 [ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="10_5kf3v"]
+[ext_resource type="PackedScene" uid="uid://kmvkcur8wujl" path="res://objects/trigger_terminal/trigger_terminal.tscn" id="10_epu38"]
+[ext_resource type="PackedScene" uid="uid://cixuvkcwnoteg" path="res://objects/slide_door_v/slide_door_v.tscn" id="11_7l2i2"]
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_krki8"]
+[ext_resource type="PackedScene" uid="uid://lc8qvfob1hmx" path="res://objects/pickup/pickup.tscn" id="12_ck57j"]
 [ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="12_xskls"]
 [ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_jra40"]
 [ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="14_bwie7"]
@@ -71,15 +74,27 @@ texture_filter = 3
 tile_set = ExtResource("7_tip60")
 rendering_quadrant_size = 8
 format = 2
+layer_0/tile_data = PackedInt32Array(65532, 524288, 4, 65533, 655360, 4, 65534, 655360, 4, 65535, 655360, 4, 0, 655360, 4, 1, 655360, 4, 65537, 589824, 6, 65536, 589824, 6, 131071, 589824, 6, 131070, 589824, 6, 131069, 327680, 6, 131068, 524288, 7, 131064, 720896, 6, 131063, 589824, 6, 65527, 655360, 4, 65528, 720896, 4, 2, 655360, 4, 65538, 589824, 6, -327678, 131072, 7, -327679, 131072, 7, -327680, 131072, 7, -262145, 131072, 7, -262146, 131072, 7, 131061, 589824, 6, 131062, 589824, 6, 65526, 655360, 4, 65525, 655360, 4, -327677, 131072, 7, -327676, 131072, 7, -327675, 131072, 7, -327674, 131072, 7, -327673, 131072, 7, 7, 655360, 4, 65543, 589824, 6, 65542, 589824, 6, 65541, 589824, 6, 65540, 589824, 6, 65539, 589824, 6, 3, 655360, 4, 4, 655360, 4, 5, 655360, 4, 6, 655360, 4, -196613, 65536, 6, -327672, 131072, 7, 8, 655360, 4, 65544, 589824, 6, 65545, 720896, 6, 9, 458752, 5, -65527, 0, 5, -131063, 0, 5, -196599, 0, 5, -262135, 0, 5, -327671, 196608, 4, -196611, 196608, 6, -262147, 65536, 4, -262149, 196608, 4, -262150, 131072, 7, -262151, 131072, 7, -262152, 131072, 7, -262153, 131072, 7, -262154, 131072, 7, -262155, 131072, 7, -196612, 131072, 7, -262156, 131072, 7, 65524, 655360, 4, 131060, 589824, 6, 131059, 524288, 5, 65523, 262144, 5, -13, 0, 5, -65549, 0, 5, -131085, 0, 5, -196621, 0, 5, -262157, 65536, 4, 196600, 720896, 6, 262136, 720896, 6, 327672, 458752, 6, 393208, 0, 6, 327671, 524288, 7, 262135, 524288, 5, 196599, 327680, 6, 196598, 589824, 7, 196597, 393216, 6, 262133, 458752, 6, 196595, 524288, 5, 196596, 589824, 6, 262131, 262144, 6, 327669, 0, 6, 262132, 589824, 7, 327667, 0, 6, 196605, 262144, 6, 262141, 0, 5, 327677, 0, 6, 196606, 589824, 7, 196607, 327680, 6, 262143, 524288, 7, 131072, 589824, 6, 196608, 327680, 6, 262144, 262144, 6, 327680, 0, 6, 196609, 720896, 6, 131073, 393216, 6, 262145, 720896, 7, 131074, 589824, 7, 131075, 655360, 7, 196611, 0, 5, 262147, 0, 6, 131077, 655360, 7, 131076, 589824, 7, 196613, 0, 6, 131078, 589824, 7, 131079, 327680, 6, 196615, 262144, 6, 131080, 393216, 6, 262151, 0, 6, 196616, 720896, 7, 131081, 720896, 7)
 
 [node name="MiscItemContainer" type="Node2D" parent="." groups=["pausable"]]
 
 [node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("8_84cly")]
-position = Vector2(-17, 0)
+position = Vector2(36, 0)
+spawn_count = 1
 spawn_container = NodePath("../../BotContainer")
 
 [node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("9_3s58i")]
-position = Vector2(22, 0)
+position = Vector2(-79, 0)
+
+[node name="TriggerTerminal" parent="MiscItemContainer" instance=ExtResource("10_epu38")]
+toggle = true
+
+[node name="SlideDoor_V" parent="MiscItemContainer" node_paths=PackedStringArray("connection") instance=ExtResource("11_7l2i2")]
+position = Vector2(-28, -28)
+connection = NodePath("../TriggerTerminal")
+
+[node name="Pickup" parent="MiscItemContainer" instance=ExtResource("12_ck57j")]
+position = Vector2(61, 0)
 
 [node name="BotContainer" type="Node2D" parent="." groups=["pausable"]]
 
@@ -106,7 +121,7 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 slide_edge = 3
-slide_length = 77
+slide_length = 98
 start_hidden = true
 
 [node name="SpeedBarLayer" type="CanvasLayer" parent="."]

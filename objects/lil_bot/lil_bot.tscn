@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://du2psr2ted7c1"]
+[gd_scene load_steps=94 format=3 uid="uid://du2psr2ted7c1"]
 
 [ext_resource type="Script" path="res://objects/lil_bot/lil_bot.gd" id="1_jrbmi"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="2_8op4l"]
@@ -501,6 +501,117 @@ tracks/8/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_3ggn6"]
+resource_name = "block_end"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/Faceplate_Anim:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Viz/Faceplate_Anim:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Viz/Faceplate_Anim")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"towards_to_idle", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Viz/Body/Hands")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"hands_in", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_jt8ui"]
+resource_name = "block_start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/Faceplate_Anim:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Viz/Faceplate_Anim:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Viz/Faceplate_Anim")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"idle_to_towards", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Viz/Body/Hands")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"hands_out", 1.0, false],
+"method": &"play"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_onmjv"]
 resource_name = "despawn"
 length = 1.4
@@ -918,63 +1029,87 @@ tracks/6/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_jt8ui"]
-resource_name = "block_start"
-tracks/0/type = "value"
+[sub_resource type="Animation" id="Animation_moenr"]
+resource_name = "look_left"
+length = 0.1
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Viz/Faceplate_Anim:position")
+tracks/0/path = NodePath("Viz/Faceplate_Anim")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -8)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Viz/Faceplate_Anim:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Viz/Faceplate_Anim")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"idle_to_towards", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Viz/Body/Hands")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"hands_out", 1.0, false],
+"args": [&"look_left", 1.0, false],
 "method": &"play"
 }]
 }
 
-[sub_resource type="Animation" id="Animation_3ggn6"]
-resource_name = "block_end"
+[sub_resource type="Animation" id="Animation_5pdlr"]
+resource_name = "look_right"
+length = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/Faceplate_Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"look_right", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_0be8n"]
+resource_name = "interact_start"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Viz/Faceplate_Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"idle_to_away", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Viz/Faceplate_Anim:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Viz/Faceplate_Anim:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_52pxj"]
+resource_name = "interact_end"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1009,21 +1144,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"towards_to_idle", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Viz/Body/Hands")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"hands_in", 1.0, false],
+"args": [&"away_to_idle", 1.0, false],
 "method": &"play"
 }]
 }
@@ -1037,7 +1158,11 @@ _data = {
 "explode": SubResource("Animation_0qq00"),
 "fall": SubResource("Animation_l6u86"),
 "idle": SubResource("Animation_ty3tg"),
+"interact_end": SubResource("Animation_52pxj"),
+"interact_start": SubResource("Animation_0be8n"),
 "jump": SubResource("Animation_7sp7h"),
+"look_left": SubResource("Animation_moenr"),
+"look_right": SubResource("Animation_5pdlr"),
 "spawn": SubResource("Animation_cvnps")
 }
 
@@ -1083,9 +1208,10 @@ script = ExtResource("5_neuc7")
 idle_state = NodePath("../idle")
 anim_player = NodePath("../../AnimationPlayer")
 
-[node name="cmd_interact" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state")]
+[node name="cmd_interact" type="Node" parent="FSM" node_paths=PackedStringArray("idle_state", "anim_player")]
 script = ExtResource("9_xor8o")
 idle_state = NodePath("../idle")
+anim_player = NodePath("../../AnimationPlayer")
 
 [node name="cmd_block" type="Node" parent="FSM" node_paths=PackedStringArray("anim_player")]
 script = ExtResource("7_87rtb")

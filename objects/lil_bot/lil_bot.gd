@@ -7,6 +7,7 @@ class_name LilBot
 signal part_count_changed(part_count : int)
 signal pickup_obtained(item_name : StringName)
 signal pickup_lost(item_name : StringName)
+signal interact_changed(can_interact : bool)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -40,6 +41,7 @@ var _flipped_v : bool = false
 var _back_items : Dictionary = {}
 
 var _part_count : int = 0
+var _can_interact : bool = false
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -148,6 +150,13 @@ func can_pickup() -> bool:
 	if not _back_items.is_empty():
 		return not has_any_back_item()
 	return false
+
+func set_interactable(can : bool) -> void:
+	_can_interact = can
+	interact_changed.emit(can)
+
+func can_interact() -> bool:
+	return _can_interact
 
 # ------------------------------------------------------------------------------
 # Handler Methods

@@ -106,7 +106,7 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 slide_edge = 3
-slide_length = 77
+slide_length = 98
 start_hidden = true
 
 [node name="SpeedBarLayer" type="CanvasLayer" parent="."]

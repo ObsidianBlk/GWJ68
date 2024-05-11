@@ -1,4 +1,4 @@
-extends BasicTrigger2D
+extends RelayTrigger2D
 
 # ------------------------------------------------------------------------------
 # Signals
@@ -8,28 +8,25 @@ extends BasicTrigger2D
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const ACTION_INTERACT : StringName = &"cmd_interact"
-
-const ANIM_IDLE : StringName = &"idle"
-const ANIM_ACTIVE : StringName = &"active"
+const TRANSITION_DURATION : float = 1.5
+const POSITION_Y_UP : float = -16.0
+const POSITION_Y_DOWN : float = 16.0
 
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
-@export_category("Trigger Terminal")
-@export var toggle : bool = false
+
 
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _bots : Dictionary = {}
-var _toggle_on : bool = false
-var _can_toggle : bool = true
+var _tween : Tween = null
+var _instant : bool = false
 
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
-@onready var _anim_sprite: AnimatedSprite2D = %AnimSprite
+@onready var _door: StaticBody2D = %Door
 
 
 # ------------------------------------------------------------------------------
@@ -40,55 +37,46 @@ var _can_toggle : bool = true
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
+func _ready() -> void:
+	_instant = true
+	super._ready()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
-func _AnyBotInteracting() -> bool:
-	for interacting : bool in _bots.values():
-		if interacting:
-			return true
-	return false
+func _TransitionDoor(to : float) -> void:
+	if _door == null: return
+	if _tween != null:
+		_tween.kill()
+		_tween = null
+	
+	var total_distance : float = POSITION_Y_DOWN - POSITION_Y_UP
+	var ddist = abs(_door.position.y - to)
+	var dur : float = (ddist / total_distance) * TRANSITION_DURATION
+	
+	_tween = create_tween()
+	_tween.set_trans(Tween.TRANS_QUINT)
+	_tween.set_ease(Tween.EASE_IN_OUT)
+	_tween.tween_property(_door, "position:y", to, dur)
+
+func _TransitionInstant(to : float) -> void:
+	if _door == null: return
+	_door.position.y = to
 
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
 func trigger(on : bool) -> void:
 	super.trigger(on)
-	_anim_sprite.play(ANIM_ACTIVE if on else ANIM_IDLE)
+	if _instant:
+		_instant = false
+		_TransitionInstant(POSITION_Y_UP if is_active() else POSITION_Y_DOWN)
+	else:
+		_TransitionDoor(POSITION_Y_UP if is_active() else POSITION_Y_DOWN)
 
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 
-func _on_trigger_area_body_entered(body : Node2D) -> void:
-	if not body is LilBot: return
-	if not body.action_state_changed.is_connected(_on_lilbot_action_state_changed.bind(body.name)):
-		body.action_state_changed.connect(_on_lilbot_action_state_changed.bind(body.name))
-	if not body.name in _bots:
-		_bots[body.name] = body.get_current_action() == ACTION_INTERACT
-	body.set_interactable(true)
-	#trigger(_AnyBotInteracting())
 
-func _on_trigger_area_body_exited(body : Node2D) -> void:
-	if not body is LilBot: return
-	if body.action_state_changed.is_connected(_on_lilbot_action_state_changed.bind(body.name)):
-		body.action_state_changed.disconnect(_on_lilbot_action_state_changed.bind(body.name))
-	if body.name in _bots:
-		_bots.erase(body.name)
-	body.set_interactable(false)
-	#trigger(_AnyBotInteracting())
-
-func _on_lilbot_action_state_changed(state_name : StringName, bot_name : StringName) -> void:
-	if bot_name in _bots:
-		_bots[bot_name] = state_name == ACTION_INTERACT
-		if toggle:
-			if _can_toggle == _AnyBotInteracting():
-				if _can_toggle:
-					_toggle_on = not _toggle_on
-					trigger(_toggle_on)
-				_can_toggle = not _can_toggle
-		else:
-			trigger(_AnyBotInteracting())
 

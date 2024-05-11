@@ -62,7 +62,8 @@ size = Vector2(8, 10)
 [node name="TriggerTerminal" type="Node2D"]
 script = ExtResource("1_n6taa")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_ebw4m")
 animation = &"idle"
@@ -71,6 +72,8 @@ frame_progress = 0.651492
 offset = Vector2(0, -8)
 
 [node name="TriggerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 position = Vector2(0, -5)

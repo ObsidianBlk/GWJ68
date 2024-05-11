@@ -1,11 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://blu51cyln12p5"]
+[gd_scene load_steps=17 format=3 uid="uid://blu51cyln12p5"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_2rude"]
 [ext_resource type="Script" path="res://scenes/ui/speed_bar/speed_bar.gd" id="2_ekiuj"]
 [ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="2_wt052"]
+[ext_resource type="Texture2D" uid="uid://dh4a34f5d6rg4" path="res://assets/graphics/ui/speed_buttons/normal_pause.png" id="3_oejhm"]
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="3_w7mgf"]
+[ext_resource type="Texture2D" uid="uid://diqbfinkayei4" path="res://assets/graphics/ui/speed_buttons/pressed_pause.png" id="4_ovtax"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="4_rhswf"]
+[ext_resource type="Texture2D" uid="uid://bwrl8nx12wtvq" path="res://assets/graphics/ui/speed_buttons/focus.png" id="5_chyxr"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="5_gljo0"]
+[ext_resource type="Texture2D" uid="uid://bxy1k0xfu0rn2" path="res://assets/graphics/ui/speed_buttons/normal_1_speed.png" id="6_etfe1"]
+[ext_resource type="Texture2D" uid="uid://jxmdn8apneoe" path="res://assets/graphics/ui/speed_buttons/pressed_1_speed.png" id="7_kiler"]
+[ext_resource type="Texture2D" uid="uid://di6ajskt1taoa" path="res://assets/graphics/ui/speed_buttons/normal_1.5_speed.png" id="8_hh011"]
+[ext_resource type="Texture2D" uid="uid://ds224a2b3vp3l" path="res://assets/graphics/ui/speed_buttons/pressed_1.5_speed.png" id="9_q5as4"]
+[ext_resource type="Texture2D" uid="uid://bs20rv8fc2ekf" path="res://assets/graphics/ui/speed_buttons/normal_2_speed.png" id="10_442p2"]
+[ext_resource type="Texture2D" uid="uid://cgcn7nspf3h7x" path="res://assets/graphics/ui/speed_buttons/pressed_2_speed.png" id="11_nsbwv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2owvf"]
 shader = ExtResource("2_wt052")
@@ -25,34 +34,42 @@ script = ExtResource("2_ekiuj")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="BTN_Pause" type="Button" parent="ButtonContainer"]
+[node name="BTN_Pause" type="TextureButton" parent="ButtonContainer"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
 toggle_mode = true
-text = "||"
+texture_normal = ExtResource("3_oejhm")
+texture_pressed = ExtResource("4_ovtax")
+texture_hover = ExtResource("3_oejhm")
+texture_focused = ExtResource("5_chyxr")
 
-[node name="BTN_Normal" type="Button" parent="ButtonContainer"]
+[node name="BTN_Normal" type="TextureButton" parent="ButtonContainer"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
 toggle_mode = true
 button_pressed = true
-text = ">"
+texture_normal = ExtResource("6_etfe1")
+texture_pressed = ExtResource("7_kiler")
+texture_hover = ExtResource("6_etfe1")
+texture_focused = ExtResource("5_chyxr")
 
-[node name="BTN_TimeHalf" type="Button" parent="ButtonContainer"]
+[node name="BTN_TimeHalf" type="TextureButton" parent="ButtonContainer"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
 toggle_mode = true
-text = ">>"
+texture_normal = ExtResource("8_hh011")
+texture_pressed = ExtResource("9_q5as4")
+texture_hover = ExtResource("8_hh011")
+texture_focused = ExtResource("5_chyxr")
 
-[node name="BTN_DoubleTime" type="Button" parent="ButtonContainer"]
+[node name="BTN_DoubleTime" type="TextureButton" parent="ButtonContainer"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
 toggle_mode = true
-text = ">>>"
+texture_normal = ExtResource("10_442p2")
+texture_pressed = ExtResource("11_nsbwv")
+texture_hover = ExtResource("10_442p2")
+texture_focused = ExtResource("5_chyxr")
 
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_2owvf")
