@@ -17,6 +17,7 @@ const LEVELS : Array[String] = [
 	"res://scenes/levels/level_006/level_006.tscn",
 	"res://scenes/levels/level_007/level_007.tscn",
 	"res://scenes/levels/level_008/level_008.tscn",
+	"res://scenes/levels/level_009/level_009.tscn",
 ]
 
 const INITIAL_LEVEL : String = LEVELS[0]

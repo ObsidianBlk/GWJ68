@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://b5k5tpml2p7ps"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_jyomu"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_vqyv4"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_yet0c"]
+[ext_resource type="Script" path="res://scripts/nodes/ChaseCamera2D.gd" id="4_sduga"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="5_ag1x2"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="6_d3g8r"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="7_8n24n"]
+[ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="8_fe5jt"]
+[ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="9_wkt2w"]
+[ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="10_681pq"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_jituq"]
+[ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="12_r2mu8"]
+[ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_dhu7a"]
+[ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="14_v42ur"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_alcab"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mtrmu"]
+resource_local_to_scene = true
+shader = ExtResource("6_d3g8r")
+shader_parameter/mask = SubResource("ViewportTexture_alcab")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
+
+[node name="BlankLevel" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
+script = ExtResource("1_jyomu")
+bot_container = NodePath("BotContainer")
+map = NodePath("Static_TileMap")
+atlas_id = Vector2i(12, 4)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_vqyv4")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yet0c")
+
+[node name="ChaseCamera" type="Camera2D" parent="SubViewport" node_paths=PackedStringArray("target")]
+zoom = Vector2(6, 6)
+script = ExtResource("4_sduga")
+target = NodePath("../../PlayerCamera2D")
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("5_ag1x2")
+map = NodePath("../../Diggable_TileMap")
+
+[node name="DigSector_Collisions" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("5_ag1x2")
+map = NodePath("../Diggable_TileMap")
+quadrant_type = 1
+
+[node name="Diggable_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+material = SubResource("ShaderMaterial_mtrmu")
+tile_set = ExtResource("7_8n24n")
+rendering_quadrant_size = 8
+format = 2
+
+[node name="Static_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+tile_set = ExtResource("7_8n24n")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(65527, 589824, 7, 65528, 393216, 7, 65529, 131072, 7, 65530, 131072, 7, 65531, 131072, 7, 65532, 131072, 7, 65533, 131072, 7, 65534, 131072, 7, 65535, 131072, 7, 0, 196608, 6, -65536, 0, 5, -131072, 0, 5, -196608, 0, 5, -262144, 0, 4, -8, 720896, 4, -9, 393216, 5, -65545, 720896, 4, -65546, 655360, 4, -10, 589824, 6, 65526, 589824, 7, -65547, 655360, 4, -11, 589824, 6, 65525, 589824, 7, -65548, 262144, 5, -12, 524288, 5, 65524, 524288, 7, -131084, 0, 5, -196620, 0, 5, -262156, 0, 5, -327692, 0, 4, -7, 917504, 5, -65544, 917504, 5)
+
+[node name="MiscItemContainer" type="Node2D" parent="." groups=["pausable"]]
+
+[node name="BotSpawner" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("8_fe5jt")]
+position = Vector2(-17, 0)
+spawn_count = 1
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("9_wkt2w")]
+position = Vector2(22, 0)
+
+[node name="BotContainer" type="Node2D" parent="." groups=["pausable"]]
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+script = ExtResource("10_681pq")
+
+[node name="PointerHandler" type="Node2D" parent="." groups=["pausable"]]
+script = ExtResource("11_jituq")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_u1fep")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="CommandBar" parent="HUD" instance=ExtResource("12_r2mu8")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+slide_edge = 3
+slide_length = 98
+start_hidden = true
+
+[node name="SpeedBarLayer" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="SpeedBar" parent="SpeedBarLayer" instance=ExtResource("13_dhu7a")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -83.0
+offset_right = 244.0
+offset_bottom = 0.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 48
+metadata/_edit_use_anchors_ = true
+
+[node name="InfoHUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="LevelInfoBar" parent="InfoHUD" instance=ExtResource("14_v42ur")]
+offset_left = -220.0
+offset_right = 220.0
+offset_bottom = 56.0
+
+[connection signal="bot_removed" from="." to="InfoHUD/LevelInfoBar" method="bot_removed"]
+[connection signal="bot_saved" from="." to="InfoHUD/LevelInfoBar" method="bots_saved"]
+[connection signal="bot_spawned" from="MiscItemContainer/BotSpawner" to="InfoHUD/LevelInfoBar" method="bots_spawned"]
+[connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
+[connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]
