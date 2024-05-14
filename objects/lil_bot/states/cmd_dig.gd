@@ -50,9 +50,15 @@ func enter(data : Dictionary = {}) -> void:
 	super.enter(data)
 
 func exit() -> void:
-	if inactive_interval <= 0.0: return
+	if inactive_interval <= 0.0:
+		super.exit()
+		return
+	
 	await get_tree().create_timer(inactive_interval).timeout
-	if _parent == null: return
+	if _parent == null:
+		super.exit()
+		return
+	
 	if _parent.get_current_action() != name:
 		_parent.show_hard_hat(false)
 	elif _parent.get_current_state() != name:

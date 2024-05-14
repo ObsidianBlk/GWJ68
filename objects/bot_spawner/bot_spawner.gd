@@ -4,7 +4,7 @@ extends Node2D
 # ------------------------------------------------------------------------------
 # Signals
 # ------------------------------------------------------------------------------
-signal bot_spawned(num_spawned : int, spawn_total : int)
+signal bot_spawned(num_spawned : int, spawn_total : int, spawner_name : StringName)
 
 # ------------------------------------------------------------------------------
 # Constants
@@ -44,7 +44,7 @@ var _interval : float = SPAWN_INTERVAL
 # Override Methods
 # ------------------------------------------------------------------------------
 func _ready() -> void:
-	bot_spawned.emit(_num_spawned, spawn_count)
+	bot_spawned.emit(_num_spawned, spawn_count, name)
 
 func _process(delta : float) -> void:
 	if not _spawning:
@@ -76,7 +76,7 @@ func spawn() -> void:
 	_asprite.play(ANIM_OPENED)
 	_SpawnBot()
 	_num_spawned += 1
-	bot_spawned.emit(_num_spawned, spawn_count)
+	bot_spawned.emit(_num_spawned, spawn_count, name)
 	
 	await get_tree().create_timer(1.0).timeout
 	_asprite.play(ANIM_CLOSING)

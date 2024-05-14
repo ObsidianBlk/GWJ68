@@ -24,6 +24,8 @@ var _bots_saved : int = 0
 var _bots_total : int = 0
 var _bots_required : int = 0
 
+var _entered_group : Dictionary = {}
+
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
@@ -47,6 +49,12 @@ var _bots_required : int = 0
 # ------------------------------------------------------------------------------
 func _UpdateInformation() -> void:
 	if _lbl_spawning_value == null: return
+	_bots_total = 0
+	_bots_entered = 0
+	for spawn_info : Dictionary in _entered_group.values():
+		_bots_total += spawn_info.total
+		_bots_entered += spawn_info.spawned
+	
 	_lbl_spawning_value.text = "%s / %s"%[_bots_entered, _bots_total]
 	_lbl_prog_value.text = "%s / %s"%[_bots_saved, _bots_required]
 	_lbl_lost_value.text = "%s"%[max(0, _bots_removed - _bots_saved)]
@@ -59,9 +67,11 @@ func bots_saved(count : int, required : int) -> void:
 	_bots_required = required
 	_UpdateInformation()
 
-func bots_spawned(count : int, total : int) -> void:
-	_bots_total = total
-	_bots_entered = count
+func bots_spawned(count : int, total : int, spawner_name : StringName) -> void:
+	_entered_group[spawner_name] = {
+		"total": total,
+		"spawned": count
+	}
 	_UpdateInformation()
 
 func bot_removed() -> void:
