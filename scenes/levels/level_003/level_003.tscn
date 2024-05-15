@@ -157,9 +157,6 @@ start_hidden = true
 layer = 6
 
 [node name="LevelInfoBar" parent="InfoHUD" instance=ExtResource("14_gt2yt")]
-offset_left = -220.0
-offset_right = 220.0
-offset_bottom = 56.0
 
 [node name="SpeedBarLayer" type="CanvasLayer" parent="."]
 layer = 6

@@ -144,9 +144,6 @@ metadata/_edit_use_anchors_ = true
 layer = 6
 
 [node name="LevelInfoBar" parent="InfoHUD" instance=ExtResource("14_bwie7")]
-offset_left = -220.0
-offset_right = 220.0
-offset_bottom = 56.0
 
 [connection signal="bot_removed" from="." to="InfoHUD/LevelInfoBar" method="bot_removed"]
 [connection signal="bot_saved" from="." to="InfoHUD/LevelInfoBar" method="bots_saved"]

@@ -170,6 +170,8 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 		UILayer.REQUEST_LOAD_LEVEL:
 			if not "src" in payload: return
 			if typeof(payload["src"]) == TYPE_STRING:
+				if _active_level == null:
+					Game.reset_run()
 				_ChangeLevel(payload["src"])
 		UILayer.REQUEST_QUIT_TO_MAIN:
 			if _active_level != null:

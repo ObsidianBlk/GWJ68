@@ -16,19 +16,18 @@ shader_parameter/new_palette = ExtResource("5_81tc8")
 
 [node name="LevelInfoBar" type="MarginContainer"]
 texture_filter = 3
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 56.0
 grow_horizontal = 2
 theme = ExtResource("1_twj8p")
 theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 12
 script = ExtResource("2_q3r68")
 
 [node name="Layout" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
 
 [node name="SpawningPanel" type="PanelContainer" parent="Layout"]
@@ -72,12 +71,33 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/RescuedPanel/Info"]
 layout_mode = 2
 theme_type_variation = &"LabelDarker"
-text = "Progressed: "
+text = "Saved: "
 
 [node name="LBL_Prog_Value" type="Label" parent="Layout/RescuedPanel/Info"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0/0"
+
+[node name="TimerPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TimerPanel"]
+custom_minimum_size = Vector2(196, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TimerPanel/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"LabelDarker"
+text = "Time: "
+
+[node name="LBL_Time_Value" type="Label" parent="TimerPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "000:00:00"
+horizontal_alignment = 2
 
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_4syjh")

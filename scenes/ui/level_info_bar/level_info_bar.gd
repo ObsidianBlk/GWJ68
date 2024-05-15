@@ -32,6 +32,7 @@ var _entered_group : Dictionary = {}
 @onready var _lbl_spawning_value: Label = %LBL_Spawning_Value
 @onready var _lbl_lost_value: Label = %LBL_Lost_Value
 @onready var _lbl_prog_value: Label = %LBL_Prog_Value
+@onready var _lbl_time_value: Label = %LBL_Time_Value
 
 
 # ------------------------------------------------------------------------------
@@ -42,7 +43,9 @@ var _entered_group : Dictionary = {}
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
+func _ready() -> void:
+	Game.run_time_updated.connect(_on_run_time_updated)
+	_on_run_time_updated(Game.get_run_time())
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -82,6 +85,11 @@ func bot_removed() -> void:
 # ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
-
-
-
+func _on_run_time_updated(time : float) -> void:
+	var hours : int = int(time / 3600.0)
+	time -= hours * 3600.0
+	
+	var minutes : int = int(time / 60.0)
+	time -= minutes * 60.0
+	
+	_lbl_time_value.text = "%03d:%02d:%02d"%[hours, minutes, int(time)]

@@ -61,6 +61,7 @@ func set_bot_container(c : Node2D) -> void:
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	_ConnectBotContainer()
+	Game.add_level_stat_entry(name, required_saved)
 	bot_saved.emit(_bots_saved, required_saved)
 
 func _enter_tree() -> void:
@@ -76,6 +77,9 @@ func _process(_delta: float) -> void:
 	if _bots_entered > 0 and bot_container.get_children().size() <= 0:
 		_RequestNextLevel.call_deferred()
 		set_process(false)
+		Game.stop_run()
+	elif not Game.is_running():
+		Game.start_run()
 
 # ------------------------------------------------------------------------------
 # Private Methods
@@ -130,6 +134,7 @@ func request(action : StringName, payload : Dictionary = {}) -> void:
 
 func bot_rescued() -> void:
 	_bots_saved += 1
+	Game.store_level_saved_count(name, _bots_saved)
 	bot_saved.emit(_bots_saved, required_saved)
 
 func build_at(pos : Vector2) -> void:
@@ -154,6 +159,7 @@ func is_paused() -> bool:
 func _on_bot_container_child_entered(node : Node) -> void:
 	if node is LilBot:
 		_bots_entered += 1
+		Game.store_level_spanwed_count(name, _bots_entered)
 		bot_entered.emit()
 
 func _on_bot_container_child_exited(node : Node) -> void:

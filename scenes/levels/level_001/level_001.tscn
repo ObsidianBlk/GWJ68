@@ -110,9 +110,6 @@ shape = SubResource("CircleShape2D_a881p")
 layer = 6
 
 [node name="LevelInfoBar" parent="TopHud" instance=ExtResource("13_ykvu2")]
-offset_left = -220.0
-offset_right = 220.0
-offset_bottom = 56.0
 slide_length = 56
 slide_duration = 1.0
 

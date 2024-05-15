@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://swtogy3ba8e6"]
+
+[ext_resource type="Script" path="res://scenes/ui/level_success/anim/success_anim.gd" id="1_5d1wo"]
+[ext_resource type="Texture2D" uid="uid://crq334ktqyxmw" path="res://assets/graphics/BMF.png" id="2_srmno"]
+
+[node name="SuccessAnim" type="Node2D"]
+texture_filter = 3
+script = ExtResource("1_5d1wo")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(512, 256)
+offset_left = -256.0
+offset_top = -128.0
+offset_right = 256.0
+offset_bottom = 128.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Success" type="Node2D" parent="."]
+position = Vector2(-91, -90)
+
+[node name="Letter_01" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 18
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_02" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(29, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 20
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_03" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(60, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 2
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_04" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(90, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 2
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_05" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(119, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 4
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_06" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(150, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 18
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Letter_07" type="Sprite2D" parent="Success"]
+unique_name_in_owner = true
+position = Vector2(177, 0)
+texture = ExtResource("2_srmno")
+hframes = 26
+frame = 18
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Camera2D" type="Camera2D" parent="."]
