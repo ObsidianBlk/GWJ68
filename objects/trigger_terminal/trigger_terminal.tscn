@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://kmvkcur8wujl"]
+[gd_scene load_steps=11 format=3 uid="uid://kmvkcur8wujl"]
 
 [ext_resource type="Script" path="res://objects/trigger_terminal/trigger_terminal.gd" id="1_n6taa"]
 [ext_resource type="Texture2D" uid="uid://cegodn1vv20tv" path="res://assets/graphics/trigger_terminal/TriggerTerminal.png" id="1_receg"]
+[ext_resource type="Texture2D" uid="uid://cdrojurejw45m" path="res://assets/graphics/trigger_terminal/TermSymbol_Toggle.png" id="2_4xu7a"]
+[ext_resource type="Texture2D" uid="uid://83885bowehxx" path="res://assets/graphics/trigger_terminal/TermSymbol_Hold.png" id="3_7w3vg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i7h0d"]
 atlas = ExtResource("1_receg")
@@ -60,7 +62,17 @@ animations = [{
 size = Vector2(8, 10)
 
 [node name="TriggerTerminal" type="Node2D"]
+texture_filter = 3
 script = ExtResource("1_n6taa")
+
+[node name="SymbolToggle" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -14)
+texture = ExtResource("2_4xu7a")
+
+[node name="SymbolHold" type="Sprite2D" parent="."]
+position = Vector2(0, -14)
+texture = ExtResource("3_7w3vg")
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

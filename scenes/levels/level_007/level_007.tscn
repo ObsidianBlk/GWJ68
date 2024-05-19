@@ -37,6 +37,7 @@ b = Vector2(-296, 163)
 
 [node name="Level_007" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
 script = ExtResource("1_iud02")
+next_level_src = "res://scenes/levels/level_008/level_008.tscn"
 bot_container = NodePath("BotContainer")
 map = NodePath("Static_TileMap")
 atlas_id = Vector2i(12, 4)

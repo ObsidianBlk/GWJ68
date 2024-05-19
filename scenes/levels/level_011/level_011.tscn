@@ -1,0 +1,211 @@
+[gd_scene load_steps=24 format=3 uid="uid://cwk3jss5hog5f"]
+
+[ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_sxxcj"]
+[ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_673p2"]
+[ext_resource type="Script" path="res://scripts/nodes/ColorRectPost.gd" id="3_ea54d"]
+[ext_resource type="Script" path="res://scripts/nodes/ChaseCamera2D.gd" id="4_lihkx"]
+[ext_resource type="Script" path="res://scripts/nodes/dig_sector.gd" id="5_vornn"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="6_h8gr3"]
+[ext_resource type="TileSet" uid="uid://b6sk4fsntno66" path="res://assets/graphics/tileset/tileset_001.tres" id="7_aqrew"]
+[ext_resource type="PackedScene" uid="uid://c1f41fwap80h3" path="res://objects/bot_spawner/bot_spawner.tscn" id="8_bjfue"]
+[ext_resource type="PackedScene" uid="uid://cu1bm060wveb3" path="res://objects/bot_despawner/bot_despawner.tscn" id="9_dca5y"]
+[ext_resource type="Script" path="res://scripts/nodes/PlayerCamera2D.gd" id="10_3qclu"]
+[ext_resource type="PackedScene" uid="uid://cixuvkcwnoteg" path="res://objects/slide_door_v/slide_door_v.tscn" id="10_dts6h"]
+[ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_7frah"]
+[ext_resource type="PackedScene" uid="uid://kmvkcur8wujl" path="res://objects/trigger_terminal/trigger_terminal.tscn" id="11_qfhee"]
+[ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="12_lfhx2"]
+[ext_resource type="PackedScene" uid="uid://lc8qvfob1hmx" path="res://objects/pickup/pickup.tscn" id="12_xe723"]
+[ext_resource type="Script" path="res://scripts/nodes/bot_basket.gd" id="13_vkr2g"]
+[ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_xjpan"]
+[ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="14_17nvr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_alcab"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mtrmu"]
+resource_local_to_scene = true
+shader = ExtResource("6_h8gr3")
+shader_parameter/mask = SubResource("ViewportTexture_alcab")
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xxbwb"]
+a = Vector2(-126, 167)
+b = Vector2(180, 168)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_oo0hr"]
+a = Vector2(47, 87)
+b = Vector2(73, 87)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
+
+[node name="Level_011" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
+script = ExtResource("1_sxxcj")
+required_saved = 2
+bot_container = NodePath("BotContainer")
+map = NodePath("Static_TileMap")
+atlas_id = Vector2i(12, 4)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_673p2")
+
+[node name="ColorRectPost" type="ColorRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ea54d")
+
+[node name="ChaseCamera" type="Camera2D" parent="SubViewport" node_paths=PackedStringArray("target")]
+zoom = Vector2(6, 6)
+script = ExtResource("4_lihkx")
+target = NodePath("../../PlayerCamera2D")
+
+[node name="DigSector_Visual" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("map")]
+script = ExtResource("5_vornn")
+map = NodePath("../../Diggable_TileMap")
+
+[node name="DigSector_Collisions" type="Node2D" parent="." node_paths=PackedStringArray("map")]
+script = ExtResource("5_vornn")
+map = NodePath("../Diggable_TileMap")
+quadrant_type = 1
+
+[node name="Diggable_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+material = SubResource("ShaderMaterial_mtrmu")
+tile_set = ExtResource("7_aqrew")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(10, 524288, 0, 65546, 524288, 1, 131082, 524288, 1, 196618, 524288, 1, 262154, 524288, 1, 262155, 589824, 2, 262156, 589824, 2, 262157, 589824, 2, 262158, 720896, 2, 196622, 720896, 2, 131086, 720896, 2, 65550, 720896, 2, 14, 720896, 0, 13, 655360, 0, 12, 655360, 0, 11, 655360, 0, 65547, 589824, 2, 131083, 589824, 2, 196619, 589824, 2, 196620, 589824, 2, 196621, 589824, 2, 131085, 589824, 2, 65549, 589824, 2, 65548, 589824, 2, 131084, 589824, 2, 327690, 524288, 1, 327691, 589824, 2, 327692, 589824, 2, 327693, 589824, 2, 327694, 720896, 2, 393226, 524288, 1, 393227, 589824, 2, 393228, 589824, 2, 393229, 589824, 2, 393230, 720896, 2, 458762, 524288, 1, 458763, 589824, 2, 458764, 589824, 2, 458765, 589824, 2, 458766, 720896, 2, 524298, 524288, 1, 524299, 589824, 2, 524300, 589824, 2, 524301, 589824, 2, 524302, 720896, 2, 589834, 524288, 1, 589835, 589824, 2, 589836, 589824, 2, 589837, 589824, 2, 589838, 720896, 2, 655370, 524288, 3, 655371, 589824, 3, 655372, 589824, 3, 655373, 589824, 3, 655374, 720896, 3, -65556, 524288, 0, -65555, 655360, 0, -65554, 655360, 0, -65553, 655360, 0, -65552, 720896, 0, -17, 589824, 2, 65519, 589824, 2, 131055, 589824, 2, 196591, 589824, 2, 131056, 720896, 2, 65520, 720896, 2, -16, 720896, 2, 196592, 720896, 2, 196590, 589824, 2, 196589, 589824, 2, 196588, 524288, 1, 131052, 524288, 1, 65516, 524288, 1, -19, 589824, 2, -20, 524288, 1, 65517, 589824, 2, 131053, 589824, 2, -18, 589824, 2, 65518, 589824, 2, 131054, 589824, 2, 262124, 524288, 3, 262125, 589824, 3, 262126, 589824, 3, 262127, 589824, 3, 262128, 720896, 3)
+
+[node name="Static_TileMap" type="TileMap" parent="."]
+texture_filter = 3
+tile_set = ExtResource("7_aqrew")
+rendering_quadrant_size = 8
+format = 2
+layer_0/tile_data = PackedInt32Array(65527, 196608, 4, 2, 327680, 4, 3, 655360, 4, 4, 655360, 4, 5, 393216, 4, 6, 131072, 7, -262148, 196608, 7, -262149, 131072, 4, -262150, 131072, 7, -262151, 393216, 4, -262152, 524288, 4, -196615, 720896, 7, -196613, 0, 6, -262140, 327680, 7, -262139, 589824, 7, -262138, 393216, 7, -262137, 196608, 7, 1, 65536, 7, -65535, 917504, 5, -131072, 917504, 5, -131073, 917504, 5, -196610, 917504, 5, -262147, 917504, 5, -262141, 65536, 7, 7, 131072, 7, 8, 131072, 7, 9, 131072, 7, 10, 196608, 7, -327676, 524288, 4, -327675, 327680, 5, -327674, 720896, 6, -393211, 524288, 4, -393210, 393216, 4, -393209, 131072, 7, -393208, 196608, 7, 65541, 720896, 6, 131077, 458752, 6, 196613, 0, 5, 262149, 262144, 5, 262150, 393216, 4, 262151, 131072, 7, 262152, 327680, 4, 262153, 655360, 4, 262154, 720896, 4, 131075, 262144, 6, 65539, 327680, 6, 65538, 524288, 7, 131076, 589824, 7, 65540, 589824, 6, 196611, 458752, 5, 262147, 720896, 6, 327683, 458752, 6, 327690, 720896, 6, 393226, 720896, 7, 393225, 524288, 7, 327689, 327680, 6, 327688, 524288, 7, 327686, 720896, 7, 655370, 720896, 4, 14, 65536, 4, 65550, 0, 5, 131086, 0, 5, 196622, 0, 5, 262158, 0, 6, 15, 131072, 7, 16, 196608, 7, 655380, 589824, 6, 589844, 327680, 5, 655379, 327680, 5, 655378, 655360, 4, 655377, 655360, 4, 655376, 655360, 4, 655375, 327680, 4, 655374, 65536, 7, 524308, 524288, 5, 458772, 524288, 5, 393236, 524288, 5, 327700, 262144, 5, 262164, 0, 4, 327701, 720896, 4, 393237, 393216, 5, 458773, 393216, 6, 524309, 720896, 6, 589845, 720896, 5, 589846, 196608, 7, 393238, 720896, 4, 458774, 720896, 7, 655381, 720896, 6, 720917, 720896, 7, 720916, 393216, 6, 720915, 589824, 6, 720914, 589824, 6, 786450, 655360, 7, 786449, 589824, 7, 786448, 524288, 7, 720912, 327680, 6, 720911, 524288, 7, 720913, 589824, 6, 786451, 589824, 7, 786452, 720896, 7, 851986, 0, 6, 589843, 524288, 4, 655362, 131072, 7, 655361, 131072, 7, 655360, 65536, 7, -393199, 327680, 6, -327663, 524288, 7, -327662, 327680, 6, -262126, 524288, 7, -262125, 327680, 6, -196589, 524288, 7, -196588, 327680, 6, -196587, 393216, 5, -196586, 720896, 4, -262123, 720896, 6, -327659, 720896, 4, -327660, 655360, 4, -393197, 720896, 4, -458734, 720896, 4, -458735, 589824, 4, -458736, 524288, 4, -393200, 327680, 7, -393201, 131072, 7, -393202, 65536, 7, -393198, 393216, 5, -327661, 393216, 5, -262124, 589824, 6, -131052, 524288, 7, -131051, 655360, 7, -65515, 0, 6, -131050, 720896, 7, -524271, 0, 4, 65533, 0, 4, 655363, 327680, 4, 65526, 131072, 7, 65525, 65536, 7, 655365, 720896, 4, 655364, 655360, 4, -196616, 327680, 7, -196618, 131072, 7, -196619, 65536, 7, -196617, 131072, 7, -65550, 196608, 7, -65551, 131072, 7, -65552, 65536, 7, -65556, 720896, 4, -65557, 393216, 5, -131093, 720896, 6, -196629, 720896, 6, -262165, 720896, 4, -262166, 524288, 4, -196630, 524288, 6, -131094, 524288, 5, -65558, 524288, 6, -21, 589824, 7, -22, 524288, 7, -20, 720896, 7, 262128, 0, 4, 327664, 0, 5, 393200, 458752, 5, 393199, 327680, 4, 393198, 131072, 7, 393197, 131072, 7, 393196, 720896, 5, 327660, 720896, 6, 262124, 720896, 4, 262123, 524288, 4, 327658, 524288, 4, 393193, 131072, 7, 393192, 393216, 4, 393191, 524288, 4, 458727, 524288, 5, 524263, 524288, 7, 524264, 458752, 6, 589800, 0, 6, 458728, 720896, 6, 393194, 524288, 6, 393195, 589824, 6, 327659, 327680, 5, 458730, 524288, 7, 458731, 655360, 7, 458732, 720896, 7, 524267, 0, 5, 589803, 0, 6, 458735, 262144, 6, 458736, 720896, 7, 524271, 0, 6, 196581, 720896, 7, 131045, 458752, 5, 65509, 0, 4, 327652, 0, 6, 262116, 196608, 5, 196580, 262144, 6, 131044, 524288, 4, 262115, 65536, 7, -196631, 65536, 7, -65559, 65536, 7, 327657, 851968, 4, 262122, 851968, 4, 327661, 786432, 0, 327662, 786432, 0, 327663, 786432, 0, 1048565, 196608, 6, 1048564, 131072, 4, 1048563, 131072, 7, 1048562, 393216, 4, 1048561, 655360, 4, 1048560, 655360, 4, 1048559, 655360, 4, 1048558, 655360, 4, 1048557, 655360, 4, 1048556, 655360, 4, 1048555, 655360, 4, 1048554, 655360, 4, 1048553, 655360, 4, 1048552, 655360, 4, 1048551, 655360, 4, 1048550, 655360, 4, 1048549, 655360, 4, 1048548, 655360, 4, 1048547, 655360, 4, 1048546, 655360, 6, 983010, 720896, 4, 983009, 655360, 6, 917473, 720896, 6, 851937, 720896, 4, 851936, 262144, 5, 786400, 0, 4, 917472, 524288, 5, 983008, 524288, 7, 1048545, 524288, 7, 1114082, 524288, 7, 1114083, 589824, 7, 1114084, 655360, 7, 1114085, 589824, 7, 1114086, 655360, 7, 1114087, 589824, 7, 1114088, 327680, 6, 1114089, 589824, 6, 1114090, 589824, 6, 1114091, 589824, 6, 1114092, 589824, 6, 1114093, 589824, 6, 1114094, 589824, 6, 1114096, 589824, 6, 1114095, 589824, 6, 1114097, 393216, 6, 1114098, 720896, 7, 1179633, 720896, 7, 1179632, 655360, 7, 1179631, 589824, 7, 1179630, 655360, 7, 1179629, 589824, 7, 1179628, 393216, 6, 1179627, 589824, 6, 1179626, 589824, 6, 1179625, 589824, 6, 1179624, 524288, 5, 1245163, 589824, 7, 1245164, 720896, 7, 1245162, 655360, 7, 1245161, 589824, 7, 1245160, 524288, 7, 1310698, 0, 6, 1245168, 0, 5, 1310704, 0, 6, 1245166, 0, 6, 1114100, 0, 5, 1179636, 0, 5, 1245172, 0, 5, 1310708, 0, 6, 1179620, 0, 6, 1179622, 0, 5, 1245158, 0, 5, 1310694, 0, 6, 720882, 0, 7, 720881, 851968, 4, 983029, 0, 4, 720889, 65536, 7, 720890, 196608, 7, 786416, 0, 7, 786414, 0, 7, 786413, 851968, 4, 851948, 851968, 4, 917483, 851968, 4, 983018, 851968, 4, 393219, 65536, 6, 327685, 262144, 6, 393221, 196608, 6, 393220, 131072, 7, 327682, 524288, 7, 262146, 524288, 6, 196610, 524288, 4, 262145, 65536, 7, 720906, 458752, 6, 720905, 327680, 7, 720904, 393216, 4, 720903, 655360, 4, 720902, 327680, 4, 720901, 393216, 7, 786438, 262144, 6, 786439, 589824, 7, 786440, 458752, 6, 720900, 655360, 7, 720899, 524288, 7, 786436, 0, 6, 851976, 0, 5, 917512, 0, 6, 851974, 0, 6, 786442, 0, 6, 655366, 786432, 0, 655367, 786432, 0, 655368, 786432, 0, 655369, 524288, 4, 131068, 65536, 4, 196603, 131072, 7, 196602, 131072, 7, 196601, 131072, 7, 131064, 196608, 4, 131063, 65536, 6, 196600, 65536, 6, 196604, 196608, 6, 131069, 196608, 6, 131065, 917504, 5, 65528, 917504, 5, 131067, 851968, 4, 65532, 851968, 4)
+
+[node name="MiscItemContainer" type="Node2D" parent="." groups=["pausable"]]
+
+[node name="BotSpawner_L" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("8_bjfue")]
+position = Vector2(-43, 16)
+spawn_count = 3
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotSpawner_R" parent="MiscItemContainer" node_paths=PackedStringArray("spawn_container") instance=ExtResource("8_bjfue")]
+position = Vector2(39, 0)
+spawn_count = 3
+spawn_direction = 0
+spawn_container = NodePath("../../BotContainer")
+
+[node name="BotDespawner" parent="MiscItemContainer" instance=ExtResource("9_dca5y")]
+position = Vector2(17, 80)
+
+[node name="Door_R1" parent="MiscItemContainer" node_paths=PackedStringArray("connection") instance=ExtResource("10_dts6h")]
+position = Vector2(20, -28)
+connection = NodePath("../Term_R1")
+
+[node name="Term_R1" parent="MiscItemContainer" instance=ExtResource("11_qfhee")]
+position = Vector2(58, 0)
+
+[node name="Door_R2" parent="MiscItemContainer" node_paths=PackedStringArray("connection") instance=ExtResource("10_dts6h")]
+position = Vector2(36, 52)
+connection = NodePath("../Term_R2")
+
+[node name="Term_R2" parent="MiscItemContainer" instance=ExtResource("11_qfhee")]
+position = Vector2(-192, 40)
+
+[node name="Door_L1" parent="MiscItemContainer" node_paths=PackedStringArray("connection") instance=ExtResource("10_dts6h")]
+position = Vector2(-68, -28)
+connection = NodePath("../Term_L1")
+
+[node name="Term_L1" parent="MiscItemContainer" instance=ExtResource("11_qfhee")]
+position = Vector2(-44, -40)
+toggle = true
+
+[node name="Door_L2" parent="MiscItemContainer" node_paths=PackedStringArray("connection") instance=ExtResource("10_dts6h")]
+position = Vector2(-132, 92)
+connection = NodePath("../Term_L2")
+
+[node name="Term_L2" parent="MiscItemContainer" instance=ExtResource("11_qfhee")]
+position = Vector2(75, 32)
+
+[node name="Pickup_Booster" parent="MiscItemContainer" instance=ExtResource("12_xe723")]
+position = Vector2(-78, 0)
+pickup_item = 1
+
+[node name="Pickup_parts_01" parent="MiscItemContainer" instance=ExtResource("12_xe723")]
+position = Vector2(128, 80)
+
+[node name="Pickup_parts_02" parent="MiscItemContainer" instance=ExtResource("12_xe723")]
+position = Vector2(-152, 120)
+
+[node name="BotBasket" type="Area2D" parent="MiscItemContainer"]
+script = ExtResource("13_vkr2g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MiscItemContainer/BotBasket"]
+shape = SubResource("SegmentShape2D_xxbwb")
+
+[node name="BotBasket2" type="Area2D" parent="MiscItemContainer"]
+script = ExtResource("13_vkr2g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MiscItemContainer/BotBasket2"]
+shape = SubResource("SegmentShape2D_oo0hr")
+
+[node name="BotContainer" type="Node2D" parent="." groups=["pausable"]]
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+script = ExtResource("10_3qclu")
+
+[node name="PointerHandler" type="Node2D" parent="." groups=["pausable"]]
+script = ExtResource("11_7frah")
+object_group = &"lilbot"
+shape = SubResource("CircleShape2D_u1fep")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="CommandBar" parent="HUD" instance=ExtResource("12_lfhx2")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+slide_edge = 3
+slide_length = 98
+start_hidden = true
+
+[node name="SpeedBarLayer" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="SpeedBar" parent="SpeedBarLayer" instance=ExtResource("13_xjpan")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -83.0
+offset_right = 244.0
+offset_bottom = 0.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 48
+metadata/_edit_use_anchors_ = true
+
+[node name="InfoHUD" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="LevelInfoBar" parent="InfoHUD" instance=ExtResource("14_17nvr")]
+
+[connection signal="bot_removed" from="." to="InfoHUD/LevelInfoBar" method="bot_removed"]
+[connection signal="bot_saved" from="." to="InfoHUD/LevelInfoBar" method="bots_saved"]
+[connection signal="bot_spawned" from="MiscItemContainer/BotSpawner_L" to="InfoHUD/LevelInfoBar" method="bots_spawned"]
+[connection signal="bot_spawned" from="MiscItemContainer/BotSpawner_R" to="InfoHUD/LevelInfoBar" method="bots_spawned"]
+[connection signal="bot_rescued" from="MiscItemContainer/BotDespawner" to="." method="bot_rescued"]
+[connection signal="object_selected" from="PointerHandler" to="HUD/CommandBar" method="select_bot"]

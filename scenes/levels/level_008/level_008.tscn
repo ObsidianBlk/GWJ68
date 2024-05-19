@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b1g0aqs1fsk0i"]
+[gd_scene load_steps=23 format=3 uid="uid://b1g0aqs1fsk0i"]
 
 [ext_resource type="Script" path="res://scripts/nodes/level.gd" id="1_kkao3"]
 [ext_resource type="Script" path="res://scripts/AutoSizedSubViewport.gd" id="2_xvsl2"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/nodes/PointerHandler.gd" id="11_krki8"]
 [ext_resource type="PackedScene" uid="uid://lc8qvfob1hmx" path="res://objects/pickup/pickup.tscn" id="12_ck57j"]
 [ext_resource type="PackedScene" uid="uid://db3xvis2jktv8" path="res://scenes/ui/command_bar/command_bar.tscn" id="12_xskls"]
+[ext_resource type="Script" path="res://scripts/nodes/bot_basket.gd" id="13_dupnq"]
 [ext_resource type="PackedScene" uid="uid://blu51cyln12p5" path="res://scenes/ui/speed_bar/speed_bar.tscn" id="13_jra40"]
 [ext_resource type="PackedScene" uid="uid://cfdbjhmgm6uy4" path="res://scenes/ui/level_info_bar/level_info_bar.tscn" id="14_bwie7"]
 
@@ -26,10 +27,15 @@ resource_local_to_scene = true
 shader = ExtResource("6_6fp0j")
 shader_parameter/mask = SubResource("ViewportTexture_alcab")
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_6mxp2"]
+a = Vector2(-109, 57)
+b = Vector2(104, 57)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_u1fep"]
 
-[node name="BlankLevel" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
+[node name="Level_008" type="Node2D" node_paths=PackedStringArray("bot_container", "map")]
 script = ExtResource("1_kkao3")
+next_level_src = "res://scenes/levels/level_009/level_009.tscn"
 bot_container = NodePath("BotContainer")
 map = NodePath("Static_TileMap")
 atlas_id = Vector2i(12, 4)
@@ -95,6 +101,12 @@ connection = NodePath("../TriggerTerminal")
 
 [node name="Pickup" parent="MiscItemContainer" instance=ExtResource("12_ck57j")]
 position = Vector2(61, 0)
+
+[node name="BotBasket" type="Area2D" parent="MiscItemContainer"]
+script = ExtResource("13_dupnq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MiscItemContainer/BotBasket"]
+shape = SubResource("SegmentShape2D_6mxp2")
 
 [node name="BotContainer" type="Node2D" parent="." groups=["pausable"]]
 

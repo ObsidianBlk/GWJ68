@@ -1,3 +1,4 @@
+@tool
 extends BasicTrigger2D
 
 # ------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ const ANIM_ACTIVE : StringName = &"active"
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Trigger Terminal")
-@export var toggle : bool = false
+@export var toggle : bool = false:				set = set_toggle
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -30,21 +31,32 @@ var _can_toggle : bool = true
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var _anim_sprite: AnimatedSprite2D = %AnimSprite
+@onready var _symbol_toggle: Sprite2D = $SymbolToggle
+@onready var _symbol_hold: Sprite2D = $SymbolHold
 
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
-
+func set_toggle(t : bool) -> void:
+	toggle = t
+	_UpdateToggleSymbol()
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
-
+func _ready() -> void:
+	_UpdateToggleSymbol()
+	
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
+func _UpdateToggleSymbol() -> void:
+	if _symbol_toggle == null or _symbol_hold == null: return
+	_symbol_hold.visible = not toggle
+	_symbol_toggle.visible = toggle
+
 func _AnyBotInteracting() -> bool:
 	for interacting : bool in _bots.values():
 		if interacting:
@@ -55,6 +67,7 @@ func _AnyBotInteracting() -> bool:
 # Public Methods
 # ------------------------------------------------------------------------------
 func trigger(on : bool) -> void:
+	if Engine.is_editor_hint(): return
 	super.trigger(on)
 	_anim_sprite.play(ANIM_ACTIVE if on else ANIM_IDLE)
 
@@ -63,6 +76,7 @@ func trigger(on : bool) -> void:
 # ------------------------------------------------------------------------------
 
 func _on_trigger_area_body_entered(body : Node2D) -> void:
+	if Engine.is_editor_hint(): return
 	if not body is LilBot: return
 	if not body.action_state_changed.is_connected(_on_lilbot_action_state_changed.bind(body.name)):
 		body.action_state_changed.connect(_on_lilbot_action_state_changed.bind(body.name))
@@ -72,6 +86,7 @@ func _on_trigger_area_body_entered(body : Node2D) -> void:
 	#trigger(_AnyBotInteracting())
 
 func _on_trigger_area_body_exited(body : Node2D) -> void:
+	if Engine.is_editor_hint(): return
 	if not body is LilBot: return
 	if body.action_state_changed.is_connected(_on_lilbot_action_state_changed.bind(body.name)):
 		body.action_state_changed.disconnect(_on_lilbot_action_state_changed.bind(body.name))

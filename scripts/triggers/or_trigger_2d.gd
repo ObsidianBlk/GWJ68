@@ -48,7 +48,7 @@ func _ConnectConnections() -> void:
 	if connections.size() <= 0: return
 	for conn : BasicTrigger2D in connections:
 		if not conn.state_changed.is_connected(_on_connection_state_changed.bind(conn.name)):
-			conn.state_change.connect(_on_connection_state_changed.bind(conn.name))
+			conn.state_changed.connect(_on_connection_state_changed.bind(conn.name))
 			_connection_states[conn.name] = conn.is_active()
 	trigger(_AnyConnectionActive())
 
@@ -57,7 +57,7 @@ func _DisconnectConnections() -> void:
 	if connections.size() <= 0: return
 	for conn : BasicTrigger2D in connections:
 		if conn.state_changed.is_connected(_on_connection_state_changed.bind(conn.name)):
-			conn.state_change.disconnect(_on_connection_state_changed.bind(conn.name))
+			conn.state_changed.disconnect(_on_connection_state_changed.bind(conn.name))
 
 func _AnyConnectionActive() -> bool:
 	for val : bool in _connection_states.values():
