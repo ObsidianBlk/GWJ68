@@ -8,6 +8,8 @@ extends SlideoutMarginContainer
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
+const GROUP_LILBOT : StringName = &"lilbot"
+
 const COMMAND_DIG : StringName = &"cmd_dig"
 const COMMAND_MINE : StringName = &"cmd_mine"
 const COMMAND_TUNNEL : StringName = &"cmd_tunnel"
@@ -47,6 +49,7 @@ var _can_interact : bool = false
 @onready var _btn_booster: TextureButton = %BTNBooster
 @onready var _btn_build: TextureButton = %BTNBuild
 @onready var _btn_pause: TextureButton = %BTNPause
+@onready var _btn_kill_all: Button = %BTN_KillAll
 
 
 # ------------------------------------------------------------------------------
@@ -59,6 +62,7 @@ var _can_interact : bool = false
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	super._ready()
+	Game.bots_saved.connect(_on_bots_saved)
 	Relay.requested.connect(_on_relay_requested)
 	_cmdbtns[COMMAND_DIG] = {"btn":_btn_dig, "active":true}
 	_cmdbtns[COMMAND_MINE] = {"btn":_btn_mine, "active":true}
@@ -197,6 +201,9 @@ func _on_selected_bot_pickup_state_changed(item_name : StringName, obtained : bo
 func _on_interact_changed(can_interact : bool) -> void:
 	_cmdbtns[COMMAND_INTERACT].btn.disabled = not can_interact
 
+func _on_bots_saved(saved : int, required : int) -> void:
+	_btn_kill_all.visible = saved >= required
+
 func _on_btn_dig_toggled(toggled_on: bool) -> void:
 	var bot : LilBot = _selected_bot.get_ref()
 	if bot == null: return
@@ -252,3 +259,9 @@ func _on_btn_pause_pressed() -> void:
 func _on_btn_pause_toggled(toggled_on: bool) -> void:
 	Level.Pause_Level(toggled_on)
 	_LockCommands(toggled_on)
+
+func _on_btn_kill_all_pressed() -> void:
+	for bot : Node in get_tree().get_nodes_in_group(GROUP_LILBOT):
+		if bot is LilBot:
+			bot.request_action(&"boom")
+

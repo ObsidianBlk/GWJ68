@@ -4,6 +4,7 @@ extends Node
 # Signals
 # ------------------------------------------------------------------------------
 signal run_time_updated(time : float)
+signal bots_saved(saved : int, required : int)
 
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
@@ -97,6 +98,7 @@ func add_level_stat_entry(level_name : StringName, required_bots : int) -> void:
 func store_level_saved_count(level_name : StringName, saved : int) -> void:
 	if level_name in _run_stats:
 		_run_stats[level_name].saved = saved
+		bots_saved.emit(saved, _run_stats[level_name].required)
 
 func store_level_spanwed_count(level_name : StringName, spawned : int) -> void:
 	if level_name in _run_stats:

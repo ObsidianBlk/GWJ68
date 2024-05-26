@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://db3xvis2jktv8"]
+[gd_scene load_steps=37 format=3 uid="uid://db3xvis2jktv8"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_eqwo6"]
 [ext_resource type="Script" path="res://scenes/ui/command_bar/command_bar.gd" id="1_hd7kd"]
@@ -25,6 +25,65 @@
 [ext_resource type="Texture2D" uid="uid://y6f0cffwcpu6" path="res://assets/graphics/ui/command_cards/CC_Build_selected.png" id="15_wsxcq"]
 [ext_resource type="Texture2D" uid="uid://qnlyi3dhxpp2" path="res://assets/graphics/ui/command_cards/CC_Pause.png" id="16_2rwny"]
 [ext_resource type="Texture2D" uid="uid://cleltg38m5o12" path="res://assets/graphics/ui/command_cards/CC_Pause_selected.png" id="17_f1p5k"]
+[ext_resource type="Texture2D" uid="uid://c5iyxdadl4ol" path="res://assets/graphics/lilbotty/explosion.png" id="22_e00ag"]
+[ext_resource type="Script" path="res://scripts/nodes/animated_texutre_rect.gd" id="23_nbcre"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqd5g"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abwqc"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87v8b"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4sqr"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcsp7"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwiby"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fgv4"]
+atlas = ExtResource("22_e00ag")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_isrdt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abwqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87v8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4sqr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vcsp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwiby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqd5g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fgv4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vm7gv"]
 shader = ExtResource("4_4fue1")
@@ -243,9 +302,35 @@ texture_normal = ExtResource("16_2rwny")
 texture_pressed = ExtResource("17_f1p5k")
 texture_focused = ExtResource("6_xec74")
 
+[node name="KillAll" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="BTN_KillAll" type="Button" parent="KillAll"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_type_variation = &"ButtonAlt"
+
+[node name="AnimatedTextureRect" type="TextureRect" parent="KillAll/BTN_KillAll"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_eqd5g")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("23_nbcre")
+sprite_frames = SubResource("SpriteFrames_isrdt")
+auto_play = true
+
 [node name="ColorRectSwap" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_vm7gv")
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("7_yhta4")
 
 [connection signal="toggled" from="VBoxContainer/SMC_DigCommand/BTNDig" to="." method="_on_btn_dig_toggled"]
@@ -257,3 +342,4 @@ script = ExtResource("7_yhta4")
 [connection signal="toggled" from="VBoxContainer/SMC_BoosterCommand/BTNBooster" to="." method="_on_btn_booster_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_BuildCommand/BTNBuild" to="." method="_on_btn_build_toggled"]
 [connection signal="toggled" from="VBoxContainer/SMC_PauseCommand/BTNPause" to="." method="_on_btn_pause_toggled"]
+[connection signal="pressed" from="KillAll/BTN_KillAll" to="." method="_on_btn_kill_all_pressed"]
