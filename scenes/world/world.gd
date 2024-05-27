@@ -184,10 +184,7 @@ func _on_ui_requested(action : StringName, payload : Dictionary) -> void:
 
 func _on_level_requested(action : StringName, payload : Dictionary = {}) -> void:
 	match action:
-		Level.REQUEST_LEVEL_SUCCESS:
+		Level.REQUEST_LEVEL_ENDED:
 			get_tree().paused = true
 			ui.show_ui(MENU_LEVEL_SUCCESS, payload)
-		Level.REQUEST_LEVEL_FAILED:
-			get_tree().paused = true
-			ui.show_ui(MENU_LEVEL_FAILED, payload)
 

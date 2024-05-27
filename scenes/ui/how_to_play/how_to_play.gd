@@ -17,6 +17,10 @@ var _pageList : Array[Control] = []
 @onready var _page_05: MarginContainer = %Page_05
 @onready var _page_06: MarginContainer = %Page_06
 @onready var _page_07: MarginContainer = %Page_07
+@onready var _page_08: MarginContainer = %Page_08
+@onready var _page_09: MarginContainer = %Page_09
+@onready var _page_10: MarginContainer = %Page_10
+@onready var _page_11: MarginContainer = %Page_11
 
 
 # ------------------------------------------------------------------------------
@@ -30,7 +34,11 @@ func _ready() -> void:
 		_page_04,
 		_page_05,
 		_page_06,
-		_page_07
+		_page_07,
+		_page_08,
+		_page_09,
+		_page_10,
+		_page_11
 	])
 
 # ------------------------------------------------------------------------------
@@ -39,6 +47,7 @@ func _ready() -> void:
 func _visibility_updating(data : Dictionary) -> void:
 	if not visible:
 		_page_idx = 0
+		_PageToIndex()
 
 # ------------------------------------------------------------------------------
 # Private Methods

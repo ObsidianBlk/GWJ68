@@ -104,6 +104,15 @@ func store_level_spanwed_count(level_name : StringName, spawned : int) -> void:
 	if level_name in _run_stats:
 		_run_stats[level_name].spawned = spawned
 
+func get_level_stats(level_name : StringName) -> Dictionary:
+	var stats : Dictionary = {}
+	if level_name in _run_stats:
+		stats["required"] = _run_stats[level_name]["required"]
+		stats["saved"] = _run_stats[level_name]["saved"]
+		stats["spawned"] = _run_stats[level_name]["spawned"]
+		stats["lost"] = _run_stats[level_name]["spawned"] - _run_stats[level_name]["saved"]
+	return stats
+
 func get_run_statistics() -> Dictionary:
 	var stats : Dictionary = {
 		"required":0,
@@ -122,6 +131,16 @@ func get_run_statistics() -> Dictionary:
 	stats.lost = stats.spawned - stats.saved
 	
 	return stats
+
+func hms_from_float(val : float) -> String:
+	if val < 0.0: return ""
+	var hours : int = int(val / 3600.0)
+	val -= hours * 3600.0
+	
+	var minutes : int = int(val / 60.0)
+	val -= minutes * 60.0
+	
+	return "%03d:%02d:%02d"%[hours, minutes, int(val)]
 
 # ------------------------------------------------------------------------------
 # Handler Methods

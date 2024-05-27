@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://swtogy3ba8e6"]
+[gd_scene load_steps=5 format=3 uid="uid://swtogy3ba8e6"]
 
 [ext_resource type="Script" path="res://scenes/ui/level_success/anim/success_anim.gd" id="1_5d1wo"]
 [ext_resource type="Texture2D" uid="uid://crq334ktqyxmw" path="res://assets/graphics/BMF.png" id="2_srmno"]
+[ext_resource type="Texture2D" uid="uid://bb0sjpy03amb4" path="res://assets/graphics/lilbotty/body.png" id="3_m3l48"]
+[ext_resource type="Texture2D" uid="uid://bflg3tecba4t7" path="res://assets/graphics/lilbotty/faceplate.png" id="4_yjacs"]
 
 [node name="SuccessAnim" type="Node2D"]
 texture_filter = 3
@@ -76,3 +78,26 @@ frame = 18
 region_rect = Rect2(0, 0, 32, 32)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Bot_01" type="Node2D" parent="."]
+position = Vector2(124, -83)
+
+[node name="Body" type="Sprite2D" parent="Bot_01"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_m3l48")
+
+[node name="Faceplate" type="Sprite2D" parent="Bot_01"]
+scale = Vector2(2, 2)
+texture = ExtResource("4_yjacs")
+
+[node name="Bot_02" type="Node2D" parent="."]
+position = Vector2(-127, -83)
+scale = Vector2(-1, 1)
+
+[node name="Body" type="Sprite2D" parent="Bot_02"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_m3l48")
+
+[node name="Faceplate" type="Sprite2D" parent="Bot_02"]
+scale = Vector2(2, 2)
+texture = ExtResource("4_yjacs")

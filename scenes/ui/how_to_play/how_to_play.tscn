@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dueuyxfuq6h26"]
+[gd_scene load_steps=44 format=3 uid="uid://dueuyxfuq6h26"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_pssa6"]
 [ext_resource type="Script" path="res://scenes/ui/how_to_play/how_to_play.gd" id="2_eaneq"]
@@ -14,11 +14,121 @@
 [ext_resource type="Texture2D" uid="uid://jnxbia8jdfqe" path="res://assets/graphics/part.png" id="10_cndk3"]
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="10_ertwy"]
 [ext_resource type="Texture2D" uid="uid://dqirdbuy3voyc" path="res://assets/graphics/booster.png" id="11_4vuxv"]
+[ext_resource type="Texture2D" uid="uid://cegodn1vv20tv" path="res://assets/graphics/trigger_terminal/TriggerTerminal.png" id="11_a8mn5"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="11_lnooc"]
 [ext_resource type="Texture2D" uid="uid://depdta8itx1gh" path="res://assets/graphics/ui/command_cards/CC_Boost.png" id="12_5lp2v"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="12_31l44"]
+[ext_resource type="Script" path="res://scripts/nodes/animated_texutre_rect.gd" id="12_ktda2"]
 [ext_resource type="Texture2D" uid="uid://bqdm8ic3ve2ep" path="res://assets/graphics/ui/command_cards/CC_Build.png" id="13_ilxb6"]
-[ext_resource type="Texture2D" uid="uid://qnlyi3dhxpp2" path="res://assets/graphics/ui/command_cards/CC_Pause.png" id="14_y8ab4"]
+[ext_resource type="Texture2D" uid="uid://83885bowehxx" path="res://assets/graphics/trigger_terminal/TermSymbol_Hold.png" id="13_jja23"]
+[ext_resource type="Texture2D" uid="uid://dmigt3tmtjhke" path="res://assets/graphics/ui/command_cards/CC_Interact.png" id="13_riqex"]
+[ext_resource type="Texture2D" uid="uid://cdrojurejw45m" path="res://assets/graphics/trigger_terminal/TermSymbol_Toggle.png" id="14_6x2uu"]
+[ext_resource type="Texture2D" uid="uid://c5iyxdadl4ol" path="res://assets/graphics/lilbotty/explosion.png" id="18_g66pu"]
+[ext_resource type="Texture2D" uid="uid://dh4a34f5d6rg4" path="res://assets/graphics/ui/speed_buttons/normal_pause.png" id="21_eq28g"]
+[ext_resource type="Texture2D" uid="uid://bxy1k0xfu0rn2" path="res://assets/graphics/ui/speed_buttons/normal_1_speed.png" id="22_l2pr8"]
+[ext_resource type="Texture2D" uid="uid://di6ajskt1taoa" path="res://assets/graphics/ui/speed_buttons/normal_1.5_speed.png" id="23_hbjj1"]
+[ext_resource type="Texture2D" uid="uid://bs20rv8fc2ekf" path="res://assets/graphics/ui/speed_buttons/normal_2_speed.png" id="24_x2wk2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ti8gj"]
+atlas = ExtResource("11_a8mn5")
+region = Rect2(0, 0, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q5c78"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ti8gj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qepjs"]
+atlas = ExtResource("11_a8mn5")
+region = Rect2(8, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4ux5"]
+atlas = ExtResource("11_a8mn5")
+region = Rect2(16, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6t5q"]
+atlas = ExtResource("11_a8mn5")
+region = Rect2(24, 0, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5lkn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qepjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4ux5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6t5q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsdqa"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uid82"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvqsw"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhvid"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cedpt"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioxyh"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ummey"]
+atlas = ExtResource("18_g66pu")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1mbe7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uid82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvqsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhvid")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cedpt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioxyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ummey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsdqa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t84uo"]
 shader = ExtResource("9_rknxn")
@@ -89,6 +199,7 @@ layout_mode = 2
 
 [node name="Page_01" type="MarginContainer" parent="MC/VBC/Content"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="PageLayout" type="VBoxContainer" parent="MC/VBC/Content/Page_01"]
@@ -315,54 +426,80 @@ layout_mode = 2
 
 [node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_05"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Label2" type="Label" parent="MC/VBC/Content/Page_05/Layout"]
-layout_mode = 2
-text = "There are two pickups in the game...
-
-"
-
-[node name="Pickups" type="HBoxContainer" parent="MC/VBC/Content/Page_05/Layout"]
+[node name="Terminals" type="HBoxContainer" parent="MC/VBC/Content/Page_05/Layout"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+[node name="IdleTermTexture" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Terminals"]
+custom_minimum_size = Vector2(32, 64)
 layout_mode = 2
-size_flags_vertical = 1
-text = "PARTS"
-vertical_alignment = 1
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ti8gj")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("12_ktda2")
+sprite_frames = SubResource("SpriteFrames_q5c78")
+auto_play = true
 
-[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-texture = ExtResource("10_cndk3")
-stretch_mode = 4
-
-[node name="Label2" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout/Terminals"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "and"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "TERMINALS
+Some levels contain terminals.
+Terminals open doors that may exist
+within a level."
 
-[node name="TextureRect2" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
-custom_minimum_size = Vector2(48, 48)
+[node name="ActiveTermTexture" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/Terminals"]
+custom_minimum_size = Vector2(32, 64)
 layout_mode = 2
-texture = ExtResource("11_4vuxv")
-stretch_mode = 4
-
-[node name="Label3" type="Label" parent="MC/VBC/Content/Page_05/Layout/Pickups"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "BOOSTER"
-vertical_alignment = 1
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_qepjs")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("12_ktda2")
+sprite_frames = SubResource("SpriteFrames_k5lkn")
+auto_play = true
 
 [node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout"]
 layout_mode = 2
-text = "
-A Lil Botty can only have one pickup at
-any time, and the pickup will give the
-Lil Botty a new command"
+text = "Above every terminal is a symbol which
+identifies a terminal as one of two types."
+
+[node name="HoldTerminals" type="HBoxContainer" parent="MC/VBC/Content/Page_05/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/HoldTerminals"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("13_jja23")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout/HoldTerminals"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Terminals with this symbol will only
+remain active while a Lil Botty is
+interactive with it."
+
+[node name="ToggleTerminals" type="HBoxContainer" parent="MC/VBC/Content/Page_05/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_05/Layout/ToggleTerminals"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Terminals with the half circle symbol
+will toggle on or off with each
+seperate interaction from a Lil Botty."
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_05/Layout/ToggleTerminals"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("14_6x2uu")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="Page_06" type="MarginContainer" parent="MC/VBC/Content"]
 unique_name_in_owner = true
@@ -371,17 +508,105 @@ layout_mode = 2
 
 [node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_06"]
 layout_mode = 2
-theme_override_constants/separation = 24
 
-[node name="CMD_Booster" type="HBoxContainer" parent="MC/VBC/Content/Page_06/Layout"]
+[node name="Command" type="HBoxContainer" parent="MC/VBC/Content/Page_06/Layout"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_06/Layout/CMD_Booster"]
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_06/Layout/Command"]
+layout_mode = 2
+texture = ExtResource("13_riqex")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_06/Layout/Command"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "When a Lil Botty is near a Terminal
+the Interact command button will
+become available.
+
+When selected, the Lil Botty will
+turn towards the terminal
+activating it.
+
+Whether a terminal stays activate
+after a Lil Botty stops interacting
+depends on the symbol found above
+the terminal."
+
+[node name="Page_07" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_07"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_07/Layout"]
+layout_mode = 2
+text = "There are two pickups in the game...
+
+"
+
+[node name="Pickups" type="HBoxContainer" parent="MC/VBC/Content/Page_07/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_07/Layout/Pickups"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "PARTS"
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_07/Layout/Pickups"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("10_cndk3")
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="MC/VBC/Content/Page_07/Layout/Pickups"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "and"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="MC/VBC/Content/Page_07/Layout/Pickups"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("11_4vuxv")
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="MC/VBC/Content/Page_07/Layout/Pickups"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "BOOSTER"
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_07/Layout"]
+layout_mode = 2
+text = "
+A Lil Botty can only have one pickup at
+any time, and the pickup will give the
+Lil Botty a new command"
+
+[node name="Page_08" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_08"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CMD_Booster" type="HBoxContainer" parent="MC/VBC/Content/Page_08/Layout"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_08/Layout/CMD_Booster"]
 layout_mode = 2
 texture = ExtResource("12_5lp2v")
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="MC/VBC/Content/Page_06/Layout/CMD_Booster"]
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_08/Layout/CMD_Booster"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "BOOSTER
@@ -391,10 +616,10 @@ brief period of time. Once the
 boost has ended, the Lil Botty will
 loose the Booster pickup."
 
-[node name="CMD_Build" type="HBoxContainer" parent="MC/VBC/Content/Page_06/Layout"]
+[node name="CMD_Build" type="HBoxContainer" parent="MC/VBC/Content/Page_08/Layout"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MC/VBC/Content/Page_06/Layout/CMD_Build"]
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_08/Layout/CMD_Build"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -407,36 +632,112 @@ used, the Lil Botty looses the
 Parts Pickup."
 horizontal_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_06/Layout/CMD_Build"]
+[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_08/Layout/CMD_Build"]
 layout_mode = 2
 texture = ExtResource("13_ilxb6")
 stretch_mode = 4
 
-[node name="Page_07" type="MarginContainer" parent="MC/VBC/Content"]
+[node name="Page_09" type="MarginContainer" parent="MC/VBC/Content"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_07"]
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_09"]
 layout_mode = 2
 
-[node name="CMD_Pause" type="HBoxContainer" parent="MC/VBC/Content/Page_07/Layout"]
+[node name="CMD_Pause" type="HBoxContainer" parent="MC/VBC/Content/Page_09/Layout"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MC/VBC/Content/Page_07/Layout/CMD_Pause"]
+[node name="Button" type="Button" parent="MC/VBC/Content/Page_09/Layout/CMD_Pause"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture = ExtResource("14_y8ab4")
-stretch_mode = 4
+size_flags_vertical = 4
+theme_type_variation = &"ButtonAlt"
 
-[node name="Label" type="Label" parent="MC/VBC/Content/Page_07/Layout/CMD_Pause"]
+[node name="AnimatedTextureRect" type="TextureRect" parent="MC/VBC/Content/Page_09/Layout/CMD_Pause/Button"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_lsdqa")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("12_ktda2")
+sprite_frames = SubResource("SpriteFrames_1mbe7")
+auto_play = true
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_09/Layout/CMD_Pause"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "PAUSE
-When active, the level will pause
-allowing you to scroll around the
-level.
+text = "DETONATE
+When the required number of Lil Bottys
+have been saved, the Detonate button
+will appear at the far right of the
+command bar. Clicking the Detonate
+button will destroy all Lil Bottys
+that remain (swiftly ending the level)
 
 "
+
+[node name="Page_10" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_10"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MC/VBC/Content/Page_10/Layout"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TexPause" type="TextureRect" parent="MC/VBC/Content/Page_10/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("21_eq28g")
+
+[node name="TexSpeed1" type="TextureRect" parent="MC/VBC/Content/Page_10/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("22_l2pr8")
+
+[node name="TexSpeed1_5" type="TextureRect" parent="MC/VBC/Content/Page_10/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("23_hbjj1")
+
+[node name="TexSpeed2" type="TextureRect" parent="MC/VBC/Content/Page_10/Layout/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("24_x2wk2")
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_10/Layout"]
+layout_mode = 2
+text = "Above and to the left of the Command Bar,
+and always visible, are the game speed
+options.
+
+From left to right, these are...
+PAUSE - The game will pause, but you will
+   still be able to scroll around the
+   level.
+
+NORMAL - The game's normal play speed
+
+X1.5 - The game will play at x1.5 the
+   Normal speed.
+
+x2 - The game will play at x2 the Normal
+   speed."
+
+[node name="Page_11" type="MarginContainer" parent="MC/VBC/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="MC/VBC/Content/Page_11"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MC/VBC/Content/Page_11/Layout"]
+layout_mode = 2
+text = "You can look around a level at any time by
+simply holding down the Right Mouse Button
+and dragging across the screen!"
 
 [node name="ColorRectSwap" type="ColorRect" parent="MC"]
 material = SubResource("ShaderMaterial_t84uo")

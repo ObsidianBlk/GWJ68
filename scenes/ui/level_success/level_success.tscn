@@ -1,13 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhmtvsqn05jlj"]
+[gd_scene load_steps=13 format=3 uid="uid://bhmtvsqn05jlj"]
 
 [ext_resource type="Theme" uid="uid://l28o45infhdy" path="res://scenes/ui/game.theme" id="1_oykyk"]
 [ext_resource type="Script" path="res://scenes/ui/level_success/level_success.gd" id="1_ytily"]
 [ext_resource type="PackedScene" uid="uid://swtogy3ba8e6" path="res://scenes/ui/level_success/anim/success_anim.tscn" id="4_3awoi"]
 [ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="5_8843t"]
+[ext_resource type="Texture2D" uid="uid://c6rpg2hs2pw0h" path="res://assets/graphics/ui/arrow_right.png" id="5_ex8kc"]
+[ext_resource type="Texture2D" uid="uid://kvrmrl12om50" path="res://assets/graphics/ui/arrow_left.png" id="6_8xmsw"]
 [ext_resource type="Texture2D" uid="uid://h0jq4je3xbt7" path="res://assets/graphics/palettes/warm-ochre-4-1x.png" id="6_412f6"]
 [ext_resource type="Texture2D" uid="uid://b7m2v4p5ab82w" path="res://assets/graphics/palettes/moonlight-gb-4-1x.png" id="7_0tw1k"]
 [ext_resource type="Script" path="res://scripts/nodes/ColorRectSwap.gd" id="8_gcurq"]
 [ext_resource type="Script" path="res://scripts/nodes/slideout_margin_container.gd" id="9_ytvps"]
+[ext_resource type="AudioStream" uid="uid://coc8owoa10ybx" path="res://assets/audio/lilbot/you_let_us_die.wav" id="11_4yf2y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2xrm"]
 shader = ExtResource("5_8843t")
@@ -54,12 +57,24 @@ layout_mode = 2
 custom_minimum_size = Vector2(512, 256)
 layout_mode = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
+[node name="LBL_Failed" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+text = "You let your Little Botties down!
+... or explode
+... or get impaled
+... hell, I don't know, just...
+YOU FAILED"
+horizontal_alignment = 1
+
+[node name="SubView_Success" type="SubViewportContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(512, 256)
 layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubView_Success"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -68,45 +83,205 @@ size = Vector2i(512, 256)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="SuccessAnim" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport" instance=ExtResource("4_3awoi")]
+[node name="SuccessAnim" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubView_Success/SubViewport" instance=ExtResource("4_3awoi")]
 
-[node name="Camera2D" type="Camera2D" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubViewportContainer/SubViewport"]
+[node name="Camera2D" type="Camera2D" parent="Slideout/PanelContainer/MainLayout/InfoContainer/SubView_Success/SubViewport"]
 
-[node name="VBC" type="VBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
+[node name="Information" type="MarginContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 96
+
+[node name="LevelStats" type="VBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC"]
-layout_mode = 2
-text = "Number of Lil Botty's Saved / Required"
-horizontal_alignment = 1
-
-[node name="HBC" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC"]
+[node name="Header" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="BTN_ToRunStats" type="Button" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/Header"]
+layout_mode = 2
+icon = ExtResource("5_ex8kc")
+
+[node name="Heading" type="PanelContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LBL_Saved" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/Header/Heading"]
+layout_mode = 2
+text = "Level Stats"
+horizontal_alignment = 1
+
+[node name="HBC" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats"]
+layout_mode = 2
+
+[node name="Spacer_01" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Stats" type="GridContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="LBL_Spawned" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Spawned:"
+
+[node name="LBL_LVL_Spawned_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "0"
+horizontal_alignment = 2
 
-[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="LBL_Required" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
 layout_mode = 2
-text = "/"
+text = "Required:"
 
-[node name="LBL_Required" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="LBL_LVL_Required_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0"
+text = "0
+"
+horizontal_alignment = 2
 
-[node name="Spacer2" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/VBC/HBC"]
+[node name="LBL_Saved" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
+layout_mode = 2
+text = "Saved:"
+
+[node name="LBL_LVL_Saved_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="LBL_Lost" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
+layout_mode = 2
+text = "Lost:"
+
+[node name="LBL_LVL_Lost_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="Spacer_02" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RunStats" type="VBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats"]
+layout_mode = 2
+
+[node name="Heading" type="PanelContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/Header/Heading"]
+layout_mode = 2
+text = "Run Stats"
+horizontal_alignment = 1
+
+[node name="BTN_ToLevelStats" type="Button" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/Header"]
+layout_mode = 2
+icon = ExtResource("6_8xmsw")
+
+[node name="HBC" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LBL_Hardcore" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hardcore Mode"
+
+[node name="Label" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/VBoxContainer"]
+layout_mode = 2
+text = "Run Time:"
+
+[node name="LBL_Run_Time" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00:00"
+
+[node name="VSeparator" type="VSeparator" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC"]
+layout_mode = 2
+
+[node name="Stats" type="GridContainer" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="LBL_Spawned" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Spawned:"
+
+[node name="LBL_RUN_Spawned_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="LBL_Required" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Required:"
+
+[node name="LBL_RUN_Required_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="LBL_Saved" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Saved:"
+
+[node name="LBL_RUN_Saved_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="LBL_Lost" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lost:"
+
+[node name="LBL_RUN_Lost_Value" type="Label" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="Spacer_02" type="Control" parent="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/HBC"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="OptionsContainer" type="HBoxContainer" parent="Slideout/PanelContainer/MainLayout"]
 layout_mode = 2
+
+[node name="BTN_Retry" type="Button" parent="Slideout/PanelContainer/MainLayout/OptionsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Retry"
 
 [node name="BTN_Quit" type="Button" parent="Slideout/PanelContainer/MainLayout/OptionsContainer"]
 unique_name_in_owner = true
@@ -118,12 +293,21 @@ text = "Quit to Main"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Continue to Next Level"
+text = "Next Level"
 
 [node name="ColorRectSwap" type="ColorRect" parent="Slideout"]
 material = SubResource("ShaderMaterial_h2xrm")
 layout_mode = 2
 script = ExtResource("8_gcurq")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_4yf2y")
+bus = &"SFX"
+
+[connection signal="slide_finished" from="Slideout" to="." method="_on_slideout_slide_finished"]
+[connection signal="pressed" from="Slideout/PanelContainer/MainLayout/InfoContainer/Information/LevelStats/Header/BTN_ToRunStats" to="." method="_on_btn_to_run_stats_pressed"]
+[connection signal="pressed" from="Slideout/PanelContainer/MainLayout/InfoContainer/Information/RunStats/Header/BTN_ToLevelStats" to="." method="_on_btn_to_level_stats_pressed"]
+[connection signal="pressed" from="Slideout/PanelContainer/MainLayout/OptionsContainer/BTN_Retry" to="." method="_on_btn_retry_pressed"]
 [connection signal="pressed" from="Slideout/PanelContainer/MainLayout/OptionsContainer/BTN_Quit" to="." method="_on_btn_quit_pressed"]
 [connection signal="pressed" from="Slideout/PanelContainer/MainLayout/OptionsContainer/BTN_NextLevel" to="." method="_on_btn_next_level_pressed"]

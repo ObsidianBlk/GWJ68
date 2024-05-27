@@ -28,9 +28,9 @@
 [ext_resource type="Texture2D" uid="uid://c5iyxdadl4ol" path="res://assets/graphics/lilbotty/explosion.png" id="22_e00ag"]
 [ext_resource type="Script" path="res://scripts/nodes/animated_texutre_rect.gd" id="23_nbcre"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eqd5g"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fgv4"]
 atlas = ExtResource("22_e00ag")
-region = Rect2(120, 0, 24, 24)
+region = Rect2(144, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_abwqc"]
 atlas = ExtResource("22_e00ag")
@@ -52,9 +52,9 @@ region = Rect2(72, 0, 24, 24)
 atlas = ExtResource("22_e00ag")
 region = Rect2(96, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6fgv4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqd5g"]
 atlas = ExtResource("22_e00ag")
-region = Rect2(144, 0, 24, 24)
+region = Rect2(120, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_isrdt"]
 animations = [{
@@ -320,7 +320,7 @@ theme_type_variation = &"ButtonAlt"
 [node name="AnimatedTextureRect" type="TextureRect" parent="KillAll/BTN_KillAll"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture = SubResource("AtlasTexture_eqd5g")
+texture = SubResource("AtlasTexture_6fgv4")
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("23_nbcre")

@@ -86,10 +86,11 @@ func bot_removed() -> void:
 # Handler Methods
 # ------------------------------------------------------------------------------
 func _on_run_time_updated(time : float) -> void:
-	var hours : int = int(time / 3600.0)
-	time -= hours * 3600.0
-	
-	var minutes : int = int(time / 60.0)
-	time -= minutes * 60.0
-	
-	_lbl_time_value.text = "%03d:%02d:%02d"%[hours, minutes, int(time)]
+	_lbl_time_value.text = Game.hms_from_float(time)
+	#var hours : int = int(time / 3600.0)
+	#time -= hours * 3600.0
+	#
+	#var minutes : int = int(time / 60.0)
+	#time -= minutes * 60.0
+	#
+	#_lbl_time_value.text = "%03d:%02d:%02d"%[hours, minutes, int(time)]

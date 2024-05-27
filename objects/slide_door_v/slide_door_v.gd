@@ -27,6 +27,7 @@ var _instant : bool = false
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var _door: StaticBody2D = %Door
+@onready var _audio: AudioStreamPlayer2D = %Audio
 
 
 # ------------------------------------------------------------------------------
@@ -54,6 +55,7 @@ func _TransitionDoor(to : float) -> void:
 	var ddist = abs(_door.position.y - to)
 	var dur : float = (ddist / total_distance) * TRANSITION_DURATION
 	
+	_audio.play()
 	_tween = create_tween()
 	_tween.set_trans(Tween.TRANS_QUINT)
 	_tween.set_ease(Tween.EASE_IN_OUT)

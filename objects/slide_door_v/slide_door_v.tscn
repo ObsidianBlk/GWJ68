@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cixuvkcwnoteg"]
+[gd_scene load_steps=7 format=3 uid="uid://cixuvkcwnoteg"]
 
 [ext_resource type="Script" path="res://objects/slide_door_v/slide_door_v.gd" id="1_hpllh"]
 [ext_resource type="Texture2D" uid="uid://ixia1k70lha7" path="res://assets/graphics/slide_door/door_v.png" id="2_c1a38"]
 [ext_resource type="Texture2D" uid="uid://ccht4esg0n5sw" path="res://assets/graphics/slide_door/block_v.png" id="3_e6a11"]
+[ext_resource type="AudioStream" uid="uid://bjyottnmphkrf" path="res://assets/audio/sliding_door/sliding_along_track.wav" id="4_cf0vp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20v2h"]
 size = Vector2(6, 24)
@@ -33,3 +34,8 @@ texture = ExtResource("3_e6a11")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Block"]
 shape = SubResource("RectangleShape2D_kdy3s")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_cf0vp")
+bus = &"SFX"

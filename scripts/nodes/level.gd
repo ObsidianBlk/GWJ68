@@ -13,8 +13,7 @@ signal bot_removed()
 # ------------------------------------------------------------------------------
 # Constants and ENUMs
 # ------------------------------------------------------------------------------
-const REQUEST_LEVEL_SUCCESS : StringName = &"level_success"
-const REQUEST_LEVEL_FAILED : StringName = &"level_failed"
+const REQUEST_LEVEL_ENDED : StringName = &"level_ended"
 
 const PAUSABLE_GROUP : StringName = &"pausable"
 
@@ -99,17 +98,13 @@ func _DisconnectBotContainer() -> void:
 		bot_container.child_exiting_tree.disconnect(_on_bot_container_child_exited)
 
 func _RequestNextLevel() -> void:
+	var data : Dictionary = {"level_name": name}
 	if _bots_saved < required_saved:
-		request(REQUEST_LEVEL_FAILED, {
-			"saved":_bots_saved,
-			"required":required_saved
-		})
+		data["success"] = false
 	else:
-		request(REQUEST_LEVEL_SUCCESS, {
-			"saved":_bots_saved,
-			"required":required_saved,
-			"next_level_src":next_level_src
-		})
+		data["success"] = true
+		data["next_level_src"] = next_level_src
+	request(REQUEST_LEVEL_ENDED, data)
 
 # ------------------------------------------------------------------------------
 # Public Static Methods
