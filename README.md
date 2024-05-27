@@ -24,12 +24,19 @@ Maybe I shall come back and update this in the future.
 
 ## Credits
 
+### Sound Effects
+> **Title:** Door sliding along a metal track  
+**Author:** wlabarron  
+**URL:** [https://freesound.org/s/509114/](https://freesound.org/s/509114/)  
+**License:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/)  
+**Modified:** Yes, Truncated, sped up, added reverb.  
+
 ### Music
-> **Title:** Loading Screen Loop
-**Author:** Brandon Morrid
-**URL:** [https://opengameart.org/content/loading-screen-loop](https://opengameart.org/content/loading-screen-loop) 
-**License:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
-**Modified:** Yes, Converted to OGG Vorbis format.
+> **Title:** Loading Screen Loop  
+**Author:** Brandon Morrid  
+**URL:** [https://opengameart.org/content/loading-screen-loop](https://opengameart.org/content/loading-screen-loop)  
+**License:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/)  
+**Modified:** Yes, Converted to OGG Vorbis format.  
 
 
 ## License
